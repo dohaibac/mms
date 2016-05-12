@@ -6,7 +6,7 @@
   <div class="col-md-8">
     <div class="form-group">
       <div class="col-md-4 align-right">
-      <label class="control-label">Mã GD</label>
+      <label class="control-label">Mã GET</label>
       </div>
       <div class="col-md-8">
       <input ng-model="gd.code" type="input" name="code" class="form-control width300" 
@@ -100,7 +100,7 @@
         <select class="form-control width300" id="status" ng-model="gd.status" 
           ng-options="option.name for option in optionStatus track by option.id">
         </select>
-        <em>Pending: Đang chờ xác nhận; Approved: Đã được xác nhận; Done: Đã hoàn thành.</em>
+        <em>Pending: Đang chờ GD; Pending Verification: Đang chuyển tiền; Done: Đã hoàn thành.</em>
       </div>
       <div class="clearfix"></div>
     </div>

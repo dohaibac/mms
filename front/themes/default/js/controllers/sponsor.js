@@ -78,7 +78,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
   $scope.build_tree = function (data) {
     var source = [];
     var items = [];
-    // build hierarchical source.
+    
     for (i = 0; i < data.length; i++) {
         var item = data[i];
         var label = item["username"];
