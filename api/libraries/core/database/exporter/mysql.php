@@ -1,0 +1,2 @@
+<?php
+ defined('LIBS_PATH') or die; class JDatabaseExporterMysql extends JDatabaseExporterMysqli { public function check() { if (!($this->db instanceof JDatabaseDriverMysql)) { throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE'); } if (empty($this->from)) { throw new Exception('JPLATFORM_ERROR_NO_TABLES_SPECIFIED'); } return $this; } }

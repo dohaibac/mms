@@ -1,0 +1,623 @@
+*::-moz-selection {
+  background:#428bca;
+  color:#FFFFFF;
+}
+
+a {text-decoration: none; color:#3276b1}
+a:hover, a:focus {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+body {
+  background-color:#f3f3f3;
+  background: rgba(0, 0, 0, 0) url("https://www.vietcombank.com.vn/IBanking2015/Content/web/images/v2/body_bg.png") repeat scroll left top
+}
+.wrapper {padding:0px}
+
+.login-head {
+  padding:10px 0;
+  background:#7fc142;
+  border-bottom:1px solid #abd16b;
+}
+
+.login-box {
+  margin: 0 auto;
+  padding:5px 10px;
+  margin-top:50px;
+}
+.login-title {
+  max-width:330px;
+  margin: auto;
+}
+.login-btn {
+  margin-top:15px;
+}
+.login-link {
+  border-top: 1px dotted #bbbbbb;
+  margin-top:15px;
+  padding-top:10px;
+}
+.login-link ul {
+  padding:0px 10px;margin:0px;
+  list-style: none;
+}
+.login-link ul li{
+  padding-top:10px;
+}
+.form-control{margin-bottom:5px}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.support-number {
+  color:#FFFFFF;font-size:16px;
+}
+
+.top-nav {
+  background: #4b6580;
+  padding:1px 0px;
+  line-height: 28px;
+}
+.user-info {padding:0px 5px; text-align:right}
+.user-info .email{font-weight:bold;margin-right:5px;color:#FFFFFF}
+a.logout-btn {
+  background: #ffffff none repeat scroll 0 0;
+  border-radius: 2px;
+  color: #5f8028;
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  width: 25px;
+}
+.navbar-inner {
+  background: #FFFFFF;
+  border-bottom:1px solid #ebe9e9;
+}
+.main-menu {
+  float: right;
+}
+.main-menu:after {
+  clear:both;
+}
+.main-menu li {
+  margin:10px;
+}
+.main-menu > li > a.active,hover {
+  background-color: #c52d2f;
+  color: #fff;
+}
+.main-menu > li > a:hover {
+  background-color: #c52d2f;
+  color: #fff;
+}
+.main-menu li a {
+  border-radius: 3px;
+  color: #333;
+  display: inline-block;
+  line-height: 24px;
+  margin: 0px;
+  padding: 5px 12px;
+}
+#footer {margin-top:10px}
+
+.logo {
+  display: block;
+  background: url('../images/logo.png') no-repeat;
+  width:200px; height: 50px;
+  margin:3% auto;
+  margin-top:15px;
+}
+.hot-line {
+  color:#FFFFFF;font-weight: bold;
+}
+.site-info {
+  color:#FFFFFF;font-weight: bold;text-align:center;
+}
+.error-message {
+  color: red; padding:10px;
+}
+.copyright {
+  margin-top:20px;
+}
+.main-content {
+  margin-top:20px;
+}
+.title {
+  color: #ef6526;
+  font-size: 18px;
+  font-weight: normal;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.welcome {
+  margin-bottom: 20px;
+}
+.dashboard-main {
+  padding:10px;
+  background:#FFFFFF;
+}
+.dashboard-main-title {
+  font-weight:bold;font-size:16px;padding:0px 10px;
+}
+.dashboard-main-body {
+  padding-top:10px;
+}
+.dashboard-main .col-sm-4 {
+  margin-bottom:10px;
+}
+@media(max-width:980px){
+  .top-nav {display:none}
+  .main-menu {float:none}
+  .top-container {width:100% !important}
+  .dashboard-main-container {margin-top:20px}
+}
+@media(max-width:360px){
+  .top-nav {display:none}
+  .main-menu {float:none}
+  .top-container {width:100% !important}
+  .dashboard-main-container {margin-top:20px}
+  .top-container .navbar-header a.logo {
+    left: 21%;
+    margin-top: 20px;
+    position: relative;
+  }
+  .main-content > [class*='col-'] {
+    padding-right:0;
+    padding-left:0;
+  }
+}
+
+.box {
+  -webkit-border-top-left-radius: 4px;
+-webkit-border-top-right-radius: 4px;
+-moz-border-radius-topleft: 4px;
+-moz-border-radius-topright: 4px;
+border-top-left-radius: 4px;
+border-top-right-radius: 4px;
+  background:#fbfbfb; 
+  margin-bottom: 10px;
+}
+.box .box-title {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 20px;
+  padding: 10px;
+  background: #64809d;
+  -webkit-border-top-left-radius: 4px;
+-webkit-border-top-right-radius: 4px;
+-moz-border-radius-topleft: 4px;
+-moz-border-radius-topright: 4px;
+border-top-left-radius: 4px;
+border-top-right-radius: 4px;
+}
+.box .box-body {
+  background:#ffffff;
+  padding:10px;
+}
+
+.box .box-body ul, .box .box-body ul li{
+  padding:5px;
+}
+
+.box .box-body ul li a{
+  color:#333;
+}
+.box .box-body ul li.active {
+  background: #8b98a7;
+  color:#FFFFFF;
+}
+.box .box-body ul li:hover {
+  background: #8b98a7;
+  color:#FFFFFF;
+}
+.box .box-body ul li:hover a{
+  color:#FFFFFF;
+}
+#sidebar ul {
+  padding:0px;margin:0px;
+}
+#sidebar ul li {
+  list-style: none;
+  padding-bottom:10px;
+}
+#sidebar ul li a{
+  color:#000;
+}
+#sidebar ul li a.active{
+  color:#c52d2f;
+}
+#sidebar ul li a:hover{
+  color:#c52d2f;
+}
+.main-one-cols {
+  background:#ffffff;
+  padding:10px 0px;
+}
+.avatar {
+  background-color: #3276b1;
+  border-radius: 100%;
+  color: #ffffff;
+  cursor: pointer;
+  display: block;
+  font-size: 100px;
+  height: 150px;
+  width: 150px;
+}
+.confirmed {
+  color:green;font-weight:bold;
+}
+.success {color:green;font-weight:bold}
+.note {font-weight:bold;font-size:12px;}
+.required-note {color:red;font-weight:bold}
+.captcha {
+  width:150px;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  color: #555;
+  font-size: 14px;
+  height: 34px;
+  line-height: 1.42857;
+  padding: 6px 12px;
+  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+.alert-warning .error-message {color:red !important;}
+.alert-warning .success {color:green !important;font-weight:bold;}
+.support-info {
+  padding:20px;text-align:center;
+}
+.red {color:red}
+.green {color:green}
+/** FOR MENU **/
+ul.menu > li {
+  background: rgba(0, 0, 0, 0) url("../images/nav-line-bar.png") repeat-y scroll left top;
+  float: left;
+  padding-left: 2px;
+  position: relative;
+}
+ul.menu li a {
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  line-height: 30px;
+  padding: 7px 30px;
+  font-weight:bold;
+}
+ul.menu li:hover{
+  background:#41556e;
+}
+ul {
+   list-style: outside none none;
+   margin: 0;
+   padding: 0;
+}
+ul.sub{
+  background: #41556e none repeat scroll 0 0;
+  display: none;
+  left: 2px;
+  min-width: 220px;
+  position: absolute;
+  top: 100%;
+  width: auto !important;
+  z-index: 999999;
+}
+ul.menu li:hover ul.sub{
+  display:block;
+}
+ul.sub li:hover{
+  background:#586f8a; 
+}
+ul.menu-user > li {
+  float: right;
+  padding-left: 2px;
+  position: relative;
+}
+ul.menu-user li a {
+  color: #000;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 30px;
+  padding: 7px 10px;
+}
+ul.menu-user li:hover{
+  background:#41556e;
+}
+ul.menu-user li:hover ul.subuser{
+  display:block;
+}
+ul.menu-user > li:hover > a{
+  color:#FFFFFF;
+}
+ul.menu-user  .userName {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: 1px solid transparent;
+    border-radius: 2px 2px 0 0;
+    color: #333;
+    font-weight: bold;
+    padding: 7px 12px 11px;
+}
+ul.subuser{
+  background: #41556e none repeat scroll 0 0;
+  width: auto !important;
+  z-index: 999999;
+  display: none;
+  min-width: 150px;
+  padding: 1px 0;
+  position: absolute;
+  right: 0;
+  top: 99%;
+}
+ul.subuser > li > a{
+  color:#FFFFFF;
+}
+ul.subuser li:hover{
+  background:#586f8a; 
+}
+/************/
+.header-title h1{
+  color: #333;
+  font-size: 22px;
+  font-weight: bold;
+  line-height: 25px;
+  border-bottom: 1px dotted #ccc;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+.table-responsive {
+  margin-top:15px;
+}
+.th-ord {width: 40px;}
+.th-code {width: 100px;}
+.th-name {width: 150px;}
+.th-full-name {width: 200px;}
+.th-amount {width: 150px;}
+.th-email {width: 120px;}
+.th-mobile {width: 80px;}
+.th-des {width: 50%;}
+.th-block{width: 100px;}
+.th-addr{width: 180px;}
+.alerts {
+ position:fixed;
+ width:300px;
+ right:30px;
+ bottom:10px;
+ z-index:10; 
+}
+.alerts>.alert-dismissable {
+ position:relative;
+ z-index:11;
+ min-width:250px;
+}
+
+/**Sponsor tree **/
+/*Now the CSS*/
+* {margin: 0; padding: 0;}
+.tree {
+  width:100%;
+  height:450px;
+  overflow: auto;
+}
+.tree ul {
+  padding-top: 20px; position: relative;
+  
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+}
+
+.tree li {
+  float: left; text-align: center;
+  list-style-type: none;
+  position: relative;
+  padding: 20px 5px 0 5px;
+  
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+}
+
+/*We will use ::before and ::after to draw the connectors*/
+.tree li::before, .tree li::after{
+  content: '';
+  position: absolute; top: 0; right: 50%;
+  border-top: 1px solid #ccc;
+  width: 50%; height: 20px;
+}
+.tree li::after{
+  right: auto; left: 50%;
+  border-left: 1px solid #ccc;
+}
+
+/*We need to remove left-right connectors from elements without any siblings*/
+.tree li:only-child::after, .tree li:only-child::before {
+  display: none;
+}
+
+/*Remove space from the top of single children*/
+.tree li:only-child{ padding-top: 0;}
+
+/*Remove left connector from first child and 
+right connector from last child*/
+.tree li:first-child::before, .tree li:last-child::after{
+  border: 0 none;
+}
+/*Adding back the vertical connector to the last nodes*/
+.tree li:last-child::before{
+  border-right: 1px solid #ccc;
+  border-radius: 0 5px 0 0;
+  -webkit-border-radius: 0 5px 0 0;
+  -moz-border-radius: 0 5px 0 0;
+}
+.tree li:first-child::after{
+  border-radius: 5px 0 0 0;
+  -webkit-border-radius: 5px 0 0 0;
+  -moz-border-radius: 5px 0 0 0;
+}
+
+/*Time to add downward connectors from parents*/
+.tree ul ul::before{
+  content: '';
+  position: absolute; top: 0; left: 50%;
+  border-left: 1px solid #ccc;
+  width: 0; height: 20px;
+}
+
+.tree li a{
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #666;
+  font-family: arial, verdana, tahoma;
+  font-size: 11px;
+  display: inline-block;
+  
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+}
+
+/*Time for some hover effects*/
+/*We will apply the hover effect the the lineage of the element also*/
+.tree li a:hover, .tree li a:hover+ul li a {
+  background: #c8e4f8; color: #000; border: 1px solid #94a0b4;
+}
+.txt-sm {
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  color: #555;
+  display: block;
+  font-size: 14px;
+  height: 34px;
+  line-height: 1.42857;
+  padding: 6px 12px;
+  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+  margin-bottom: 5px;
+}
+.fleft {
+  float:left;
+}
+
+.sponsor-list {
+  margin-top:20px;
+  width:1170px;
+  overflow-x: auto;
+}
+.sponsor-list a {
+  font-weight: bold;
+  font-size:13px;
+}
+*::before, *::after {
+    box-sizing: border-box;
+}
+.sponsor-list .parent {
+  position: relative;
+}
+.sponsor-list .parent-root {
+  width:585px;
+}
+.sponsor-list .parent-root::before {
+   border: 1px solid #ccc;
+   content: "";
+   height: 20px;
+   left: 25%;
+   position: absolute;
+   top: 28px;
+   width: 0;
+}
+
+
+.sponsor-list .child-container {
+  width:9000px;
+  height:400px;
+  overflow: auto;
+}
+
+.sponsor-list div.child, .sponsor-list div.child1 {
+  padding-top: 20px;
+  position: relative;
+  transition: all 0.5s ease 0s;
+}
+.sponsor-list div  {
+  text-align:center;
+}
+.sponsor-list .parent div.child {
+  display:inline-table;
+}
+.sponsor-list .parent a {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #666;
+  display: inline-block;
+  font-family: arial,verdana,tahoma;
+  font-size: 13px;
+  padding: 5px 10px;
+  text-decoration: none;
+  transition: all 0.5s ease 0s;
+}
+.sponsor-list .child::before {
+    content: "";
+    height: 20px;
+    left: 50%;
+    position: absolute;
+    top: 0;
+    width: 0;
+}
+
+.sponsor-list .child::after {
+   clear:both;
+}
+.sponsor-list .child1{
+  float:left;
+  padding-left:10px;
+}
+.sponsor-list .child1::before, .sponsor-list .child1::after{
+  border-top: 1px solid #ccc;
+  content: "";
+  height: 20px;
+  position: absolute;
+  right: 50%;
+  top: 0;
+  width: 50%;
+}
+.sponsor-list .child1::after {
+  border-left: 1px solid #ccc;
+  left: 50%;
+  right: auto;
+}
+
+.sponsor-list .child div:first-child::before, .sponsor-list .child div:last-child::after {
+    border: 0 none;
+}
+.sponsor-list .child div:first-child::after {
+    border-radius: 5px 0 0;
+}
+.sponsor-list .child div:last-child::before {
+    border-radius: 0 5px 0 0;
+    border-right: 1px solid #ccc;
+}
+.sponsor-list .child a:hover, .sponsor-list .child .child1 a:hover + div.child .child1 a {
+    background: #c8e4f8;
+    border:1px solid #94a0b4;
+    color: #000;
+}
+.loading {
+  height: 100px;
+}
+i.active { color: #5cb85c;font-size:30px;cursor:pointer;}
+i.inactive {color: #CCCCCC;font-size:30px;cursor:pointer;}
+.align-right {text-align:right}
+.bold {font-weight: bold}
+.width300 {width:300px}

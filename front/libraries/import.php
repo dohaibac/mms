@@ -1,0 +1,2 @@
+<?php
+ defined('BASEPATH') or die; if (!defined('LIBS_PATH')) { define('LIBS_PATH', __DIR__); } if (!class_exists('JLoader')) { require_once LIBS_PATH . '/loader.php'; } JLoader::setup(); JLoader::registerPrefix('J', LIBS_PATH . '/core'); if (version_compare(PHP_VERSION, '5.4.0', '<')) { JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php'); } require_once LIBS_PATH . '/smarty/Smarty.class.php'; jimport('core.base'); ?>

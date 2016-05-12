@@ -1,0 +1,15 @@
+User-agent: *
+Disallow: /index.php
+Disallow: /cache/
+Disallow: /compile/
+Disallow: /components/
+Disallow: /config/
+Disallow: /includes/
+Disallow: /language/
+Disallow: /libraries/
+Disallow: /logs/
+Disallow: /modules/
+Disallow: /plugins/
+Disallow: /themes/
+Disallow: /tmp/
+Disallow: /views/

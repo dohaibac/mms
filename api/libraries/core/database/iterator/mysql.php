@@ -1,0 +1,2 @@
+<?php
+ defined('LIBS_PATH') or die; class JDatabaseIteratorMysql extends JDatabaseIterator { public function count() { return mysql_num_rows($this->cursor); } protected function fetchObject() { return mysql_fetch_object($this->cursor, $this->class); } protected function freeResult() { mysql_free_result($this->cursor); } }

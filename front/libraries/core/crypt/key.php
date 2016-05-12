@@ -1,0 +1,2 @@
+<?php
+ defined('LIBS_PATH') or die; class JCryptKey { public $private; public $public; protected $type; public function __construct($type, $private = null, $public = null) { $this->type = (string) $type; $this->private = isset($private) ? (string) $private : null; $this->public = isset($public) ? (string) $public : null; } public function __get($name) { if ($name == 'type') { return $this->type; } else { trigger_error('Cannot access property ' . __CLASS__ . '::' . $name, E_USER_WARNING); } } }

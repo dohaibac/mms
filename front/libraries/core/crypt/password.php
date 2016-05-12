@@ -1,0 +1,2 @@
+<?php
+ defined('LIBS_PATH') or die; interface JCryptPassword { const BLOWFISH = '$2y$'; const JOOMLA = 'Joomla'; const PBKDF = '$pbkdf$'; const MD5 = '$1$'; public function create($password, $type = null); public function verify($password, $hash); public function setDefaultType($type); public function getDefaultType(); }

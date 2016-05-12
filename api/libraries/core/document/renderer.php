@@ -1,0 +1,2 @@
+<?php
+ defined('BASEPATH') or die; class JDocumentRenderer { protected $_doc = null; protected $_mime = "text/html"; public function __construct(JDocument $doc) { $this->_doc = $doc; } public function render($name, $params = null, $content = null) { } public function getContentType() { return $this->_mime; } }

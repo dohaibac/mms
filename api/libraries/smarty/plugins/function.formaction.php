@@ -1,0 +1,2 @@
+<?php
+ function smarty_function_formaction($params=array(), $template) { $ret = ''; if (isset($params['ctrl'])) { $ret = __ctrl__ . '=' . $params['ctrl']; } if (isset($params['task'])) { $ret .= '&' . __task__ .'=' . $params['task']; } if (empty($ret)) return $ret; return '?' . $ret; }

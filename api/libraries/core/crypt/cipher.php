@@ -1,0 +1,2 @@
+<?php
+ defined('LIBS_PATH') or die; interface JCryptCipher { public function decrypt($data, JCryptKey $key); public function encrypt($data, JCryptKey $key); public function generateKey(array $options = array()); }

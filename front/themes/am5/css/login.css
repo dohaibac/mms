@@ -1,0 +1,110 @@
+*::-moz-selection {
+  background:#428bca;
+  color:#FFFFFF;
+}
+
+a {text-decoration: none; color:#3276b1}
+a:hover, a:focus {
+  color: #5b90bf;
+  text-decoration: none;
+}
+body {
+  background:#f3f3f3;
+}
+.wrapper {padding:0px}
+.box {
+  border:1px solid #e3e3e3;
+  box-shadow: 0 2px 0 0 rgba(209, 209, 209, 1);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background:#fbfbfb; 
+}
+.login-head {
+  padding:10px 0;
+  background:#7fc142;
+  border-bottom:1px solid #abd16b;
+}
+
+.login-box {
+  margin: 0 auto;
+  padding:20px;
+  margin-top:50px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border:1px solid #CCCCCC;
+  background: #FFFFFF;
+}
+.login-title {
+  max-width:330px;
+  margin: auto;
+}
+.login-btn {
+  margin-top:15px;
+}
+.login-link {
+  border-top: 1px dotted #bbbbbb;
+  margin-top:15px;
+  padding-top:10px;
+}
+.login-link ul {
+  padding:0px 10px;margin:0px;
+  list-style: none;
+}
+.login-link ul li{
+  padding-top:10px;
+}
+.form-control{margin-bottom:5px}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+h2.title {
+  color: #ef6526;
+  font-size: 24px;
+  font-weight: normal;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+}
+.support-number {
+  color:#FFFFFF;font-size:16px;
+}
+
+#footer {margin-top:10px}
+
+.logo {
+  display: block;
+  background: url('../images/logo.png') no-repeat;
+  width:100px; height: 40px;
+  margin:3% auto;
+}
+.error-message {
+  color: red; padding:10px;
+}
+.success {color:green;font-weight:bold}
+.copyright {
+  margin-top:100px;
+}
+.required-note {color:red;font-weight:bold}
+.captcha {
+  width:150px;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  color: #555;
+  font-size: 14px;
+  height: 34px;
+  line-height: 1.42857;
+  padding: 6px 12px;
+  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+.get-password-alert {
+  margin-top:20px;
+}
+.alert-warning .error-message {color:red !important;}
+.alert-warning .success {color:green !important;font-weight:bold;}
+.readonly-email {padding:10px;text-align:center}

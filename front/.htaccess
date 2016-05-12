@@ -1,0 +1,37 @@
+Options +FollowSymLinks
+RewriteEngine On
+DirectoryIndex index.php
+
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Block out any script trying to set a mosConfig value through the URL.
+RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\=) [OR]
+
+# Block out any script trying to use base64_encode crap to send via URL.
+RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [OR]
+
+# Block out any script that includes a [removed] tag in the URL.
+RewriteCond %{QUERY_STRING} (\<|<).*script.*(\>|>) [NC,OR]
+
+# Block out any script trying to set a PHP GLOBALS variable via URL.
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+
+RewriteCond %{REQUEST_URI} !^/index\.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+
+RewriteRule .* index.php [L]
+
+ErrorDocument 400 /errors.php
+ErrorDocument 403 /errors.php
+ErrorDocument 404 /errors.php
+ErrorDocument 405 /errors.php
+ErrorDocument 408 /errors.php
+ErrorDocument 500 /errors.php
+ErrorDocument 502 /errors.php
+ErrorDocument 504 /errors.php
+
+<Files *.sh>
+  ForceType 'text/plain; charset=UTF-8'
+</Files>
