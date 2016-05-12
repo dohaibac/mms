@@ -77,7 +77,7 @@ h2.title {
 .logo {
   display: block;
   background: url('../images/logo.png') no-repeat;
-  width:100px; height: 40px;
+  width:200px; height: 40px;
   margin:3% auto;
 }
 .error-message {
