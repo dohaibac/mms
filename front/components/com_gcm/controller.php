@@ -212,7 +212,10 @@ class GcmController extends JControllerForm
     
     $data = array(
       'registatoin_ids' => array($registatoin_ids),
-      'message' => array('title' => $title, 'content' => $message, 'timeStamp' => time())
+      'message' => array('title' => $title, 'content' => $message, 'timeStamp' => date('Y-m-d h:i:s'),
+      'time_to_live' => '10',
+      'sound'=>'notification'
+      )
     );
     
     $result = $this->gcm_model->send_notification($data);

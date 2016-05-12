@@ -38,7 +38,8 @@
       </div>
       <div class="col-md-8">
         <input ng-model="gd.amount" type="input" name="amount" class="form-control width300" 
-         required ng-maxlength="255">
+         required ng-maxlength="255" ng-model-onblur ng-change="convert_money()">
+         {literal} {{ amount_money_text }} {/literal}
       </div>
       <div class="clearfix"></div>
     </div>

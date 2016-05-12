@@ -55,6 +55,8 @@ app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdServic
     {'id': 3, 'name': 'Done'}
   ];
   
+  $scope.amount_money_text = '';
+  
   $scope.init = function () {
     var default_sponsor = '';
      
@@ -142,6 +144,9 @@ app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdServic
     });
   };
  
+  $scope.convert_money = function () {
+    $scope.amount_money_text = DocTienBangChu($scope.gd.amount);
+  };
 });
 
 app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $GdService, $SponsorService, $SettingService, $BankService, noty) {
@@ -156,6 +161,8 @@ app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $
     {'id': 3, 'name': 'Done'}
   ];
   $scope.gd.id = $routeParams.id;
+  
+  $scope.amount_money_text = '';
   
   $scope.init = function() {
     $GdService.view($scope.gd.id).then(function(response) {
@@ -254,5 +261,8 @@ app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $
       $scope.processing = false;
     });
   };
- 
+  
+  $scope.convert_money = function () {
+    $scope.amount_money_text = DocTienBangChu($scope.gd.amount);
+  };
 });

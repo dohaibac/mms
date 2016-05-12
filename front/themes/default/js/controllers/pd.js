@@ -51,6 +51,8 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
     {'id': 3, 'name': 'Approved'}
   ];
   
+  $scope.amount_money_text = '';
+  
   var d = new Date();
   
   $scope.pd.issued_at = d.toLocaleDateString("VN-vi") + ' ' + d.getHours() + ':'+ d.getMinutes() + ':' + d.getSeconds();
@@ -145,7 +147,10 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
     
     $BankService.show_add_modal(options);
   };
- 
+  
+  $scope.convert_money = function () {
+    $scope.amount_money_text = DocTienBangChu($scope.pd.amount);
+  };
 });
 
 app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $SponsorService, $BankService, $http) {
@@ -158,6 +163,8 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
     {'id': 2, 'name': 'Pending Payment'},
     {'id': 3, 'name': 'Approved'}
   ];
+  
+  $scope.amount_money_text = '';
   
   $scope.pd.id = $routeParams.id;
 
@@ -228,7 +235,6 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
     });
   };
   
-  
   $scope.show_bank_add = function() {
     var options = {
       'init': function(mscope) {
@@ -261,5 +267,8 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
     $BankService.show_add_modal(options);
   };
   
+  $scope.convert_money = function () {
+    $scope.amount_money_text = DocTienBangChu($scope.pd.amount);
+  };
 });
  

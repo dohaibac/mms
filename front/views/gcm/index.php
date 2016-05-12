@@ -16,7 +16,7 @@
       
       $('form#'+id).unbind('submit');
       $.ajax({
-          url: "http://gcm.janet.vn/gcm/send",
+          url: "/gcm/send",
           type: 'POST',
           data: JSON.stringify(o),
           beforeSend: function() {
@@ -27,7 +27,7 @@
               alert(data.message);
             }
             else {
-              alert('send OK');
+              alert(data.message);
             }
              
           },
