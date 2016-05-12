@@ -46,10 +46,10 @@
         <li><a href="pd#!/add">PD</a></li>
         <li><a href="gd#!/add">GD</a></li>
         <li><a href="sponsor#!/list">
-          <i class="fa fa-user"></i> Sponsor</a>
+          <i class="fa fa-user"></i> Thành viên</a>
           <ul class="sub">
-            <li><a href="/sponsor#!/add">Thêm Sponsor</a></li>
-            <li><a href="/sponsor#!/list">Danh sách Sponsor</a></li>
+            <li><a href="/sponsor#!/add">Thêm thành viên</a></li>
+            <li><a href="/sponsor#!/list">Danh sách thành viên</a></li>
           </ul>
         </li>
         <li><a href="/report#!/profit">

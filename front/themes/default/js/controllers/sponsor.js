@@ -128,10 +128,13 @@ app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $Spo
   $scope.sponsor.force_downline_f1 = false;
   $scope.sponsor.force_downline_fork = false;
   
+  $scope.levels = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M-GOLD'];
+  
   $scope.init = function () {
     $BankService.get_list().then(function(response){
       $scope.banks = response.data.banks;
     });
+    $scope.sponsor.sponsor_level = 'M0';
   };
   
   $scope.check_sponsor = function() {
@@ -229,6 +232,15 @@ app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $Spo
     };
     
     $BankService.show_add_modal(options);
+  };
+  
+  $scope.toggle_password = function() {
+    if ($('#show_password').is(":checked")) {
+      $('#ptl').attr('type', 'text');
+    } else {
+      $('#ptl').attr('type', 'password');
+    }
+    
   };
 });
 

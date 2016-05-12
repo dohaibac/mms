@@ -26,7 +26,7 @@ return array(
   'sponsor-message-group_view_exception'=> 'Hệ thống đang nâng cấp. Mời bạn thử lại sau.',
   'sponsor-message-get_list_not_found_sponsor_owner'=> 'Không tìm thấy upline gốc.',
   'sponsor-message-empty_banks'=> 'Bạn chưa chọn ngân hàng.',
-  'sponsor-message-get_check_by_username_not_found'=> 'Không tìm thấy sponsor.',
+  'sponsor-message-get_check_by_username_not_found'=> 'Không tìm thấy Thành viên.',
   'sponsor-message-required_name'=> 'Bạn chưa nhập tên',
   'sponsor-message-required_username'=> 'Bạn chưa nhập mã',
   'sponsor-message-required_email'=> 'Bạn chưa nhập email',
@@ -35,9 +35,9 @@ return array(
   'sponsor-message-upline_should_empty'=> 'Bạn vui lòng xóa upline vì chưa có sponsor root.',
   'sponsor-message-required_upline'=> 'Bạn chưa nhập upline.',
   'sponsor-message-upline_does_not_exist'=> 'Upline không tồn tại.',
-  'sponsor-message-max_downline' => 'Sponsor %s đã có 05 downline. Bạn có tiếp tục không?',
-  'sponsor-message-max_fork' => 'Sponsor %s đã phát triển 03 nhánh. Bạn có tiếp tục không?',
-  'sponsor-message-sponsor_insert_exist' => 'Đã tồn tại sponsor. Mời bạn nhập mã khác.',
+  'sponsor-message-max_downline' => 'Thành viên %s đã có 05 downline. Bạn có tiếp tục không?',
+  'sponsor-message-max_fork' => 'Thành viên %s đã phát triển 03 nhánh. Bạn có tiếp tục không?',
+  'sponsor-message-sponsor_insert_exist' => 'Đã tồn tại thành viên. Mời bạn nhập mã khác.',
   'sponsor-message-search_not_found' => 'Không tìm thấy dữ liệu.',
   
 );

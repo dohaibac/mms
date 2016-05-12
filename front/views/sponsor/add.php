@@ -1,7 +1,7 @@
 <div class="container">
 <div class="dashboard-main" ng-init="init()">
   <div class="col-lg-12 header-title">
-    <h1><i class="fa fa-plus"></i> Thêm mới Sponsor</h1>
+    <h1><i class="fa fa-plus"></i> Thêm mới Thành viên</h1>
   </div>
   <div>
   <div class="col-md-1"></div>
@@ -25,6 +25,17 @@
           required ng-minlength="3" ng-maxlength="255">
        </div>
        <div class="clearfix"></div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-2 align-right">
+        <label class="control-label">Cấp độ</label>
+      </div>
+      <div class="col-md-10">
+        <select class="form-control" id="sponsor_level" ng-model="sponsor.sponsor_level"
+         ng-options="item as item for item in levels">
+        </select>
+      </div>
+      <div class="clearfix"></div>
     </div>
     {literal}
     <div class="form-group">
@@ -63,6 +74,18 @@
       <div class="col-md-10">
       <input ng-model="sponsor.mobile" type="input" name="mobile" class="form-control" 
           required ng-minlength="3" ng-maxlength="255">
+       </div>
+       <div class="clearfix"></div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-2 align-right">
+      <label class="control-label">Mật khẩu</label>
+      </div>
+      <div class="col-md-10">
+      <input ng-model="sponsor.ptl" type="password" id="ptl" name="ptl" class="form-control width50p fleft" 
+       ng-maxlength="255">&nbsp;
+       <input id="show_password" type="checkbox" ng-click="toggle_password()" /> Show password
+       <div class="clearfix"></div>
        </div>
        <div class="clearfix"></div>
     </div>
