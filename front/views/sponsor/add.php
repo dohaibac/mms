@@ -1,7 +1,7 @@
 <div class="container">
 <div class="dashboard-main" ng-init="init()">
   <div class="col-lg-12 header-title">
-    <h1><i class="fa fa-plus"></i> Thêm mới Sponsor</h1>
+    <h1><i class="fa fa-plus"></i> Thêm mới Thành viên</h1>
   </div>
   <div>
   <div class="col-md-1"></div>
