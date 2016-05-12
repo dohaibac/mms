@@ -4,6 +4,10 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
   
   $scope.loading = false;
   
+  $scope.sponsor_owner_object = {};
+  
+  $scope.sponsor_owner_object.item = {};
+  
   $scope.init = function () {
     
     $scope.loading = true;
@@ -15,8 +19,16 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
         $scope.message = response.data.message;
         return;
       }
+      
       var sponsors = $scope.build_tree(response.data.sponsors);
       $scope.sponsor_owner = response.data.sponsor_owner;
+      
+      angular.forEach(response.data.sponsors, function(sp, index) {
+         if (sp.username == $scope.sponsor_owner) {
+           $scope.sponsor_owner_object.item = sp;
+         }
+      });
+      
       $scope.sponsors = sponsors[$scope.sponsor_owner];
       
       $scope.total = response.data.total;
@@ -35,6 +47,9 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
     
     $scope.loading = true;
     
+    $scope.message_type = 0;
+    $scope.message = '';
+    
     $SponsorService.search(keyword).then(function(response) {
       
       $scope.loading = false;
@@ -46,6 +61,13 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       }
       var sponsors = $scope.build_tree(response.data.sponsors);
       $scope.sponsor_owner = response.data.sponsor_owner;
+      
+      angular.forEach(response.data.sponsors, function(sp, index) {
+         if (sp.username == $scope.sponsor_owner) {
+           $scope.sponsor_owner_object.item = sp;
+         }
+      });
+      
       $scope.sponsors = sponsors[$scope.sponsor_owner];
       
       $scope.total = response.data.total;
@@ -106,7 +128,10 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
     var options = {
       'init': function(mscope) {
         mscope.sponsor = sponsor;
-        console.log(sponsor);
+        mscope.editing = false;
+      },
+      'ok' : function(mscope) {
+        
       }
     };
     $SponsorService.show_modal_detail(options).then(function(response){

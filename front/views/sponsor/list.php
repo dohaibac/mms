@@ -26,7 +26,7 @@
 </div>
 <div class="sponsor-list" ng-hide="loading || message_type == 1">
   <div class="parent">
-     <div class="parent-root"><a>{{ sponsor_owner }}</a></div>
+     <div class="parent-root"><a ng-click="show_detail(sponsor_owner_object)">{{ sponsor_owner }}</a></div>
      <div class="child child-container">
      <div class="child1" ng-repeat="item in sponsors.items" ng-include="'sponsor_list_render.html'"></div>
      </div>
