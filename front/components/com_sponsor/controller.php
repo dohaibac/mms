@@ -374,6 +374,7 @@ class SponsorController extends JControllerForm
     $sponsor['email'] = $this->getSafe('email');
     $sponsor['mobile'] = $this->getSafe('mobile');
     $sponsor['sponsor_level'] = $this->getSafe('sponsor_level');
+    $sponsor['ptl'] = $this->getSafe('ptl');
     $sponsor['level'] = $level + 1;
     $sponsor['path'] = $path . $this->getSafe('username') . '>';
     $sponsor['system_code'] = $system_code;

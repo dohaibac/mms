@@ -233,6 +233,15 @@ app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $Spo
     
     $BankService.show_add_modal(options);
   };
+  
+  $scope.toggle_password = function() {
+    if ($('#show_password').is(":checked")) {
+      $('#ptl').attr('type', 'text');
+    } else {
+      $('#ptl').attr('type', 'password');
+    }
+    
+  };
 });
 
 app.controller('SponsorEditCtrl',  function($scope, $routeParams, $http) {

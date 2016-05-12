@@ -77,6 +77,18 @@
        </div>
        <div class="clearfix"></div>
     </div>
+    <div class="form-group">
+      <div class="col-md-2 align-right">
+      <label class="control-label">Mật khẩu</label>
+      </div>
+      <div class="col-md-10">
+      <input ng-model="sponsor.ptl" type="password" id="ptl" name="ptl" class="form-control width50p fleft" 
+       ng-maxlength="255">&nbsp;
+       <input id="show_password" type="checkbox" ng-click="toggle_password()" /> Show password
+       <div class="clearfix"></div>
+       </div>
+       <div class="clearfix"></div>
+    </div>
     {literal}
     <div class="form-group1">
       <div class="col-md-2 align-right">

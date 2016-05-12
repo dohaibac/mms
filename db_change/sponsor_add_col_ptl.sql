@@ -1,0 +1,1 @@
+ALTER TABLE `m_sponsor` ADD COLUMN `ptl` VARCHAR(255);
