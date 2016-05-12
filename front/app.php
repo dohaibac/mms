@@ -11,5 +11,6 @@
 </head>
 <body ng-app="jApp"> 
   <div style="padding:20px;"><a href="/Notfify-debug.apk">Android App</a></div>
+  This is for test!!!
 </body>
 </html>
