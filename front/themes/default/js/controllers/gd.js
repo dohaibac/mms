@@ -51,7 +51,7 @@ app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdServic
   
   $scope.optionStatus= [
     {'id': 1, 'name': 'Pending'},
-    {'id': 2, 'name': 'Approved'},
+    {'id': 2, 'name': 'Pending Verification'},
     {'id': 3, 'name': 'Done'}
   ];
   
@@ -157,7 +157,7 @@ app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $
   
   $scope.optionStatus= [
     {'id': 1, 'name': 'Pending'},
-    {'id': 2, 'name': 'Approved'},
+    {'id': 2, 'name': 'Pending Verification'},
     {'id': 3, 'name': 'Done'}
   ];
   $scope.gd.id = $routeParams.id;
@@ -174,11 +174,13 @@ app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $
         $scope.gd.status = {'id': 1, 'name': 'Pending'};
       }
       if (status == 2) {
-        $scope.gd.status = {'id': 2, 'name': 'Approved'};
+        $scope.gd.status = {'id': 2, 'name': 'Pending Verification'};
       }
       if (status == 3) {
         $scope.gd.status = {'id': 3, 'name': 'Done'};
       }
+      
+      $scope.amount_money_text = DocTienBangChu($scope.gd.amount);
     });
     
     $scope.get_bank_list();

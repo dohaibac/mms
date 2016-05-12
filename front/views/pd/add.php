@@ -9,7 +9,7 @@
       <label class="control-label">Mã PD</label>
       </div>
       <div class="col-md-8">
-      <input ng-model="pd.code" type="input" name="code" class="form-control width300" 
+      <input ng-model="pd.code" type="input" name="code" class="form-control width100p" 
           required autofocus ng-trim="true" ng-maxlength="255" placeholder="">
        </div>
        <div class="clearfix"></div>
@@ -20,7 +20,7 @@
       <label class="control-label">Sponsor</label>
       </div>
       <div class="col-md-8">
-         <ui-select ng-model="pd.sponsor" theme="bootstrap" style="width:300px;" class="fleft">
+         <ui-select ng-model="pd.sponsor" theme="bootstrap" class="width100p fleft">
           <ui-select-match placeholder="Select or search a sponsor in the list...">{{$select.selected.username}}</ui-select-match>
           <ui-select-choices repeat="item in sponsors | filter: $select.search">
           <div ng-bind-html="item.name | highlight: $select.search"></div>
@@ -37,7 +37,7 @@
       <label class="control-label">Amount</label>
       </div>
       <div class="col-md-8">
-        <input ng-model="pd.amount" type="input" name="amount" class="form-control width300" 
+        <input ng-model="pd.amount" type="input" name="amount" class="form-control width100p" 
          required ng-trim="true" ng-maxlength="255" ng-model-onblur ng-change="convert_money()">
          {literal} {{ amount_money_text }} {/literal}
       </div>
@@ -48,7 +48,7 @@
       <label class="control-label">Remain Amount</label>
       </div>
       <div class="col-md-8">
-        <input ng-model="pd.remain_amount" type="input" name="remain_amount" class="form-control width300" 
+        <input ng-model="pd.remain_amount" type="input" name="remain_amount" class="form-control width100p" 
          required ng-trim="true" ng-maxlength="255">
       </div>
       <div class="clearfix"></div>
@@ -58,7 +58,7 @@
       <label class="control-label">Ngày tạo</label>
       </div>
       <div class="col-md-8">
-        <input ng-model="pd.issued_at" datetime-picker date-format="dd/MM/yyyy HH:mm:ss" name="issued_at" class="form-control width300" 
+        <input ng-model="pd.issued_at" datetime-picker date-format="MM/dd/yyyy HH:mm:ss" name="issued_at" class="form-control width100p" 
          required ng-trim="true" ng-maxlength="255">
       </div>
       <div class="clearfix"></div>
@@ -69,7 +69,7 @@
       <label class="control-label">Ngân hàng dự định PD</label>
       </div>
       <div class="col-md-8">
-         <ui-select ng-model="pd.bank" theme="bootstrap" style="width:300px;" class="fleft">
+         <ui-select ng-model="pd.bank" theme="bootstrap" class="width80p fleft">
           <ui-select-match placeholder="Select or search a bank in the list...">{{$select.selected.name}} {{$select.selected.account_hold_name}} {{$select.selected.account_number}}</ui-select-match>
           <ui-select-choices repeat="item in banks | filter: $select.search">
           <div ng-bind-html="item.name | highlight: $select.search"></div>
@@ -87,7 +87,7 @@
       <label class="control-label">Số ngày chờ PD</label>
       </div>
       <div class="col-md-8">
-        <input ng-model="pd.num_days_pending" type="text"  name="num_days_pending" class="form-control width300" 
+        <input ng-model="pd.num_days_pending" type="text"  name="num_days_pending" class="form-control width100p" 
          required ng-trim="true" ng-maxlength="255">
       </div>
       <div class="clearfix"></div>
@@ -97,7 +97,7 @@
       <label class="control-label">Số giờ chờ chuyển tiền sau khi được xác nhận</label>
       </div>
       <div class="col-md-8">
-        <input ng-model="pd.num_hours_transfer" type="text"  name="num_hours_transfer" class="form-control width300" 
+        <input ng-model="pd.num_hours_transfer" type="text"  name="num_hours_transfer" class="form-control width100p" 
          required ng-trim="true" ng-maxlength="255">
       </div>
       <div class="clearfix"></div>
@@ -107,7 +107,7 @@
       <label class="control-label">Trạng thái</label>
       </div>
       <div class="col-md-8">
-        <select class="form-control width300" id="status" ng-model="pd.status"
+        <select class="form-control width100p" id="status" ng-model="pd.status"
          ng-options="option.name for option in optionStatus track by option.id">
         </select>
         <em>Pending: Đang chờ PD; Pending Payment: PD; Approved: Hoàn thành.</em>
