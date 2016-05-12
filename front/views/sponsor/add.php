@@ -26,6 +26,17 @@
        </div>
        <div class="clearfix"></div>
     </div>
+    <div class="form-group">
+      <div class="col-md-2 align-right">
+        <label class="control-label">Cấp độ</label>
+      </div>
+      <div class="col-md-10">
+        <select class="form-control" id="sponsor_level" ng-model="sponsor.sponsor_level"
+         ng-options="item as item for item in levels">
+        </select>
+      </div>
+      <div class="clearfix"></div>
+    </div>
     {literal}
     <div class="form-group">
       <div class="col-md-2 align-right">
