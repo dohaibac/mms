@@ -10,6 +10,11 @@
     </a>
   </div> <!-- end toolbar -->
    <div class="table-responsive">
+   <div class="alert alert-warning" ng-if="message">
+    <div ng-class="message_type == 1 ? 'error-message' : 'success'">
+      {literal}{{ message }}{/literal}
+    </div>
+    </div>
    <p class="loading" ng-show="loading"><i class="fa fa-spinner fa-spin" ></i></p>
    <table class="table table-bordered table-striped" ng-hide="loading">
     <thead>

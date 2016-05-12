@@ -22,7 +22,7 @@ class SponsorHelper
     
     $where = 'path LIKE \''. $path .'%\'';
     
-    $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
+    $current_page = 1;
     $order_by ='level, id';
     
     $data = array(

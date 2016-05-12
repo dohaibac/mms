@@ -34,7 +34,7 @@ class GcmController extends JControllerForm
       }
       
       if (empty($email)) {
-        $ret = $this->message_response(0, 'register', 'Bạn chưa nhập email!');
+        $ret = $this->message_response(0, 'register', 'Bạn chưa nhập tên đăng nhập!');
         $this->renderJson($ret);
       }
       
@@ -66,6 +66,12 @@ class GcmController extends JControllerForm
     
     if ($data->type == 0 ) {
       $user = $data->user;
+      
+      // kiem tra xem user co bi block khong?
+      if ($user->block) {
+        $ret = $this->message(1, 'login-message-user_is_blocked', $this->app->lang('login-message-user_is_blocked'));
+        $this->renderJson($ret);
+      }
       
       $current_password = $user->password;
       
@@ -187,6 +193,7 @@ class GcmController extends JControllerForm
     //$this->app->prevent_remote_access();
     
     $registatoin_ids = $this->getSafe('registatoin_ids');
+    
     $title = $this->getSafe('title');
     $message = $this->getSafe('message');
     

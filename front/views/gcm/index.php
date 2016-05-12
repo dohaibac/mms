@@ -16,14 +16,20 @@
       
       $('form#'+id).unbind('submit');
       $.ajax({
-          url: "http://am5.com/gcm/send",
+          url: "http://gcm.janet.vn/gcm/send",
           type: 'POST',
-          data: o,
+          data: JSON.stringify(o),
           beforeSend: function() {
                
           },
           success: function(data, textStatus, xhr) {
-                $('.txt_message').val("");
+            if (data.type == 1) {
+              alert(data.message);
+            }
+            else {
+              alert('send OK');
+            }
+             
           },
           error: function(xhr, textStatus, errorThrown) {
                
@@ -102,10 +108,12 @@
   <h1>No of Devices Registered: {{$data->total}}</h1>
   <ul>
   {foreach from=$data->gcms key=k item=v} 
-  <li>
+  <li style="border:1px solid #cccccc; padding:20px;margin-left:10px;">
       <form id="{{$k}}" name="" method="post" onsubmit="return sendPushNotification('{{$k}}')">
+          <div style="display:none">
           <label>gcm_regid: </label> <span>{{$v->gcm_regid}}</span>
           <div class="clear"></div>
+          </div>
           <label>hardware_id: </label> <span>{{$v->hardware_id}}</span>
           <div class="clear"></div>
           <label>hardware_info: </label> <span>{{$v->hardware_info}}</span>

@@ -14,12 +14,12 @@ app.controller('UserAddCtrl', function($scope, $http, $location, noty, $UserServ
   
   $scope.disabled = function() {
     if (!$scope.user.user_name || !$scope.user.display_name || !$scope.user.email || !$scope.user.mobile || 
-      !$scope.user.group_id || $scope.processing) {
+      !$scope.user.sponsor_owner || !$scope.user.group_id || $scope.processing) {
       return true;
     };
     
     return $scope.user.user_name.length > 0 && $scope.user.display_name.length > 0 && $scope.user.email.length > 0 && 
-      $scope.user.mobile.length > 0 && $scope.user.group_id > 0 ? false : true;
+      $scope.user.mobile.length > 0 && $scope.user.sponsor_owner.length > 0 && $scope.user.group_id > 0 ? false : true;
     
   };
   
@@ -61,12 +61,12 @@ app.controller('UserEditCtrl',  function($scope, $routeParams, $http, $UserServi
     
     $scope.disabled = function() {
       if (!$scope.user.display_name || !$scope.user.mobile || 
-        !$scope.user.group_id || $scope.processing) {
+        !$scope.user.sponsor_owner || !$scope.user.group_id || $scope.processing) {
         return true;
       };
       
       return $scope.user.display_name.length > 0 && 
-        $scope.user.mobile.length > 0 && $scope.user.group_id > 0  ? false : true;
+        $scope.user.mobile.length > 0 && $scope.user.sponsor_owner.length > 0 && $scope.user.group_id > 0  ? false : true;
       
     };
   

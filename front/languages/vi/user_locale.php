@@ -30,6 +30,7 @@ return array(
   'user-message-required_password'=> 'Bạn chưa nhập mật khẩu.',
   'user-message-required_repassword'=> 'Bạn chưa nhập Nhập lại mật khẩu.',
   'user-message-required_group_id'=> 'Bạn chưa chọn nhóm.',
+  'user-message-required_input_sponsor_owner'=> 'Bạn chưa nhập sponsor owner.',
   'user-message-password_and_repassword_is_not_matched'=> 'Mật khẩu và nhập lại mật khẩu không trùng nhau.',
   'user-message-register_success'=> 'Thêm thành viên quản trị thành công.',
   'user-message-email_already_exist' => 'Email đã tồn tại trong hệ thống. Mời bạn chọn email khác!',
@@ -40,6 +41,7 @@ return array(
   
   'user-message-user_view_not_found'=> 'Không tìm thấy tài khoản.',
   'user-message-register_downline_success'=> 'Thêm thành viên quản trị downline thành công.',
+  'user-message-require_sponsor_owner'=> 'Bạn chưa có sponsor owner. Bạn phải cập nhật sponsor owner trước trong phần quản trị thành viên!',
 
 );
 ?>

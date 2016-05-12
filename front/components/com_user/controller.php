@@ -437,7 +437,7 @@ class UserController extends JControllerForm
     $block = $this->getSafe('block');
     
     $required_fields = array(
-      'user_name', 'display_name', 'email', 'mobile', 'password', 'repassword', 'group_id'
+      'user_name', 'display_name', 'email', 'mobile', 'password', 'repassword', 'group_id', 'sponsor_owner'
     );
     
     $body = $this->get_request_body();
@@ -530,6 +530,7 @@ class UserController extends JControllerForm
   public function edit () {
     $this->app->prevent_remote_access();
     
+    $id  = $this->getSafe('id');
     $display_name  = $this->getSafe('display_name');
     $email      = $this->getSafe('email');
     $mobile     = $this->getSafe('mobile');
@@ -573,6 +574,11 @@ class UserController extends JControllerForm
       $this->renderJson($ret);
     }
     
+    if (empty($sponsor_owner)) {
+      $ret = $this->message(1, 'user-message-required_input_sponsor_owner', $this->app->lang('user-message-required_input_sponsor_owner'));
+      $this->renderJson($ret);
+    }
+    
     $system_code = $this->app->user->data()->system_code;
     
     $user = array (
@@ -599,6 +605,10 @@ class UserController extends JControllerForm
     }
     
     $data = $result->body;
+    
+    if ($id == $this->app->user->data()->id && !empty($sponsor_owner)) {
+      $this->app->user->data()->sponsor_owner = $sponsor_owner;
+    }
     
     if ($data->type == 0) {
       $ret = $this->message(0, 'user-message-update_success', $this->app->lang('user-message-update_success'));

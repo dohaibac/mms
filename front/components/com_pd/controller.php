@@ -15,6 +15,12 @@ class PdController extends JControllerForm
   public function get_list() {
     $this->app->prevent_remote_access();
     
+    // kiem tra xem user da co sponsor chua?
+    if (empty($this->app->user->data()->sponsor_owner)) {
+      $ret = $this->message(1, 'user-message-require_sponsor_owner', $this->app->lang('user-message-require_sponsor_owner'));
+      $this->renderJson($ret);
+    }
+    
     $db = $this->app->getDbo();
     
     require_once PATH_COMPONENT. '/com_sponsor/helper.php';
