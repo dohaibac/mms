@@ -179,6 +179,8 @@ app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $
       if (status == 3) {
         $scope.gd.status = {'id': 3, 'name': 'Done'};
       }
+      
+      $scope.amount_money_text = DocTienBangChu($scope.gd.amount);
     });
     
     $scope.get_bank_list();
