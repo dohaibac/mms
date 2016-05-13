@@ -16,7 +16,7 @@
       </div>
     </div>
     <p class="loading" ng-show="loading"><i class="fa fa-spinner fa-spin" ></i></p>
-    <div class="gridStyle" ng-grid="gridOptions">
+    <div class="gridStyle" ng-grid="gridOptions" ng-hide="loading">
     </div>
   </div> <!-- end list-->
 </div>

@@ -622,9 +622,9 @@ i.inactive {color: #CCCCCC;font-size:30px;cursor:pointer;}
 .bold {font-weight: bold}
 
 .gridStyle {
-    border: 2px solid rgb(212,212,212);
-    width: 100%; 
-    height: 700px
+  border: none;
+  width: 100%; 
+  height: 700px
 }
 
 .width300 {width:300px}
@@ -634,3 +634,8 @@ i.inactive {color: #CCCCCC;font-size:30px;cursor:pointer;}
 .width90p {width:90%}
 .width100p {width:100%}
 
+.sim-span {
+  border:none;
+  box-shadow:none;
+  width:auto;
+}

@@ -9,7 +9,7 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
 
   $scope.init = function () {
     $scope.loading = true;
-    $PdService.get_list().then(function(response) {
+    /*$PdService.get_list().then(function(response) {
       $scope.loading = false;
       if (response.data.type == 1) {
         $scope.message_type = 1;
@@ -19,7 +19,7 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
       
       $scope.pds = response.data.pds;
 
-    });
+    });*/
   };
   
   $scope.delete = function(pd) {
@@ -63,7 +63,8 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
           var data;
           if (searchText) {
               var ft = searchText.toLowerCase();
-              $http.get(url).success(function (largeLoad) {    
+              $http.get(url).success(function (largeLoad) {
+                  $scope.loading = false;
                   data = largeLoad.filter(function(item) {
                       return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
                   });
@@ -71,11 +72,12 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
               });            
           } else {
               $PdService.get_list(page, pageSize).then(function (largeLoad) {
+                  $scope.loading = false;
                   $scope.setPagingData(largeLoad.data.pds,page,pageSize);
                   $scope.totalServerItems = largeLoad.data.total;
               });
           }
-      }, 100);
+      }, 10);
   };
 
   $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
@@ -95,18 +97,29 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
   $scope.gridOptions = {
       data: 'myData',
       enablePaging: true,
+      enableRowSelection: false,
+      enableCellSelection: true,
       showFooter: true,
+      'enableColumnResize': true,
+      'multiSelect': false,
       totalServerItems: 'totalServerItems',
       pagingOptions: $scope.pagingOptions,
       filterOptions: $scope.filterOptions,
-      columnDefs: [{ field: "id", displayName: 'ID', width: 50, pinned: true },
-                   { field: "code", displayName: 'Mã', width: 120 },
-                   { field: "sponsor", displayName: 'Nhà tài trợ', width: 200 },
-                   { field: "amount", displayName: 'Số Tiền', width: 150 },
-                   { field: "remain_amount", displayName: 'Còn Lại', width: 150 },
-                   { field: "created_at", displayName: 'Ngày Đặt Lệnh', width: 200 },
-                   { field: "status", displayName: 'Trạng thái', width: 150, cellTemplate:'<div class=ngCellText>{{ COL_FIELD == 1 ? "Pending" : (COL_FIELD == 2 ? "Pending Payment" : "Approved")}}</div>' },
-                   { field: "", width: 150, cellTemplate:'<div class=ngCellText><a type="button" href="/pd#!/edit/{{ row.getProperty(\'id\') }}" data-toggle="tooltip" tooltip-placement="top" tooltip="Sửa" class="btn btn-xs btn-warning btn-edit"><i class="fa fa-pencil"></i></a><a href="javascript:void(0)" ng-click="delete(row.entity)" data-toggle="tooltip" tooltip-placement="top" tooltip="Xóa" type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times"></i></a></div>' }]
+      columnDefs: [
+        { field: "id", displayName: 'ID', width: 50, pinned: true },
+        { field: "code", displayName: 'Mã', width: 120 },
+        { field: "sponsor", displayName: 'Mã thành viên', width: 200 },
+        { field: "amount", displayName: 'Số tiền', width: 200,
+          cellTemplate: "<span class=ngCellText> {{ row.entity[col.field] * 10000  | currency:'VND ':2 }}</span>"},
+        { 
+          field: "issued_at_display", 
+          displayName: 'Ngày đặt lệnh', 
+          width: 150
+        },
+        { field: "status", displayName: 'Trạng thái', width: 130, 
+          cellTemplate:'<div class=ngCellText>{{ COL_FIELD == 1 ? "Pending" : (COL_FIELD == 2 ? "Pending Payment" : "Approved")}}</div>' },
+        { field: "", 
+          cellTemplate:'<div class=ngCellText><a type="button" href="/pd#!/edit/{{ row.getProperty(\'id\') }}" data-toggle="tooltip" tooltip-placement="top" tooltip="Sửa" class="btn btn-xs btn-warning btn-edit"><i class="fa fa-pencil"></i></a><a href="javascript:void(0)" ng-click="delete(row.entity)" data-toggle="tooltip" tooltip-placement="top" tooltip="Xóa" type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times"></i></a></div>' }]
   };
 });
 
@@ -155,10 +168,10 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
     $scope.get_bank_list();
     
     $scope.pd.status = {'id': 1, 'name': 'Pending'};
-    $scope.pd.amount = '6600000';
+    $scope.pd.amount = '660';
     $scope.pd.remain_amount = '0';
     
-    $scope.amount_money_text = DocTienBangChu($scope.pd.amount);
+    $scope.amount_money_text = DocTienBangChu($scope.pd.amount * 10000);
   };
   
   $scope.get_bank_list = function() {
@@ -224,7 +237,7 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
   };
   
   $scope.convert_money = function () {
-    $scope.amount_money_text = DocTienBangChu($scope.pd.amount);
+    $scope.amount_money_text = DocTienBangChu($scope.pd.amount * 10000);
   };
 });
 
@@ -259,7 +272,7 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
         $scope.pd.status = {'id': 3, 'name': 'Approved'};
       }
       
-      $scope.amount_money_text = DocTienBangChu($scope.pd.amount);
+      $scope.amount_money_text = DocTienBangChu($scope.pd.amount * 10000);
     });
     
     $scope.get_bank_list();
@@ -345,7 +358,7 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
   };
   
   $scope.convert_money = function () {
-    $scope.amount_money_text = DocTienBangChu($scope.pd.amount);
+    $scope.amount_money_text = DocTienBangChu($scope.pd.amount * 1000);
   };
 });
  

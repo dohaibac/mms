@@ -2,7 +2,7 @@
 <div class="modal-header">
   <h3 class="modal-title">Thông tin thành viên</h3>
 </div>
-<div class="modal-body dashboard-main"> 
+<div class="modal-body dashboard-main" ng-controller="SponsorEditCtrl"> 
    <div class="table-responsive">
      <div class="form-group">
       <div class="col-md-3 align-right">
@@ -31,7 +31,7 @@
         {{ sponsor.item.sponsor_level }}
         </span>
         <span ng-show="editing">
-          <input class="form-control" ng-model="sp.sponsor_level" ng-maxlength="255"/>
+          <input class="form-control" ng-model="sponsor.item.sponsor_level" ng-maxlength="255"/>
         </span>
       </div>
       <div class="clearfix"></div>
@@ -45,7 +45,7 @@
         {{ sponsor.item.name }}
         </span>
         <span ng-show="editing">
-          <input class="form-control" ng-model="sp.name" ng-maxlength="255"/>
+          <input class="form-control" ng-model="sponsor.item.name" ng-maxlength="255"/>
         </span>
       </div>
       <div class="clearfix"></div>
@@ -56,10 +56,29 @@
       </div>
       <div class="col-md-9">
         <span ng-hide="editing">
-        {{ sponsor.item.ptl }}
+        <input class="form-control sim-span" id="password"  type="password" ng-model="sponsor.item.ptl" ng-maxlength="255"/>
+        &nbsp;<input id="show_password" type="checkbox" ng-click="toggle_password()" /> Hiển thị
         </span>
          <span ng-show="editing">
-          <input class="form-control" ng-model="sp.ptl" ng-maxlength="255"/>
+          <input class="form-control" id="security_input" ng-model="sponsor.item.ptl" ng-maxlength="255"/>
+           &nbsp;<input id="show_password_input" type="checkbox" ng-click="toggle_password_input()" /> Hiển thị
+        </span>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-3 align-right">
+        <label class="control-label">Security</label>
+      </div>
+      <div class="col-md-9">
+        <span ng-hide="editing">
+          <input class="form-control sim-span" id="security" type="password" ng-model="sponsor.item.sec" ng-maxlength="255"/>
+          &nbsp;
+        <input id="show_security" type="checkbox" ng-click="toggle_security()" /> Hiển thị
+        </span>
+         <span ng-show="editing">
+          <input class="form-control" id="security_input" ng-model="sponsor.item.sec" ng-maxlength="255"/>
+          &nbsp;<input id="show_security_input" type="checkbox" ng-click="toggle_security_input()" /> Hiển thị
         </span>
       </div>
       <div class="clearfix"></div>
@@ -73,7 +92,7 @@
         {{ sponsor.item.email }}
         </span>
         <span ng-show="editing">
-          <input class="form-control" ng-model="sp.email" ng-maxlength="255"/>
+          <input class="form-control" ng-model="sponsor.item.email" ng-maxlength="255"/>
         </span>
       </div>
       <div class="clearfix"></div>
@@ -87,7 +106,7 @@
         {{ sponsor.item.mobile }}
         </span>
         <span ng-show="editing">
-          <input class="form-control" ng-model="sp.mobile" ng-maxlength="255"/>
+          <input class="form-control" ng-model="sponsor.item.mobile" ng-maxlength="255"/>
         </span>
       </div>
       <div class="clearfix"></div>
