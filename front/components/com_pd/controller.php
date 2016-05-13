@@ -37,7 +37,7 @@ class PdController extends JControllerForm
     
     $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
     $page_size = empty($this->data['pageSize']) ? 1 : $this->data['pageSize'];
-    $order_by ='id';
+    $order_by ='issued_at ASC';
     
     $data = array(
       'where'=>$where,
@@ -55,6 +55,10 @@ class PdController extends JControllerForm
     
     $data = $result->body;
     
+    foreach($data->pds as $pd) {
+      $date =  new DateTime($pd->issued_at);
+      $pd->issued_at_display = $date->format('Y-m-d');
+    }
     $this->renderJson($data);
   }
   

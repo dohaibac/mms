@@ -622,9 +622,9 @@ i.inactive {color: #CCCCCC;font-size:30px;cursor:pointer;}
 .bold {font-weight: bold}
 
 .gridStyle {
-    border: 2px solid rgb(212,212,212);
-    width: 100%; 
-    height: 700px
+  border: none;
+  width: 100%; 
+  height: 700px
 }
 
 .width300 {width:300px}
