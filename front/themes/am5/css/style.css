@@ -620,8 +620,17 @@ i.active { color: #5cb85c;font-size:30px;cursor:pointer;}
 i.inactive {color: #CCCCCC;font-size:30px;cursor:pointer;}
 .align-right {text-align:right}
 .bold {font-weight: bold}
+
+.gridStyle {
+    border: 2px solid rgb(212,212,212);
+    width: 100%; 
+    height: 700px
+}
+
+.width300 {width:300px}
 .width50p {width:50%}
 .width70p {width:70%}
 .width80p {width:80%}
 .width90p {width:90%}
 .width100p {width:100%}
+

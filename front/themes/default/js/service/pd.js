@@ -49,9 +49,9 @@ app.service('$PdService', function($rootScope, $http, $modal, $q) {
     });
   };
   
-  this.get_list = function () {
+  this.get_list = function (page, pageSize) {
     var url = generate_url('pd', 'get_list');
-    
+    url += '&page=' + page + "&pageSize=" + pageSize;
     return $http.get(url);
   };
   

@@ -1,11 +1,12 @@
 app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $PdService) {
   
   $scope.noty = noty;
-  
   $scope.pds = {};
-  
   $scope.loading = false;
-  
+  $scope.myData = [];
+
+  var url = generate_url('pd', 'get_list');
+
   $scope.init = function () {
     $scope.loading = true;
     $PdService.get_list().then(function(response) {
@@ -17,7 +18,7 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
       }
       
       $scope.pds = response.data.pds;
-      
+
     });
   };
   
@@ -32,8 +33,80 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
       $scope.processing = false;
       $scope.noty.add({type:'info', title:'Thông báo', body:response.data.message});
       $scope.init();
+      $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
     });
     
+  };
+  
+  // New code for grid-ui
+  $scope.filterOptions = {
+      filterText: "",
+      useExternalFilter: true
+  }; 
+  
+  $scope.totalServerItems = 0;
+  $scope.pagingOptions = {
+      pageSizes: [20, 50, 100],
+      pageSize: 20,
+      currentPage: 1
+  };
+  
+  $scope.setPagingData = function(data, page, pageSize){
+    $scope.myData = data;
+    if (!$scope.$$phase) {
+        $scope.$apply();
+    }
+  };
+  
+  $scope.getPagedDataAsync = function (pageSize, page, searchText) {
+      setTimeout(function () {
+          var data;
+          if (searchText) {
+              var ft = searchText.toLowerCase();
+              $http.get(url).success(function (largeLoad) {    
+                  data = largeLoad.filter(function(item) {
+                      return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+                  });
+                  $scope.setPagingData(JSON.stringify(data.pds),page,pageSize);
+              });            
+          } else {
+              $PdService.get_list(page, pageSize).then(function (largeLoad) {
+                  $scope.setPagingData(largeLoad.data.pds,page,pageSize);
+                  $scope.totalServerItems = largeLoad.data.total;
+              });
+          }
+      }, 100);
+  };
+
+  $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+
+  $scope.$watch('pagingOptions', function (newVal, oldVal) {
+      if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+      }
+  }, true);
+  
+  $scope.$watch('filterOptions', function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+      }
+  }, true);
+
+  $scope.gridOptions = {
+      data: 'myData',
+      enablePaging: true,
+      showFooter: true,
+      totalServerItems: 'totalServerItems',
+      pagingOptions: $scope.pagingOptions,
+      filterOptions: $scope.filterOptions,
+      columnDefs: [{ field: "id", displayName: 'ID', width: 50, pinned: true },
+                   { field: "code", displayName: 'Mã', width: 120 },
+                   { field: "sponsor", displayName: 'Nhà tài trợ', width: 200 },
+                   { field: "amount", displayName: 'Số Tiền', width: 150 },
+                   { field: "remain_amount", displayName: 'Còn Lại', width: 150 },
+                   { field: "created_at", displayName: 'Ngày Đặt Lệnh', width: 200 },
+                   { field: "status", displayName: 'Trạng thái', width: 150, cellTemplate:'<div class=ngCellText>{{ COL_FIELD == 1 ? "Pending" : (COL_FIELD == 2 ? "Pending Payment" : "Approved")}}</div>' },
+                   { field: "", width: 150, cellTemplate:'<div class=ngCellText><a type="button" href="/pd#!/edit/{{ row.getProperty(\'id\') }}" data-toggle="tooltip" tooltip-placement="top" tooltip="Sửa" class="btn btn-xs btn-warning btn-edit"><i class="fa fa-pencil"></i></a><a href="javascript:void(0)" ng-click="delete(row.entity)" data-toggle="tooltip" tooltip-placement="top" tooltip="Xóa" type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times"></i></a></div>' }]
   };
 });
 
