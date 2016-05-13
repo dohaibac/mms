@@ -4,6 +4,10 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
   
   $scope.loading = false;
   
+  $scope.sponsor_owner_object = {};
+  
+  $scope.sponsor_owner_object.item = {};
+  
   $scope.init = function () {
     
     $scope.loading = true;
@@ -15,8 +19,16 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
         $scope.message = response.data.message;
         return;
       }
+      
       var sponsors = $scope.build_tree(response.data.sponsors);
       $scope.sponsor_owner = response.data.sponsor_owner;
+      
+      angular.forEach(response.data.sponsors, function(sp, index) {
+         if (sp.username == $scope.sponsor_owner) {
+           $scope.sponsor_owner_object.item = sp;
+         }
+      });
+      
       $scope.sponsors = sponsors[$scope.sponsor_owner];
       
       $scope.total = response.data.total;
@@ -35,6 +47,9 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
     
     $scope.loading = true;
     
+    $scope.message_type = 0;
+    $scope.message = '';
+    
     $SponsorService.search(keyword).then(function(response) {
       
       $scope.loading = false;
@@ -46,6 +61,13 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       }
       var sponsors = $scope.build_tree(response.data.sponsors);
       $scope.sponsor_owner = response.data.sponsor_owner;
+      
+      angular.forEach(response.data.sponsors, function(sp, index) {
+         if (sp.username == $scope.sponsor_owner) {
+           $scope.sponsor_owner_object.item = sp;
+         }
+      });
+      
       $scope.sponsors = sponsors[$scope.sponsor_owner];
       
       $scope.total = response.data.total;
@@ -56,7 +78,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
   $scope.build_tree = function (data) {
     var source = [];
     var items = [];
-    // build hierarchical source.
+    
     for (i = 0; i < data.length; i++) {
         var item = data[i];
         var label = item["username"];
@@ -106,7 +128,10 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
     var options = {
       'init': function(mscope) {
         mscope.sponsor = sponsor;
-        console.log(sponsor);
+        mscope.editing = false;
+      },
+      'ok' : function(mscope) {
+        
       }
     };
     $SponsorService.show_modal_detail(options).then(function(response){
@@ -128,10 +153,13 @@ app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $Spo
   $scope.sponsor.force_downline_f1 = false;
   $scope.sponsor.force_downline_fork = false;
   
+  $scope.levels = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M-GOLD'];
+  
   $scope.init = function () {
     $BankService.get_list().then(function(response){
       $scope.banks = response.data.banks;
     });
+    $scope.sponsor.sponsor_level = 'M0';
   };
   
   $scope.check_sponsor = function() {
@@ -229,6 +257,15 @@ app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $Spo
     };
     
     $BankService.show_add_modal(options);
+  };
+  
+  $scope.toggle_password = function() {
+    if ($('#show_password').is(":checked")) {
+      $('#ptl').attr('type', 'text');
+    } else {
+      $('#ptl').attr('type', 'password');
+    }
+    
   };
 });
 

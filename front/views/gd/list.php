@@ -38,7 +38,7 @@
         <td> {{ gd.issued_at }} </td>
         <td> 
           <span ng-if="gd.status==1">Pending</span>
-          <span ng-if="gd.status==2">Approved</span>
+          <span ng-if="gd.status==2">Pending Verification</span>
           <span ng-if="gd.status==3">Done</span>
         <td>
            <a type="button" href="/gd#!/edit/{{ gd.id }}"

@@ -213,7 +213,7 @@ class GcmController extends JControllerForm
     $data = array(
       'registatoin_ids' => array($registatoin_ids),
       'message' => array('title' => $title, 'content' => $message, 'timeStamp' => date('Y-m-d h:i:s'),
-      'time_to_live' => '10',
+      /*'time_to_live' => '10',*/
       'sound'=>'notification'
       )
     );
