@@ -82,10 +82,10 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
     $scope.get_bank_list();
     
     $scope.pd.status = {'id': 1, 'name': 'Pending'};
-    $scope.pd.amount = '6600000';
+    $scope.pd.amount = '660';
     $scope.pd.remain_amount = '0';
     
-    $scope.amount_money_text = DocTienBangChu($scope.pd.amount);
+    $scope.amount_money_text = DocTienBangChu($scope.pd.amount * 10000);
   };
   
   $scope.get_bank_list = function() {
@@ -151,7 +151,7 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
   };
   
   $scope.convert_money = function () {
-    $scope.amount_money_text = DocTienBangChu($scope.pd.amount);
+    $scope.amount_money_text = DocTienBangChu($scope.pd.amount * 10000);
   };
 });
 
@@ -186,7 +186,7 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
         $scope.pd.status = {'id': 3, 'name': 'Approved'};
       }
       
-      $scope.amount_money_text = DocTienBangChu($scope.pd.amount);
+      $scope.amount_money_text = DocTienBangChu($scope.pd.amount * 10000);
     });
     
     $scope.get_bank_list();
@@ -272,7 +272,7 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
   };
   
   $scope.convert_money = function () {
-    $scope.amount_money_text = DocTienBangChu($scope.pd.amount);
+    $scope.amount_money_text = DocTienBangChu($scope.pd.amount * 1000);
   };
 });
  

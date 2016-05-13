@@ -39,7 +39,14 @@
       <div class="col-md-8">
         <input ng-model="pd.amount" type="input" name="amount" class="form-control width100p" 
          required ng-trim="true" ng-maxlength="255" ng-model-onblur ng-change="convert_money()">
-         {literal} {{ amount_money_text }} {/literal}
+          {literal}
+          <div>
+           {{ pd.amount }} = {{ pd.amount * 10000 | currency: "VND " : 2 }}
+          </div>
+          <div>
+           {{ amount_money_text }}
+          </div>
+          {/literal}
       </div>
       <div class="clearfix"></div>
     </div>

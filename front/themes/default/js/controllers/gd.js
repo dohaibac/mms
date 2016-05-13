@@ -145,7 +145,7 @@ app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdServic
   };
  
   $scope.convert_money = function () {
-    $scope.amount_money_text = DocTienBangChu($scope.gd.amount);
+    $scope.amount_money_text = DocTienBangChu($scope.gd.amount * 10000);
   };
 });
 
@@ -180,7 +180,7 @@ app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $
         $scope.gd.status = {'id': 3, 'name': 'Done'};
       }
       
-      $scope.amount_money_text = DocTienBangChu($scope.gd.amount);
+      $scope.amount_money_text = DocTienBangChu($scope.gd.amount * 10000);
     });
     
     $scope.get_bank_list();
@@ -265,6 +265,6 @@ app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $
   };
   
   $scope.convert_money = function () {
-    $scope.amount_money_text = DocTienBangChu($scope.gd.amount);
+    $scope.amount_money_text = DocTienBangChu($scope.gd.amount * 10000);
   };
 });
