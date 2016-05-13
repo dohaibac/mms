@@ -1,5 +1,5 @@
 var app = angular.module('jApp', ['ngRoute','ui.bootstrap','ngCookies','ui.bootstrap.tpls', 
-    'angularUtils.directives.dirPagination', 'angularjs-datetime-picker','xeditable', 'ui.select', 'ngSanitize']);
+    'angularUtils.directives.dirPagination', 'angularjs-datetime-picker','xeditable', 'ui.select', 'ngSanitize', 'ngGrid']);
 
 app.provider('myCSRF',[function(){
   var headerName = 'X-CSRFToken';
