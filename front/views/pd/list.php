@@ -11,51 +11,12 @@
   </div> <!-- end toolbar -->
   <div class="table-responsive">
     <div class="alert alert-warning" ng-if="message">
-    <div ng-class="message_type == 1 ? 'error-message' : 'success'">
-      {literal}{{ message }}{/literal}
-    </div>
+      <div ng-class="message_type == 1 ? 'error-message' : 'success'">
+        {literal}{{ message }}{/literal}
+      </div>
     </div>
     <p class="loading" ng-show="loading"><i class="fa fa-spinner fa-spin" ></i></p>
-    <table class="table table-bordered table-striped" ng-hide="loading">
-    <thead>
-      <tr>
-        <th class="th-ord">#</th>
-        <th class="th-code">Mã</th>
-        <th class="th-name">Nhà tài trợ</th>
-        <th class="th-amount">Số  Tiền</th>
-        <th class="th-amount">Còn Lại</th>
-        <th class="th-date">Ngày tạo</th>
-        <th class="th-status">Trạng thái</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {literal}
-      <tr ng-repeat="pd in pds">
-        <td> {{ $index + 1 }} </td>
-        <td> {{ pd.code }} </td>
-        <td> {{ pd.sponsor }} </td>
-        <td> {{ pd.amount }} </td>
-        <td> {{ pd.remain_amount }} </td>
-        <td> {{ pd.issued_at }} </td>
-        <td> 
-          <span ng-if="pd.status==1">Pending</span>
-          <span ng-if="pd.status==2">Pending Payment</span>
-          <span ng-if="pd.status==3">Approved</span>
-        <td>
-           <a type="button" href="/pd#!/edit/{{ pd.id }}"
-             data-toggle="tooltip" tooltip-placement="top" tooltip="Sửa"
-            class="btn btn-xs btn-warning btn-edit"><i class="fa fa-pencil"></i></a>
-            <a href="javascript:void(0)" ng-click="delete(pd)"
-             data-toggle="tooltip" tooltip-placement="top" tooltip="Xóa"
-            type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times"></i></a>
-        </td>
-      </tr>
-      <tr ng-if="pds.length == 0">
-        <td colspan="8">Chưa có PD nào!</td>
-      </tr>
-      {/literal}
-    </tbody>
-  </table>
+    <div class="gridStyle" ng-grid="gridOptions">
+    </div>
   </div> <!-- end list-->
 </div>

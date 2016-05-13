@@ -32,6 +32,7 @@
   <script type="text/javascript" src="<?= $appConf->cdn_base_url ?>angular-xeditable-0.1.12/js/xeditable.min.js"></script>
   <script type="text/javascript" src="<?= $appConf->cdn_base_url ?>ui-select/select.min.js"></script>
   <script type="text/javascript" src="<?= $appConf->cdn_base_url ?>js/angular-sanitize.js"></script>
+  <script type="text/javascript" src="<?= $appConf->cdn_base_url ?>js/ng-grid-2.0.11.min.js"></script>
   
   <script type="text/javascript">
     var appConf = {
