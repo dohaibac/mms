@@ -19,7 +19,7 @@
               {literal}{{ user.display_name }}{/literal}
               </span>
               <span ng-show="editing">
-              <input class="form-control" ng-model="user.display_name" ng-maxlength="255"/>
+                <input class="form-control" ng-model="user.display_name" ng-maxlength="255"/>
               </span>
             </td>
           </tr>
@@ -38,7 +38,7 @@
             <td>{$app->lang('profile-label-phone')}:</td>
             <td>
               <span ng-hide="editing">
-              {literal}{{ user.phone }}{/literal}
+                {literal}{{ user.phone }}{/literal}
               </span>
               <span ng-show="editing">
               <input class="form-control" ng-model="user.phone" ng-maxlength="20"/>
@@ -49,7 +49,7 @@
             <td>{$app->lang('profile-label-addr')}:</td>
             <td>
               <span ng-hide="editing">
-              {literal}{{ user.addr }}{/literal}
+                {literal}{{ user.addr }}{/literal}
               </span>
               <span ng-show="editing">
               <input class="form-control" ng-model="user.addr" ng-maxlength="255"/>
@@ -60,7 +60,7 @@
             <td></td>
             <td>
               <div ng-class="message_type == 1 ? 'error-message' : 'success'" ng-if="message">
-                  {literal}{{ message }}{/literal}
+                 {literal}{{ message }}{/literal}
               </div>
             </td>
           </tr>

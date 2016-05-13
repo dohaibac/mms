@@ -265,41 +265,30 @@ app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $Spo
     } else {
       $('#ptl').attr('type', 'password');
     }
-    
+  };
+ 
+  $scope.toggle_security = function() {
+    if ($('#show_security').is(":checked")) {
+      $('#security').attr('type', 'text');
+    } else {
+      $('#security').attr('type', 'password');
+    }
   };
 });
 
-app.controller('SponsorEditCtrl',  function($scope, $routeParams, $http) {
-    $scope.processing = false;
-    
-    $scope.groupId = $routeParams.groupId;
-    $scope.group = {};
-    
-    $scope.group.group_id = $scope.groupId;
-    
-    var url = generate_url ('group', 'view');
-    
-    $http({
-      method  : 'GET',
-      url     : url + '&group_id=' + $scope.group.group_id,
-      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-     })
-     .success(function(data) {
-        $scope.message = data.message;
-        $scope.message_type = data.type;
-        $scope.group = data;
-        
-        if ($scope.group && $scope.group.block) {
-          $scope.group.block = $scope.group.block == 1? true: false;
-        }
-     });
-     
-    $scope.disabled = function() {
-      if (!$scope.group.name ||$scope.processing) {
-        return true;
+app.controller('SponsorEditCtrl', function($scope, $http, $location, $modal, $SponsorService, $BankService) {
+  $scope.processing = false;
+  
+  $scope.levels = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M-GOLD'];
+  
+  $scope.disabled = function() {
+    if (!$scope.sponsor.name || !$scope.sponsor.username || 
+      !$scope.sponsor.email || !$scope.sponsor.mobile || !$scope.sponsor.bank || $scope.processing) {
+      return true;
     }
-      
-    return $scope.group.name.length > 0 ? false : true;
+    return $scope.sponsor.name.length > 0 && $scope.sponsor.username.length > 0 && 
+    $scope.sponsor.email.length > 0 && $scope.sponsor.mobile.length > 0 ? false : true;
+    
   };
   
   $scope.submit = function() {
@@ -307,21 +296,63 @@ app.controller('SponsorEditCtrl',  function($scope, $routeParams, $http) {
     $scope.message_type = 1;
     $scope.processing = true;
     
-    var url = generate_url ('group', 'edit');
-   
-   $http({
-    method  : 'POST',
-    url     : url,
-    data    : $.param($scope.group), 
-    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-   })
-   .success(function(data) {
+    $SponsorService.add($scope.sponsor).then(function(response) {
+      $scope.processing = false;
+      var data = response.data;
+      
+      if (data.code =='sponsor-message-max_downline') {
+        if (confirm(data.message)) {
+          $scope.sponsor.force_downline_f1 = true;
+          $scope.submit();
+          return false;
+        }
+        else {
+          return false;
+        }
+      } 
+      if (data.code =='sponsor-message-max_fork') {
+        if (confirm(data.message)) {
+          $scope.sponsor.force_downline_fork = true;
+          $scope.submit();
+          return false;
+        }
+        else {
+          return false;
+        }
+      }
+      
       $scope.message = data.message;
       $scope.message_type = data.type;
-      
-      $scope.processing = false;
-   });
+    });
   };
-    
+  
+  $scope.toggle_password = function() {
+    if ($('#show_password').is(":checked")) {
+      $('#ptl').attr('type', 'text');
+    } else {
+      $('#ptl').attr('type', 'password');
+    }
+  };
+  $scope.toggle_password_input = function() {
+    if ($('#show_password_input').is(":checked")) {
+      $('#ptl').attr('type', 'text');
+    } else {
+      $('#ptl').attr('type', 'password');
+    }
+  };
+  
+  $scope.toggle_security = function() {
+    if ($('#show_security').is(":checked")) {
+      $('#security').attr('type', 'text');
+    } else {
+      $('#security').attr('type', 'password');
+    }
+  };
+  $scope.toggle_security_input = function() {
+    if ($('#show_security_input').is(":checked")) {
+      $('#security_input').attr('type', 'text');
+    } else {
+      $('#security_input').attr('type', 'password');
+    }
+  };
 });
- 

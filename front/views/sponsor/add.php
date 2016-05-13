@@ -23,8 +23,8 @@
       <div class="col-md-10">
       <input ng-model="sponsor.username" type="input" name="username" class="form-control" 
           required ng-minlength="3" ng-maxlength="255">
-       </div>
-       <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
     </div>
     <div class="form-group">
       <div class="col-md-2 align-right">
@@ -79,13 +79,24 @@
     </div>
     <div class="form-group">
       <div class="col-md-2 align-right">
-      <label class="control-label">Mật khẩu</label>
+      <label class="control-label red">Mật khẩu</label>
       </div>
       <div class="col-md-10">
       <input ng-model="sponsor.ptl" type="password" id="ptl" name="ptl" class="form-control width50p fleft" 
        ng-maxlength="255">&nbsp;
-       <input id="show_password" type="checkbox" ng-click="toggle_password()" /> Show password
+       <input id="show_password" type="checkbox" ng-click="toggle_password()" /> Hiển thị
        <div class="clearfix"></div>
+       </div>
+       <div class="clearfix"></div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-2 align-right">
+      <label class="control-label red">Security</label>
+      </div>
+      <div class="col-md-10">
+        <input ng-model="sponsor.sec" type="password" id="security" name="security" class="form-control width50p fleft" 
+         ng-maxlength="255">&nbsp;
+       <input id="show_security" type="checkbox" ng-click="toggle_security()" /> Hiển thị
        </div>
        <div class="clearfix"></div>
     </div>
