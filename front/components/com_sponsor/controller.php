@@ -136,8 +136,12 @@ class SponsorController extends JControllerForm
     
     $data = $result->body;
     $data->sponsor_owner = $keyword;
+    $data->lsponsor_owner = strtolower($keyword);
     $data->group_id = $this->app->user->data()->group_id;
-    
+    foreach($data->sponsors as $sponsor) {
+      $sponsor->lusername = strtolower($sponsor->username);
+      $sponsor->lupline = strtolower($sponsor->upline);
+    }
     $this->renderJson($data);
   }
   
