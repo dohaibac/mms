@@ -21,7 +21,9 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       }
       
       var sponsors = $scope.build_tree(response.data.sponsors);
+      
       $scope.sponsor_owner = response.data.sponsor_owner;
+      $scope.lsponsor_owner = response.data.lsponsor_owner;
       
       angular.forEach(response.data.sponsors, function(sp, index) {
          if (sp.username == $scope.sponsor_owner) {
@@ -29,7 +31,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
          }
       });
       
-      $scope.sponsors = sponsors[$scope.sponsor_owner];
+      $scope.sponsors = sponsors[$scope.lsponsor_owner];
       
       $scope.total = response.data.total;
       $scope.group_id = response.data.group_id;
@@ -61,6 +63,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       }
       var sponsors = $scope.build_tree(response.data.sponsors);
       $scope.sponsor_owner = response.data.sponsor_owner;
+      $scope.lsponsor_owner = response.data.lsponsor_owner;
       
       angular.forEach(response.data.sponsors, function(sp, index) {
          if (sp.username == $scope.sponsor_owner) {
@@ -68,7 +71,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
          }
       });
       
-      $scope.sponsors = sponsors[$scope.sponsor_owner];
+      $scope.sponsors = sponsors[$scope.lsponsor_owner];
       
       $scope.total = response.data.total;
       $scope.group_id = response.data.group_id;
@@ -81,12 +84,14 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
     
     for (i = 0; i < data.length; i++) {
         var item = data[i];
-        var label = item["username"];
-        var parentid = item["upline"];
-        var id = item["username"];
-
+        var name = item["username"];
+        
+        var label = item["lusername"];
+        var parentid = item["lupline"];
+        var id = item["lusername"];
+        
         if (items[parentid]) {
-            var item = { parentid: parentid, label: label, item: item };
+            var item = { parentid: parentid, label: label, item: item, 'name': name};
             if (!items[parentid].items) {
                 items[parentid].items = [];
             }
@@ -94,7 +99,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
             items[id] = item;
         }
         else {
-            items[id] = { parentid: parentid, label: label, item: item };
+            items[id] = { parentid: parentid, label: label, item: item, 'name': name};
             source[id] = items[id];
         }
     }

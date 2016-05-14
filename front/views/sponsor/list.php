@@ -2,11 +2,8 @@
 <br/>
 {literal}
 <script type="text/ng-template" id="sponsor_list_render.html">
-   <div ng-if="group_id > 7">
-     <a>{{ item.label }}</a>
-   </div>
-   <div ng-if="group_id <= 7">
-     <a ng-click="show_detail(item)">{{ item.label }}</a>
+   <div>
+   <a ng-click="show_detail(item)">{{ item.name }}</a>
    </div>
    <div class="child" ng-show="item.items.length > 0">
      <div class="child1" ng-repeat="item in item.items" ng-include="'sponsor_list_render.html'"></div>
