@@ -52,7 +52,7 @@
     </div>
     <div class="form-group">
       <div class="col-md-3 align-right">
-        <label class="control-label">Mật khẩu</label>
+        <label class="control-label red">Mật khẩu</label>
       </div>
       <div class="col-md-9">
         <span ng-hide="editing">
@@ -68,7 +68,7 @@
     </div>
     <div class="form-group">
       <div class="col-md-3 align-right">
-        <label class="control-label">Security</label>
+        <label class="control-label red">Security</label>
       </div>
       <div class="col-md-9">
         <span ng-hide="editing">

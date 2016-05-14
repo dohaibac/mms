@@ -60,6 +60,10 @@ class GdController extends JControllerForm
     
     $data = $result->body;
     
+    foreach($data->gds as $gd) {
+      $date =  new DateTime($gd->issued_at);
+      $gd->issued_at_display = $date->format('Y-m-d');
+    }
     $this->renderJson($data);
   }
   
