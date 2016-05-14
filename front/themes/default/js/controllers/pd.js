@@ -9,7 +9,8 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
 
   $scope.init = function () {
     $scope.loading = true;
-    /*$PdService.get_list().then(function(response) {
+    /* *****
+      $PdService.get_list().then(function(response) {
       $scope.loading = false;
       if (response.data.type == 1) {
         $scope.message_type = 1;
