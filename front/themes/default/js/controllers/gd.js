@@ -75,7 +75,7 @@ app.controller('GdListCtrl', function($scope, $http, $location, $modal, noty, $G
           } else {
               $GdService.get_list(page, pageSize).then(function (largeLoad) {
                   $scope.loading = false;
-                  console.log(largeLoad.data);
+                  
                   $scope.setPagingData(largeLoad.data.gds,page,pageSize);
                   $scope.totalServerItems = largeLoad.data.total;
               });
@@ -115,8 +115,8 @@ app.controller('GdListCtrl', function($scope, $http, $location, $modal, noty, $G
         { field: "amount", displayName: 'Số tiền', width: 200,
           cellTemplate: "<span class=ngCellText> {{ row.entity[col.field] * 10000  | currency:'VND ':2 }}</span>"},
         { 
-          field: "issued_at", 
-          displayName: 'Ngày Tạo', 
+          field: "issued_at_display", 
+          displayName: 'Ngày đặt lệnh', 
           width: 150
         },
         { field: "status", displayName: 'Trạng thái', width: 130, 
