@@ -1,15 +1,17 @@
 app.controller('GdListCtrl', function($scope, $http, $location, $modal, noty, $GdService) {
   
   $scope.noty = noty;
-  
   $scope.gds = {};
-  
   $scope.loading = false;
+  $scope.myData = [];
+
+  var url = generate_url('gd', 'get_list');
   
   $scope.init = function () {
     $scope.loading = true;
     
-    $GdService.get_list().then(function(response) {
+    /*
+      $GdService.get_list().then(function(response) {
       $scope.loading = false;
       if (response.data.type == 1) {
         $scope.message_type = 1;
@@ -18,8 +20,9 @@ app.controller('GdListCtrl', function($scope, $http, $location, $modal, noty, $G
       }
       
       $scope.gds = response.data.gds;
-      
+
     });
+   */
   };
   
   $scope.delete = function(gd) {
@@ -36,6 +39,92 @@ app.controller('GdListCtrl', function($scope, $http, $location, $modal, noty, $G
     });
     
   };
+  
+  //add Grid to GD screen
+  $scope.filterOptions = {
+      filterText: "",
+      useExternalFilter: true
+  }; 
+  
+  $scope.totalServerItems = 0;
+  $scope.pagingOptions = {
+      pageSizes: [20, 50, 100],
+      pageSize: 20,
+      currentPage: 1
+  };
+  
+  $scope.setPagingData = function(data, page, pageSize){
+    $scope.myData = data;
+    if (!$scope.$$phase) {
+        $scope.$apply();
+    }
+  };
+  
+  $scope.getPagedDataAsync = function (pageSize, page, searchText) {
+      setTimeout(function () {
+          var data;
+          if (searchText) {
+              var ft = searchText.toLowerCase();
+              $http.get(url).success(function (largeLoad) {
+                  $scope.loading = false;
+                  data = largeLoad.filter(function(item) {
+                      return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+                  });
+                  $scope.setPagingData(JSON.stringify(data.gds),page,pageSize);
+              });            
+          } else {
+              $GdService.get_list(page, pageSize).then(function (largeLoad) {
+                  $scope.loading = false;
+                  console.log(largeLoad.data);
+                  $scope.setPagingData(largeLoad.data.gds,page,pageSize);
+                  $scope.totalServerItems = largeLoad.data.total;
+              });
+          }
+      }, 10);
+  };
+
+  $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+
+  $scope.$watch('pagingOptions', function (newVal, oldVal) {
+      if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+      }
+  }, true);
+  
+  $scope.$watch('filterOptions', function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+      }
+  }, true);
+
+  $scope.gridOptions = {
+      data: 'myData',
+      enablePaging: true,
+      enableRowSelection: false,
+      enableCellSelection: true,
+      showFooter: true,
+      'enableColumnResize': true,
+      'multiSelect': false,
+      totalServerItems: 'totalServerItems',
+      pagingOptions: $scope.pagingOptions,
+      filterOptions: $scope.filterOptions,
+      columnDefs: [
+        { field: "id", displayName: 'ID', width: 50, pinned: true },
+        { field: "code", displayName: 'Mã', width: 120 },
+        { field: "sponsor", displayName: 'Mã thành viên', width: 200 },
+        { field: "amount", displayName: 'Số tiền', width: 200,
+          cellTemplate: "<span class=ngCellText> {{ row.entity[col.field] * 10000  | currency:'VND ':2 }}</span>"},
+        { 
+          field: "issued_at", 
+          displayName: 'Ngày Tạo', 
+          width: 150
+        },
+        { field: "status", displayName: 'Trạng thái', width: 130, 
+          cellTemplate:'<div class=ngCellText>{{ COL_FIELD == 1 ? "Pending" : (COL_FIELD == 2 ? "Pending Virifycation" : "Done ")}}</div>' },
+        { field: "", 
+          cellTemplate:'<div class=ngCellText><a type="button" href="/gd#!/edit/{{ row.getProperty(\'id\') }}" data-toggle="tooltip" tooltip-placement="top" tooltip="Sửa" class="btn btn-xs btn-warning btn-edit"><i class="fa fa-pencil"></i></a><a href="javascript:void(0)" ng-click="delete(row.entity)" data-toggle="tooltip" tooltip-placement="top" tooltip="Xóa" type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times"></i></a></div>' }]
+  };
+  
 });
 
 app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdService, $SponsorService, $SettingService, $BankService, noty) {
