@@ -51,7 +51,13 @@ app.service('$GdService', function($rootScope, $http, $modal, $q) {
   
   this.get_list = function (page, pageSize) {
     var url = generate_url('gd', 'get_list');
-    url += '&page=' + page + "&pageSize=" + pageSize;
+    url += "&page=" + page + "&pageSize=" + pageSize;
+    return $http.get(url);
+  };
+  
+  this.search_text = function (page, pageSize, s_text) {
+    var url = generate_url('gd', 'get_list');
+    url += "&page=" + page + "&pageSize=" + pageSize + "&s_text=" + s_text;
     return $http.get(url);
   };
   

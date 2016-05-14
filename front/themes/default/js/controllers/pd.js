@@ -64,13 +64,11 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
           var data;
           if (searchText) {
               var ft = searchText.toLowerCase();
-              $http.get(url).success(function (largeLoad) {
+              $PdService.search_text(page, pageSize, ft).then(function (largeLoad) {
                   $scope.loading = false;
-                  data = largeLoad.filter(function(item) {
-                      return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
-                  });
-                  $scope.setPagingData(JSON.stringify(data.pds),page,pageSize);
-              });            
+                  $scope.setPagingData(largeLoad.data.pds,page,pageSize);
+                  $scope.totalServerItems = largeLoad.data.total;
+              });           
           } else {
               $PdService.get_list(page, pageSize).then(function (largeLoad) {
                   $scope.loading = false;
@@ -82,7 +80,11 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
   };
 
   $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
-
+  
+  $scope.refreshData = function(){
+      $scope.getPagedDataAsync($scope.pagingOptions.pageSize, "1", $scope.searchText);
+    };
+  
   $scope.$watch('pagingOptions', function (newVal, oldVal) {
       if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {
         $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);

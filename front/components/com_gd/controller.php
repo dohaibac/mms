@@ -35,6 +35,11 @@ class GdController extends JControllerForm
     $system_code = $this->system_code();
     $where = 'system_code = ' . $db->quote($system_code) .  ' AND sponsor in ('. $sponsors_array_string .')';
     
+    $s_text = empty($this->data['s_text']) ? "" : $this->data['s_text'];
+    if (!empty($s_text) and $s_text != ""){
+        $where .= " and (code like '%" . $s_text . "%' or sponsor like '%" . $s_text . "%')";
+    }
+
     $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
     $page_size = empty($this->data['pageSize']) ? 1 : $this->data['pageSize'];
     $order_by ='id';

@@ -55,5 +55,11 @@ app.service('$PdService', function($rootScope, $http, $modal, $q) {
     return $http.get(url);
   };
   
+  this.search_text = function (page, pageSize, s_text) {
+    var url = generate_url('pd', 'get_list');
+    url += "&page=" + page + "&pageSize=" + pageSize + "&s_text=" + s_text;
+    return $http.get(url);
+  };
+  
   return this;
 });
