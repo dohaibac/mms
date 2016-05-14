@@ -16,6 +16,7 @@
       </div>
     </div>
     <p class="loading" ng-show="loading"><i class="fa fa-spinner fa-spin" ></i></p>
+    <input ng-model="searchText" ng-change="refreshData()" placeholder="Search...">
     <div class="gridStyle" ng-grid="gridOptions" ng-hide="loading">
     </div>
   </div> <!-- end list-->

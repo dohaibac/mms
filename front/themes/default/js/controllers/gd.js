@@ -65,17 +65,14 @@ app.controller('GdListCtrl', function($scope, $http, $location, $modal, noty, $G
           var data;
           if (searchText) {
               var ft = searchText.toLowerCase();
-              $http.get(url).success(function (largeLoad) {
+              $GdService.search_text(page, pageSize, ft).then(function (largeLoad) {
                   $scope.loading = false;
-                  data = largeLoad.filter(function(item) {
-                      return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
-                  });
-                  $scope.setPagingData(JSON.stringify(data.gds),page,pageSize);
+                  $scope.setPagingData(largeLoad.data.gds,page,pageSize);
+                  $scope.totalServerItems = largeLoad.data.total;
               });            
           } else {
               $GdService.get_list(page, pageSize).then(function (largeLoad) {
                   $scope.loading = false;
-                  
                   $scope.setPagingData(largeLoad.data.gds,page,pageSize);
                   $scope.totalServerItems = largeLoad.data.total;
               });
@@ -84,6 +81,10 @@ app.controller('GdListCtrl', function($scope, $http, $location, $modal, noty, $G
   };
 
   $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+  
+  $scope.refreshData = function(){
+    $scope.getPagedDataAsync($scope.pagingOptions.pageSize, "1", $scope.searchText);
+  };
 
   $scope.$watch('pagingOptions', function (newVal, oldVal) {
       if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {
