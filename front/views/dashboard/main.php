@@ -44,7 +44,7 @@
 <!-- load phan short menu -->
 <div class="dashboard-main">
   <div class="dashboard-main-title">
-    <i class="fa fa-external-link"></i> Thông tin PD
+    <i class="fa fa-external-link"></i> Thông tin GD
   </div>
   <div class="dashboard-main-body">
   <div class="col-sm-12">

@@ -104,12 +104,10 @@ app.controller('UserEditCtrl',  function($scope, $routeParams, $http, $UserServi
 
 app.controller('UserListCtrl', function($scope, $http, $location, noty, $UserService, $GroupService, $SponsorService) {
   $scope.editing = false;
-  
   $scope.loading = false;
-  
   $scope.noty = noty;
-  
   $scope.user = {};
+  $scope.myData = [];
   
   $scope.processing = false;
   
@@ -140,6 +138,7 @@ app.controller('UserListCtrl', function($scope, $http, $location, noty, $UserSer
       }
     });
   };
+  
 });
 
 // for downline
@@ -211,7 +210,7 @@ app.controller('UserListDownlineCtrl', function($scope, $http, $location, noty, 
   
   $scope.init = function() {
     $scope.loading = true;
-    $UserService.get_list_downline().then(function(response) {
+    $UserService.get_list_downline("1","5").then(function(response) {
       $scope.users = response.data.users;
       $scope.loading = false;
     });
@@ -230,13 +229,104 @@ app.controller('UserListDownlineCtrl', function($scope, $http, $location, noty, 
       if (response.data.type == 0) {
         $scope.noty.add({type:'info', title:'Thông báo', body:'Xóa thành viên thành công!'});
         $scope.init();
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
       }
       else {
         $scope.noty.add({type:'warning', title:'Thông báo', body: response.data.message});
       }
     });
   };
+  
+  // New code for grid-ui
+  $scope.filterOptions = {
+      filterText: "",
+      useExternalFilter: true
+  }; 
+  
+  $scope.totalServerItems = 0;
+  $scope.pagingOptions = {
+      pageSizes: [20, 50, 100],
+      pageSize: 20,
+      currentPage: 1
+  };
+  
+  $scope.setPagingData = function(data, page, pageSize){
+    $scope.myData = data;
+    if (!$scope.$$phase) {
+        $scope.$apply();
+    }
+  };
+  
+  $scope.getPagedDataAsync = function (pageSize, page, searchText) {
+      setTimeout(function () {
+          var data;
+          if (searchText) {
+              var ft = searchText.toLowerCase();
+              $UserService.search_text_downline(page, pageSize, ft).then(function (largeLoad) {
+                  $scope.loading = false;
+                  console.log(largeLoad.data);
+                  $scope.setPagingData(largeLoad.data.users,page,pageSize);
+                  $scope.totalServerItems = largeLoad.data.total;
+              });           
+          } else {
+              $UserService.get_list_downline(page, pageSize).then(function (largeLoad) {
+                  $scope.loading = false;
+                  console.log(largeLoad.data);
+                  $scope.setPagingData(largeLoad.data.users,page,pageSize);
+                  $scope.totalServerItems = largeLoad.data.total;
+              });
+          }
+      }, 10);
+  };
+
+  $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+  
+  $scope.refreshData = function(){
+      $scope.getPagedDataAsync($scope.pagingOptions.pageSize, "1", $scope.searchText);
+    };
+  
+  $scope.$watch('pagingOptions', function (newVal, oldVal) {
+      if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+      }
+  }, true);
+  
+  $scope.$watch('filterOptions', function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+      }
+  }, true);
+
+  $scope.gridOptions = {
+      data: 'myData',
+      enablePaging: true,
+      enableRowSelection: false,
+      enableCellSelection: true,
+      showFooter: true,
+      'enableColumnResize': true,
+      'multiSelect': false,
+      totalServerItems: 'totalServerItems',
+      pagingOptions: $scope.pagingOptions,
+      filterOptions: $scope.filterOptions,
+      columnDefs: [
+        { field: "id", displayName: 'ID', width: 50, pinned: true },
+        { field: "display_name", displayName: 'Họ tên', width: 120 },
+        { field: "user_name", displayName: 'Tên đăng nhập', width: 200 },
+        { field: "email", displayName: 'Email', width: 180},
+        { 
+          field: "mobile", 
+          displayName: 'Mobile', 
+          width: 100
+        },
+        { field: "system_code", displayName: 'System Code', width: 100 },
+        { field: "block", displayName: 'Trạng thái', width: 100, 
+          cellTemplate:'<i class="fa fa-toggle-on {{ COL_FIELD == 1 ? "Pending" : (COL_FIELD == 2 ? "Pending Payment" : "Approved")}} "></i>' },
+        { field: "", 
+          cellTemplate:'<a type="button" href="/system#!/user/edit_downline/{{ row.getProperty(\'id\') }}/{{ row.getProperty(\'system_code \')}}" data-toggle="tooltip" tooltip-placement="top" tooltip="Sửa" class="btn btn-xs btn-warning btn-edit"><i class="fa fa-pencil"></i></a><a href="javascript:void(0)" ng-click="delete(row.entity)" data-toggle="tooltip" tooltip-placement="top" tooltip="Xóa" type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times"></i></a>' }]
+  };
 });
+
+
 app.controller('UserEditDownlineCtrl',  function($scope, $routeParams, $http, $UserService, $GroupService, $SponsorService) {
     $scope.processing = false;
     

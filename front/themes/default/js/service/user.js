@@ -59,9 +59,15 @@ app.service('$UserService', function($rootScope, $http, $modal, $q) {
     });
   };
   
-  this.get_list = function () {
+  this.get_list = function (page, pageSize) {
     var url = generate_url('user', 'get_list');
-    
+    url += '&page=' + page + "&pageSize=" + pageSize;
+    return $http.get(url);
+  };
+  
+  this.search_text = function (page, pageSize, s_text) {
+    var url = generate_url('user', 'get_list');
+    url += "&page=" + page + "&pageSize=" + pageSize + "&s_text=" + s_text;
     return $http.get(url);
   };
   
@@ -74,9 +80,15 @@ app.service('$UserService', function($rootScope, $http, $modal, $q) {
      });
   };
   
-  this.get_list_downline = function () {
+  this.search_text_downline = function (page, pageSize, s_text) {
     var url = generate_url('userdownline', 'get_list');
-    
+    url += "&page=" + page + "&pageSize=" + pageSize + "&s_text=" + s_text;
+    return $http.get(url);
+  };
+  
+  this.get_list_downline = function (page, pageSize) {
+    var url = generate_url('userdownline', 'get_list');
+    url += '&page=' + page + "&pageSize=" + pageSize;
     return $http.get(url);
   };
   
