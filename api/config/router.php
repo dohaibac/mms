@@ -95,6 +95,14 @@ $routerMap = array(
   'systemcode/list'=> array('controller'=>'systemcode', 'action'=>'get_list'),
   'systemcode/get_latest'=> array('controller'=>'systemcode', 'action'=>'get_latest'),
   
+ /*======================================
+  * config for sponsorInvest
+  * 
+  * Insert, update, delete , get all
+  * 
+  * =====================================*/
+  'sponsorinvest'=> array('controller'=>'sponsorinvest', 'action'=>'index'),
+  'sponsorinvest/all'=> array('controller'=>'sponsorinvest', 'action'=>'get_all'),
   
  /*======================================
   * Config for gcm

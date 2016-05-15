@@ -9,9 +9,11 @@ class SponsorController extends JControllerForm
     
     require_once __DIR__ . '/models/sponsor.php';
     require_once PATH_COMPONENT . '/com_bank/models/bank.php';
+    require_once PATH_COMPONENT . '/com_sponsorinvest/models/sponsorinvest.php';
     
     $this->sponsor_model =  new SponsorModel($this->app);
     $this->bank_model =  new BankModel($this->app);
+    $this->sponsorinvest_model =  new SponsorinvestModel($this->app);
   }
   
   /***
@@ -82,7 +84,13 @@ class SponsorController extends JControllerForm
     
     $data = $result->body;
     $data->sponsor_owner = $this->app->user->data()->sponsor_owner;
+    $data->lsponsor_owner = strtolower($this->app->user->data()->sponsor_owner);
     $data->group_id = $this->app->user->data()->group_id;
+    
+    foreach($data->sponsors as $sponsor) {
+      $sponsor->lusername = strtolower($sponsor->username);
+      $sponsor->lupline = strtolower($sponsor->upline);
+    }
     
     $this->renderJson($data);
   }
@@ -130,8 +138,12 @@ class SponsorController extends JControllerForm
     
     $data = $result->body;
     $data->sponsor_owner = $keyword;
+    $data->lsponsor_owner = strtolower($keyword);
     $data->group_id = $this->app->user->data()->group_id;
-    
+    foreach($data->sponsors as $sponsor) {
+      $sponsor->lusername = strtolower($sponsor->username);
+      $sponsor->lupline = strtolower($sponsor->upline);
+    }
     $this->renderJson($data);
   }
   
@@ -141,59 +153,98 @@ class SponsorController extends JControllerForm
     $system_code = $this->system_code();
     
     $id = $this->getSafe('id');
+    $username = $this->getSafe('username');
     $name = $this->getSafe('name');
-    $branch_name = $this->getSafe('branch_name');
-    $account_hold_name = $this->getSafe('account_hold_name');
-    $account_number = $this->getSafe('account_number');
-    $linked_mobile_number = $this->getSafe('linked_mobile_number');
+    $sponsor_level = $this->getSafe('sponsor_level');
+    $password = $this->getSafe('ptl');
+    $security = $this->getSafe('sec');
+    $email = $this->getSafe('email');
+    $mobile = $this->getSafe('mobile');
+    $sponsor_invest = $this->getSafe('sponsor_invest');
+    
+    if (empty($id)) {
+      $ret = $this->message(1, 'sponsor-message-required_id', 'Required id.');
+      $this->renderJson($ret);
+    }
     
     if (empty($name)) {
       $ret = $this->message(1, 'sponsor-message-required_name', 'Required name.');
       $this->renderJson($ret);
     }
     
-    if (empty($branch_name)) {
-      $ret = $this->message(1, 'sponsor-message-required_branch', 'Required branch_name.');
+    if (empty($email)) {
+      $ret = $this->message(1, 'sponsor-message-required_email', 'Required email.');
       $this->renderJson($ret);
     }
     
-    if (empty($account_hold_name)) {
-      $ret = $this->message(1, 'sponsor-message-required_account_hold_name', 'Required account_hold_name.');
+    if (empty($sponsor_level)) {
+      $ret = $this->message(1, 'sponsor-message-required_sponsor_level', 'Required sponsor_level.');
       $this->renderJson($ret);
     }
     
-    if (empty($account_number)) {
-      $ret = $this->message(1, 'sponsor-message-required_account_number', 'Required account_number.');
+    if (empty($sponsor_invest)) {
+      $ret = $this->message(1, 'sponsor-message-required_sponsor_invest', 'Required sponsor_invest.');
       $this->renderJson($ret);
     }
     
-    if (empty($linked_mobile_number)) {
-      $ret = $this->message(1, 'sponsor-message-required_linked_mobile_number', 'Required linked_mobile_number.');
-      $this->renderJson($ret);
+    // update sponsor_invest
+    if ($sponsor_invest == 'ht') {
+      // delete
+      $this->sponsorinvest_model->delete(array('sponsor' => $username, 'system_code' => $system_code));
     }
+    else {
+      // kiem tra xem co khong
+      // neu khong co thi insert, neu co roi thi thoi
+      $data = array(
+        'sponsor'=> $username,
+        'system_code' => $system_code
+      );
+      
+      $result = $this->sponsorinvest_model->get($data);
+      
+      $result = $result->body;
+      
+      if (!isset($result->id) || empty($result->id)) {
+        // insert
+        $this->sponsorinvest_model->post($data);
+      }
+    }
+    
+    // update sponsor
+    
+    $id = $this->getSafe('id');
+    $name = $this->getSafe('name');
+    $sponsor_level = $this->getSafe('sponsor_level');
+    $password = $this->getSafe('ptl');
+    $security = $this->getSafe('sec');
+    $email = $this->getSafe('email');
+    $mobile = $this->getSafe('mobile');
+    $sponsor_invest = $this->getSafe('sponsor_invest');
     
     $data = array(
       'id' => $id,
       'name' => $name,
-      'branch_name' => $branch_name,
-      'account_hold_name' =>$account_hold_name,
-      'account_number' =>$account_number,
+      'sponsor_level' => $sponsor_level,
+      'ptl' =>$password,
+      'sec' =>$security,
+      'email' =>$email,
+      'mobile' =>$mobile,
       'system_code' => $system_code,
-      'linked_mobile_number' => $linked_mobile_number,
       'updated_by' => $this->app->user->data()->id,
       'updated_at' => date('Y-m-d h:i:s')
     );
      
     $result = $this->sponsor_model->put($data);
     
-    if (!isset($result) || empty($result->body)) {
-      $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));
-      $this->renderJson($ret);
-    }
-    
     $data = $result->body;
     
-    $this->renderJson($data);
+    if ($data->type == 0) {
+      $ret = $this->message(0, 'sponsor-message-update_success', $this->app->lang('sponsor-message-update_success'));
+      $this->renderJson($ret);
+    }
+    else {
+      $this->renderJson($data);
+    }
   }
   
   private function validate_input_data() {
@@ -201,7 +252,6 @@ class SponsorController extends JControllerForm
     $user_name = $this->getSafe('username');
     $email = $this->getSafe('email');
     $mobile = $this->getSafe('mobile');
-    $bank = $this->getSafe('bank');
     
     if (empty($name)) {
       $ret = $this->message(1, 'sponsor-message-required_name', $this->app->lang('sponsor-message-required_name'));
@@ -219,11 +269,6 @@ class SponsorController extends JControllerForm
     
     if (empty($mobile)) {
       $ret = $this->message(1, 'sponsor-message-required_mobile', $this->app->lang('sponsor-message-required_mobile'));
-      $this->renderJson($ret);
-    }
-    
-    if (empty($bank['id'])) {
-      $ret = $this->message(1, 'sponsor-message-empty_banks', $this->app->lang('sponsor-message-empty_banks'));
       $this->renderJson($ret);
     }
   }
@@ -358,12 +403,11 @@ class SponsorController extends JControllerForm
     if ($level > -1) {
       $force_downline_f1 = $this->getSafe('force_downline_f1');
       $this->warning_max_downline_f1($force_downline_f1);
-      
     }
     
     if ($level > 0) {
       $force_downline_fork = $this->getSafe('force_downline_fork');
-      $this->warning_max_downline_fork($force_downline_fork);      
+      $this->warning_max_downline_fork($force_downline_fork);
     }
     
     $sponsor = array();
@@ -395,6 +439,16 @@ class SponsorController extends JControllerForm
    
     // update has fork
     $ret = $this->sponsor_model->update_has_fork(array('username'=>$sponsor['upline'], 'has_fork'=> true, 'system_code'=>$system_code));
+    
+    // insert sponsor_invest
+    $sponsor_invest = $this->getSafe('sponsor_invest');
+    
+    if ($sponsor_invest == 'dt') {
+      $this->sponsorinvest_model->post(array(
+        'sponsor' => $this->getSafe('username'),
+        'system_code' => $system_code 
+      ));
+    }
     
     $ret = $this->message(0, 'sponsor-message-insert_success', $this->app->lang('sponsor-message-insert_success'));
     $this->renderJson($ret);

@@ -239,6 +239,7 @@
   'sponsor-message-max_fork' => 'Thành viên %s đã phát triển 03 nhánh. Bạn có tiếp tục không?',
   'sponsor-message-sponsor_insert_exist' => 'Đã tồn tại thành viên. Mời bạn nhập mã khác.',
   'sponsor-message-search_not_found' => 'Không tìm thấy dữ liệu.',
+  'sponsor-message-update_success' => 'Cập nhật thành công.',
   'system-label-title' => 'Hệ thống',
   'system-menu-setting' => 'Cài đặt tham số',
   'system-menu-group_add' => 'Thêm nhóm quản trị',

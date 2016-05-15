@@ -151,24 +151,24 @@ class SponsorController extends JControllerForm
          $this->renderJson($ret);
       }
       
-      $bank = new stdClass;
+      $sponsor = new stdClass;
       $system_code = $body['system_code'];
       
       if (isset($body['id']) && !empty($body['id'])) { // update theo id
-        $bank = $this->sponsor_model->get_by_id($body['id'], $system_code);
+        $sponsor = $this->sponsor_model->get_by_id($body['id'], $system_code);
       }
       else {
-        $ret = $this->message(1, 'sponsor_update_missing_sponsor_id', 'Missing user bank id.');
+        $ret = $this->message(1, 'sponsor_update_missing_sponsor_id', 'Missing sponsor id.');
         $this->renderJson($ret);
       }
   
-      if (isset($bank) && !empty($bank->id)) {
+      if (isset($sponsor) && !empty($sponsor->id)) {
         // update usergroup
         // validate data
         
         # list required fields:
          $required_fields = array (
-           'name', 'branch_name', 'account_hold_name', 'account_number', 'linked_mobile_number', 'system_code', 'created_at', 'created_by'
+           'name', 'sponsor_level', 'email', 'mobile', 'system_code'
          );
          
         // required updated_at and updated_by
@@ -188,16 +188,6 @@ class SponsorController extends JControllerForm
               $ret = $this->message(1, 'sponsor_update_empty_' . $key, 'Empty .' . $key);
               $this->renderJson($ret);
             }
-          }
-        }
-        
-        // valid unique key
-        if (isset($body['name'])) {
-          $check_exist_name = $this->sponsor_model->get_sponsor_by_name_account_number_and_dif_id($body['name'], $body['account_number'], $bank->id);
-          
-          if (isset($check_exist_name) && !empty ($check_exist_name->id)) {
-            $ret = $this->message(1, 'sponsor_update_exist', 'Bank account number already exist.');
-            $this->renderJson($ret);
           }
         }
         
