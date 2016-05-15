@@ -276,9 +276,10 @@ app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $
       }
       
       $scope.amount_money_text = DocTienBangChu($scope.gd.amount * 10000);
+      
+      $scope.get_bank_list();
+      
     });
-    
-    $scope.get_bank_list();
     
     $SponsorService.get_list().then(function(response) {
       $scope.sponsors = response.data.sponsors;

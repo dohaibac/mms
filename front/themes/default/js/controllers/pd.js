@@ -276,10 +276,11 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
       }
       
       $scope.amount_money_text = DocTienBangChu($scope.pd.amount * 10000);
+      
+      $scope.get_bank_list();
+      
     });
-    
-    $scope.get_bank_list();
-    
+     
     $SponsorService.get_list().then(function(response) {
       $scope.sponsors = response.data.sponsors;
       
@@ -307,7 +308,7 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
   $scope.disabled = function() {
     if (!$scope.pd.code || !$scope.pd.sponsor || !$scope.pd.amount ||
        !$scope.pd.remain_amount || !$scope.pd.issued_at || !$scope.pd.num_days_pending ||
-       !$scope.pd.num_hours_transfer || !$scope.pd.status || $scope.processing) {
+       !$scope.pd.num_days_transfer || !$scope.pd.status || $scope.processing) {
       return true;
     }
     
