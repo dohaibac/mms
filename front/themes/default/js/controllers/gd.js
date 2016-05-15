@@ -138,8 +138,8 @@ app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdServic
   
   var d = new Date();
   
-  $scope.gd.issued_at = d.toLocaleDateString("VN-vi") + ' ' + d.getHours() + ':'+ d.getMinutes() + ':' + d.getSeconds();
-  
+  $scope.gd.issued_at = d.toLocaleDateString("VN-vi");
+  $scope.gd.wallet = 'R-Wallet';
   $scope.optionStatus= [
     {'id': 1, 'name': 'Pending'},
     {'id': 2, 'name': 'Pending Verification'},
@@ -166,7 +166,9 @@ app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdServic
      }); 
     
     $SettingService.view().then(function(response) {
-      $scope.gd.num_hours_gd_approve = response.data.num_hours_gd_approve;
+      $scope.gd.num_days_gd_pending = response.data.num_days_gd_pending;
+      $scope.gd.num_days_gd_pending_verification = response.data.num_days_gd_pending_verification;
+      $scope.gd.num_days_gd_approve = response.data.num_days_gd_approve;
     });
     
     $scope.gd.status = {'id': 1, 'name': 'Pending'};
@@ -176,14 +178,17 @@ app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdServic
   
   $scope.disabled = function() {
     if (!$scope.gd.code || !$scope.gd.sponsor || !$scope.gd.amount ||
-       !$scope.gd.wallet || !$scope.gd.issued_at || !$scope.gd.num_hours_gd_approve ||
+       !$scope.gd.wallet || !$scope.gd.issued_at || !$scope.gd.num_days_gd_pending ||
+       !$scope.gd.num_days_gd_pending_verification || !$scope.gd.num_days_gd_approve || 
        !$scope.gd.status || $scope.processing) {
       return true;
     }
     
     return $scope.gd.code.length > 0 && $scope.gd.sponsor.username && $scope.gd.sponsor.username.length > 0 && 
     $scope.gd.amount.length > 0 && $scope.gd.wallet.length > 0 && $scope.gd.issued_at.length > 0 && 
-    $scope.gd.num_hours_gd_approve.length > 0 ? false : true;
+    $scope.gd.num_days_gd_pending.length > 0 && 
+    $scope.gd.num_days_gd_pending_verification.length > 0 &&
+    $scope.gd.num_days_gd_approve.length > 0  ? false : true;
     
   };
   $scope.get_bank_list = function() {
@@ -301,14 +306,17 @@ app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $
   
    $scope.disabled = function() {
     if (!$scope.gd.code || !$scope.gd.sponsor || !$scope.gd.amount ||
-       !$scope.gd.wallet || !$scope.gd.issued_at || !$scope.gd.num_hours_gd_approve ||
-       !$scope.gd.status || $scope.processing) {
+       !$scope.gd.wallet || !$scope.gd.issued_at || !$scope.gd.num_days_gd_pending ||
+       !$scope.gd.num_days_gd_pending_verification ||
+       !$scope.gd.num_days_gd_approve || !$scope.gd.status || $scope.processing) {
       return true;
     }
     
     return $scope.gd.code.length > 0 && $scope.gd.sponsor.username && $scope.gd.sponsor.username.length > 0 && 
     $scope.gd.amount.length > 0 && $scope.gd.wallet.length > 0 && $scope.gd.issued_at.length > 0 && 
-    $scope.gd.num_hours_gd_approve.length > 0 ? false : true;
+    $scope.gd.num_days_gd_pending.length > 0 &&
+    $scope.gd.num_days_gd_pending_verification.length > 0 &&
+    $scope.gd.num_days_gd_approve.length > 0 ? false : true;
     
   };
   

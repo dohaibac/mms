@@ -144,7 +144,7 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
   
   var d = new Date();
   
-  $scope.pd.issued_at = d.toLocaleDateString("VN-vi") + ' ' + d.getHours() + ':'+ d.getMinutes() + ':' + d.getSeconds();
+  $scope.pd.issued_at = d.toLocaleDateString("VN-vi");
   
   $scope.init = function () {
      var default_sponsor = '';
@@ -165,7 +165,7 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
     
     $SettingService.view().then(function(response) {
       $scope.pd.num_days_pending = response.data.num_days_pd_pending;
-      $scope.pd.num_hours_transfer = response.data.num_hours_pd_transfer;
+      $scope.pd.num_days_transfer = response.data.num_days_pd_transfer;
     });
     
     $scope.get_bank_list();
@@ -185,13 +185,13 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
   $scope.disabled = function() {
     if (!$scope.pd.code || !$scope.pd.sponsor || !$scope.pd.amount ||
        !$scope.pd.remain_amount || !$scope.pd.issued_at || !$scope.pd.num_days_pending ||
-       !$scope.pd.num_hours_transfer || !$scope.pd.status || $scope.processing) {
+       !$scope.pd.num_days_transfer || !$scope.pd.status || $scope.processing) {
       return true;
     }
     
     return $scope.pd.code.length > 0 && $scope.pd.sponsor.name.length > 0 && 
     $scope.pd.amount.length > 0 && $scope.pd.remain_amount.length > 0 && $scope.pd.issued_at.length > 0 && 
-    $scope.pd.num_days_pending.length > 0 && $scope.pd.num_hours_transfer.length > 0 ? false : true;
+    $scope.pd.num_days_pending.length > 0 && $scope.pd.num_days_transfer.length > 0 ? false : true;
     
   };
   
@@ -313,7 +313,7 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
     
     return $scope.pd.code.length > 0 && $scope.pd.sponsor.username && $scope.pd.sponsor.username.length > 0 && 
     $scope.pd.amount.length > 0 && $scope.pd.remain_amount.length > 0 && $scope.pd.issued_at.length > 0 && 
-    $scope.pd.num_days_pending.length > 0 && $scope.pd.num_hours_transfer.length > 0 ? false : true;
+    $scope.pd.num_days_pending.length > 0 && $scope.pd.num_days_transfer.length > 0 ? false : true;
     
   };
   $scope.submit = function() {

@@ -509,11 +509,22 @@ right connector from last child*/
 .fleft {
   float:left;
 }
-
+.sponsor-list-dragable-container {
+  height:480px;
+  width:100%;
+  overflow: hidden;
+  position: relative;
+}
 .sponsor-list {
   margin-top:20px;
+  position: relative;
+}
+.sponsor-list-container {
+  position: absolute;
   width:1170px;
-  overflow-x: auto;
+  background-color: white;
+  cursor: move;
+  height:100%;
 }
 .sponsor-list a {
   font-weight: bold;

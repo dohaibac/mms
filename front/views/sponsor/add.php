@@ -100,8 +100,18 @@
        </div>
        <div class="clearfix"></div>
     </div>
+    <div class="form-group">
+      <div class="col-md-2 align-right">
+      <label class="control-label">&nbsp;</label>
+      </div>
+      <div class="col-md-10">
+        <input type="radio" ng-model="sponsor.sponsor_invest" name="sponsor_invest[]" value="dt" checked="checked" /> Mã đầu tư &nbsp;
+        <input type="radio" ng-model="sponsor.sponsor_invest" name="sponsor_invest[]" value="ht"/> Mã hệ thống
+      </div>
+      <div class="clearfix"></div>
+    </div>
     {literal}
-    <div class="form-group1">
+    <div class="form-group1 hide">
       <div class="col-md-2 align-right">
       <label class="control-label">Ngân hàng</label>
       </div>

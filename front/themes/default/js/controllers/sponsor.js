@@ -21,7 +21,9 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       }
       
       var sponsors = $scope.build_tree(response.data.sponsors);
+      
       $scope.sponsor_owner = response.data.sponsor_owner;
+      $scope.lsponsor_owner = response.data.lsponsor_owner;
       
       angular.forEach(response.data.sponsors, function(sp, index) {
          if (sp.username == $scope.sponsor_owner) {
@@ -29,7 +31,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
          }
       });
       
-      $scope.sponsors = sponsors[$scope.sponsor_owner];
+      $scope.sponsors = sponsors[$scope.lsponsor_owner];
       
       $scope.total = response.data.total;
       $scope.group_id = response.data.group_id;
@@ -61,6 +63,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       }
       var sponsors = $scope.build_tree(response.data.sponsors);
       $scope.sponsor_owner = response.data.sponsor_owner;
+      $scope.lsponsor_owner = response.data.lsponsor_owner;
       
       angular.forEach(response.data.sponsors, function(sp, index) {
          if (sp.username == $scope.sponsor_owner) {
@@ -68,7 +71,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
          }
       });
       
-      $scope.sponsors = sponsors[$scope.sponsor_owner];
+      $scope.sponsors = sponsors[$scope.lsponsor_owner];
       
       $scope.total = response.data.total;
       $scope.group_id = response.data.group_id;
@@ -81,12 +84,14 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
     
     for (i = 0; i < data.length; i++) {
         var item = data[i];
-        var label = item["username"];
-        var parentid = item["upline"];
-        var id = item["username"];
-
+        var name = item["username"];
+        
+        var label = item["lusername"];
+        var parentid = item["lupline"];
+        var id = item["lusername"];
+        
         if (items[parentid]) {
-            var item = { parentid: parentid, label: label, item: item };
+            var item = { parentid: parentid, label: label, item: item, 'name': name};
             if (!items[parentid].items) {
                 items[parentid].items = [];
             }
@@ -94,7 +99,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
             items[id] = item;
         }
         else {
-            items[id] = { parentid: parentid, label: label, item: item };
+            items[id] = { parentid: parentid, label: label, item: item, 'name': name};
             source[id] = items[id];
         }
     }
@@ -129,9 +134,20 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       'init': function(mscope) {
         mscope.sponsor = sponsor;
         mscope.editing = false;
+        // lay thong tin sponsor invest
+        $SponsorService.check_sponsor_invest(sponsor.item.username).then(function(response) {
+          var data = response.data;
+          if (data.id && data.id > 0) {
+            mscope.sponsor.item.sponsor_invest = 'dt';
+          }
+          else {
+            mscope.sponsor.item.sponsor_invest = 'ht';
+          }
+          mscope.$broadcast('send::data::edit', mscope.sponsor);
+        });
       },
       'ok' : function(mscope) {
-        
+       
       }
     };
     $SponsorService.show_modal_detail(options).then(function(response){
@@ -147,7 +163,7 @@ app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $Spo
   
   $scope.sponsor = {};
   $scope.sponsor_check = {};
-   
+  $scope.sponsor.sponsor_invest = 'dt';
   $scope.sponsor.bank = {};
   
   $scope.sponsor.force_downline_f1 = false;
@@ -182,11 +198,11 @@ app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $Spo
   
   $scope.disabled = function() {
     if (!$scope.sponsor.name || !$scope.sponsor.username || 
-      !$scope.sponsor.email || !$scope.sponsor.mobile || !$scope.sponsor.bank || $scope.processing) {
+      !$scope.sponsor.email || !$scope.sponsor.mobile || !$scope.sponsor.sponsor_invest || $scope.processing) {
       return true;
     }
     return $scope.sponsor.name.length > 0 && $scope.sponsor.username.length > 0 && 
-    $scope.sponsor.email.length > 0 && $scope.sponsor.mobile.length > 0 ? false : true;
+    $scope.sponsor.email.length > 0 && $scope.sponsor.sponsor_invest.length > 0 && $scope.sponsor.mobile.length > 0 ? false : true;
     
   };
   
@@ -276,18 +292,22 @@ app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $Spo
   };
 });
 
-app.controller('SponsorEditCtrl', function($scope, $http, $location, $modal, $SponsorService, $BankService) {
+app.controller('SponsorEditCtrl', function($scope, $http, $location, $modal, $SponsorService) {
   $scope.processing = false;
   
   $scope.levels = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M-GOLD'];
   
+   $scope.$on('send::data::edit', function(e, data) {
+     $scope.sponsor = data;
+   });
+  
   $scope.disabled = function() {
-    if (!$scope.sponsor.name || !$scope.sponsor.username || 
-      !$scope.sponsor.email || !$scope.sponsor.mobile || !$scope.sponsor.bank || $scope.processing) {
+    if (!$scope.sponsor || !$scope.sponsor.item.name || !$scope.sponsor.item.username || 
+      !$scope.sponsor.item.email || !$scope.sponsor.item.mobile || $scope.processing) {
       return true;
     }
-    return $scope.sponsor.name.length > 0 && $scope.sponsor.username.length > 0 && 
-    $scope.sponsor.email.length > 0 && $scope.sponsor.mobile.length > 0 ? false : true;
+    return $scope.sponsor.item.name.length > 0 && $scope.sponsor.item.username.length > 0 && 
+    $scope.sponsor.item.email.length > 0 && $scope.sponsor.item.mobile.length > 0 ? false : true;
     
   };
   
@@ -296,30 +316,9 @@ app.controller('SponsorEditCtrl', function($scope, $http, $location, $modal, $Sp
     $scope.message_type = 1;
     $scope.processing = true;
     
-    $SponsorService.add($scope.sponsor).then(function(response) {
+    $SponsorService.edit($scope.sponsor.item).then(function(response) {
       $scope.processing = false;
       var data = response.data;
-      
-      if (data.code =='sponsor-message-max_downline') {
-        if (confirm(data.message)) {
-          $scope.sponsor.force_downline_f1 = true;
-          $scope.submit();
-          return false;
-        }
-        else {
-          return false;
-        }
-      } 
-      if (data.code =='sponsor-message-max_fork') {
-        if (confirm(data.message)) {
-          $scope.sponsor.force_downline_fork = true;
-          $scope.submit();
-          return false;
-        }
-        else {
-          return false;
-        }
-      }
       
       $scope.message = data.message;
       $scope.message_type = data.type;
@@ -328,16 +327,16 @@ app.controller('SponsorEditCtrl', function($scope, $http, $location, $modal, $Sp
   
   $scope.toggle_password = function() {
     if ($('#show_password').is(":checked")) {
-      $('#ptl').attr('type', 'text');
+      $('#password').attr('type', 'text');
     } else {
-      $('#ptl').attr('type', 'password');
+      $('#password').attr('type', 'password');
     }
   };
   $scope.toggle_password_input = function() {
     if ($('#show_password_input').is(":checked")) {
-      $('#ptl').attr('type', 'text');
+      $('#password_input').attr('type', 'text');
     } else {
-      $('#ptl').attr('type', 'password');
+      $('#password_input').attr('type', 'password');
     }
   };
   
