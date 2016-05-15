@@ -173,5 +173,19 @@ app.service('$SponsorService', function($rootScope, $http, $modal, $q) {
     
     return $http.get(url);
   };
+  
+  this.check_sponsor_invest = function (sponsor) {
+    var url = generate_url('sponsorinvest', 'check_sponsor_invest');
+    
+    return $http({
+      'method': 'GET',
+      'url': url,
+      'params': {'sponsor': sponsor},
+      'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+  };
+  
   return this;
 });
