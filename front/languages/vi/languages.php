@@ -223,6 +223,8 @@
   'register-message-user_insert_exist' => 'Email đã tồn tại. Mời bạn chọn email khác.',
   'register-message-user_insert_success' => 'Chúc mừng bạn đã trở thành thành viên của chúng tôi. Mời bạn kiểm tra email để kích hoạt tài khoản. Click vào button bên dưới để đăng nhập hệ thống!',
   'register-message-user_insert_exception' => 'Hệ thống đang nâng cấp. Mời bạn thử lại sau.',
+  'setting-message-insert_success' => 'Cập nhật thành công.',
+  'setting-message-update_success' => 'Cập nhật thành công.',
   'sponsor-message-insert_success' => 'Thêm nhà bảo trợ thành công.',
   'sponsor-message-group_view_exception' => 'Hệ thống đang nâng cấp. Mời bạn thử lại sau.',
   'sponsor-message-get_list_not_found_sponsor_owner' => 'Không tìm thấy upline gốc.',

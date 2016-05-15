@@ -81,20 +81,40 @@
     {/literal}
     <div class="form-group">
       <div class="col-md-4 align-right">
-      <label class="control-label">Số giờ y/c vào approve đã nhận tiền</label>
+      <label class="control-label">Số ngày có lệnh GD</label>
       </div>
       <div class="col-md-8">
-        <input ng-model="gd.num_hours_gd_approve" ng-trim="true" type="input" name="num_hours_gd_approve" class="form-control width100p" 
+        <input ng-model="gd.num_days_gd_pending" ng-trim="true" type="input" name="num_days_gd_pending" class="form-control width100p" 
          required ng-maxlength="255">
       </div>
       <div class="clearfix"></div>
     </div>
     <div class="form-group">
       <div class="col-md-4 align-right">
-      <label class="control-label">Ngày tạo</label>
+      <label class="control-label">Số ngày chờ nhận tiền</label>
       </div>
       <div class="col-md-8">
-        <input ng-model="gd.issued_at" datetime-picker date-format="MM/dd/yyyy HH:mm:ss" name="issued_at" class="form-control width100p" 
+        <input ng-model="gd.num_days_gd_pending_verification" ng-trim="true" type="input" name="num_days_gd_pending_verification" class="form-control width100p" 
+         required ng-maxlength="255">
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-4 align-right">
+      <label class="control-label">Số ngày y/c vào approve đã nhận tiền</label>
+      </div>
+      <div class="col-md-8">
+        <input ng-model="gd.num_days_gd_approve" ng-trim="true" type="input" name="num_days_gd_approve" class="form-control width100p" 
+         required ng-maxlength="255">
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-4 align-right">
+      <label class="control-label">Ngày đặt lệnh</label>
+      </div>
+      <div class="col-md-8">
+        <input ng-model="gd.issued_at" datetime-picker date-format="MM/dd/yyyy" name="issued_at" class="form-control width100p" 
          required ng-maxlength="255">
       </div>
       <div class="clearfix"></div>

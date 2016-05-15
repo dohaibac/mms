@@ -101,7 +101,7 @@ class PdController extends JControllerForm
     $this->app->prevent_remote_access();
     
     $list_required_fields = array(
-      'code', 'sponsor', 'amount', 'issued_at', 'num_days_pending', 'num_hours_transfer', 'status'
+      'code', 'sponsor', 'amount', 'issued_at', 'num_days_pending', 'num_days_transfer', 'status'
     );
     
     $body = $this->get_request_body();
@@ -121,7 +121,7 @@ class PdController extends JControllerForm
     $remain_amount = $this->getSafe('remain_amount');
     $issued_at = $this->getSafe('issued_at');
     $num_days_pending = $this->getSafe('num_days_pending');
-    $num_hours_transfer = $this->getSafe('num_hours_transfer');
+    $num_days_transfer = $this->getSafe('num_days_transfer');
     $status = $this->getSafe('status');
     $bank = $this->getSafe('bank');
     
@@ -136,7 +136,7 @@ class PdController extends JControllerForm
       'system_code' => $system_code,
       'issued_at' => $issued_at,
       'num_days_pending' => $num_days_pending,
-      'num_hours_transfer' => $num_hours_transfer,
+      'num_days_transfer' => $num_days_transfer,
       'status' => $body['status']['id'],
       'created_by' => $this->app->user->data()->id,
       'created_at' => date('Y-m-d h:i:s')
@@ -159,7 +159,7 @@ class PdController extends JControllerForm
     $this->app->prevent_remote_access();
     
     $list_required_fields = array(
-      'id', 'code', 'sponsor', 'amount', 'issued_at', 'num_days_pending', 'num_hours_transfer', 'status'
+      'id', 'code', 'sponsor', 'amount', 'issued_at', 'num_days_pending', 'num_days_transfer', 'status'
     );
     
     $body = $this->get_request_body();
@@ -180,7 +180,7 @@ class PdController extends JControllerForm
     $remain_amount = $this->getSafe('remain_amount');
     $issued_at = $this->getSafe('issued_at');
     $num_days_pending = $this->getSafe('num_days_pending');
-    $num_hours_transfer = $this->getSafe('num_hours_transfer');
+    $num_days_transfer = $this->getSafe('num_days_transfer');
     $status = $this->getSafe('status');
     
     $issued_at = $this->re_format_datetime($issued_at);
@@ -195,7 +195,7 @@ class PdController extends JControllerForm
       'system_code' => $system_code,
       'issued_at' => $issued_at,
       'num_days_pending' => $num_days_pending,
-      'num_hours_transfer' => $num_hours_transfer,
+      'num_days_transfer' => $num_days_transfer,
       'status' => $body['status']['id'],
       'updated_by' => $this->app->user->data()->id,
       'updated_at' => date('Y-m-d h:i:s')

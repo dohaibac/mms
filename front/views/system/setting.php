@@ -14,33 +14,41 @@
        <div class="clearfix"></div>
     </div>
     <div class="form-group">
-      <label class="col-md-4 control-label">Số giờ chờ chuyển tiền sau khi PD được approved</label>
+      <label class="col-md-4 control-label">Số ngày chờ chuyển tiền sau khi có lệnh PD</label>
       <div class="col-md-8">
-      <input ng-model="setting.num_hours_pd_transfer" ng-trim="true"  type="input" name="num_hours_pd_transfer" class="form-control" 
+      <input ng-model="setting.num_days_pd_transfer" ng-trim="true"  type="input" name="num_days_pd_transfer" class="form-control" 
          required ng-maxlength="255">
       </div>
       <div class="clearfix"></div>
     </div>
     <div class="form-group">
-      <label class="col-md-4 control-label">Số giờ chờ GD sau khi PD thành công</label>
+      <label class="col-md-4 control-label">Số ngày chờ có lệnh GD sau khi PD thành công</label>
       <div class="col-md-8">
-        <input ng-model="setting.num_hours_gd_pending" ng-trim="true"  type="input" name="num_hours_gd_pending" class="form-control" 
+        <input ng-model="setting.num_days_gd_pending" ng-trim="true"  type="input" name="num_days_gd_pending" class="form-control" 
          required ng-maxlength="255">
       </div>
       <div class="clearfix"></div>
     </div>
     <div class="form-group">
-      <label class="col-md-4 control-label">Số giờ y/c vào approve đã nhận tiền</label>
+      <label class="col-md-4 control-label">Số ngày GD nhận tiền</label>
       <div class="col-md-8">
-        <input ng-model="setting.num_hours_gd_approve" ng-trim="true"  type="input" name="num_hours_gd_approve" class="form-control" 
+        <input ng-model="setting.num_days_gd_pending_verification" ng-trim="true"  type="input" name="num_days_gd_pending_verification" class="form-control" 
          required ng-maxlength="255">
       </div>
       <div class="clearfix"></div>
     </div>
     <div class="form-group">
-      <label class="col-md-4 control-label">Số giờ y/c đặt lệnh PD tiếp theo</label>
+      <label class="col-md-4 control-label">Số ngày yêu cầu vào approve đã nhận tiền</label>
       <div class="col-md-8">
-        <input ng-model="setting.num_hours_pd_next" ng-trim="true"  type="text" name="num_hours_pd_next" class="form-control" 
+        <input ng-model="setting.num_days_gd_approve" ng-trim="true"  type="input" name="num_days_gd_approve" class="form-control" 
+         required ng-maxlength="255">
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-4 control-label">Số ngày yêu cầu đặt lệnh PD tiếp theo</label>
+      <div class="col-md-8">
+        <input ng-model="setting.num_days_pd_next" ng-trim="true"  type="text" name="num_days_pd_next" class="form-control" 
          required ng-maxlength="255">
       </div>
       <div class="clearfix"></div>
