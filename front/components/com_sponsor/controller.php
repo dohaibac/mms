@@ -331,6 +331,41 @@ class SponsorController extends JControllerForm
     return $obj;
   
   }
+  
+  private function get_upline_level_and_path_for_user_downline($upline, $system_code) {
+   
+    $level = -1;
+    $path = '';
+    
+    if (empty($upline)) {
+      $ret = $this->message(1, 'sponsor-message-required_upline', $this->app->lang('sponsor-message-required_upline'));
+      $this->renderJson($ret);
+    }
+    
+    $upline = $this->sponsor_model->get_by_username(array('username'=>$upline));
+      
+    $data = $upline->body;
+    
+    if ($data->type == 1) {
+      $ret = $this->message(1, 'sponsor-message-' .$data->code, $this->app->lang('sponsor-message-'. $data->code));
+      $this->renderJson($ret);
+    }
+    
+    if (empty($data->data) || empty($data->data->id)) {
+      $ret = $this->message(1, 'sponsor-message-upline_does_not_exist', $this->app->lang('sponsor-message-upline_does_not_exist'));
+      $this->renderJson($ret);
+    }
+    
+    $path = $data->data->path;
+    $level = $data->data->level;
+    
+    $obj = new stdClass;
+    $obj->level = $level;
+    $obj->path = $path;
+    
+    return $obj;
+  
+  }
 
   private function warning_max_downline_f1($force_downline_f1) {
     if ($force_downline_f1) {
@@ -395,7 +430,14 @@ class SponsorController extends JControllerForm
     
     $upline = $this->getSafe('upline');
     
-    $level_and_path = $this->get_upline_level_and_path($upline, $system_code);
+    $level_and_path = new stdClass;
+    
+    if ($this->app->user->data()->user_type == 2) {
+      $level_and_path = $this->get_upline_level_and_path_for_user_downline($upline, $system_code);
+    }
+    else {
+      $level_and_path = $this->get_upline_level_and_path($upline, $system_code);
+    }
     
     $level = $level_and_path->level;
     $path  = $level_and_path->path;
