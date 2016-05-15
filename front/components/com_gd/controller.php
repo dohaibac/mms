@@ -42,7 +42,7 @@ class GdController extends JControllerForm
 
     $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
     $page_size = empty($this->data['pageSize']) ? 1 : $this->data['pageSize'];
-    $order_by ='id';
+    $order_by ='issued_at ASC';
     
     $data = array(
       'where' => $where,
