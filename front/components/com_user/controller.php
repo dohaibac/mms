@@ -629,13 +629,20 @@ class UserController extends JControllerForm
     
     $where = 'system_code=' . $db->quote($system_code);
     
+    $s_text = empty($this->data['s_text']) ? "" : $this->data['s_text'];
+    if (!empty($s_text) and $s_text != ""){
+        $where .= " and (code like '%" . $s_text . "%' or sponsor like '%" . $s_text . "%')";
+    }
+    
     $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
+    $page_size = empty($this->data['pageSize']) ? 1 : $this->data['pageSize'];
     $order_by ='id DESC';
     
     $data = array(
       'where'=>$where,
       'order_by'=>$order_by,
-      'page_number'=>$current_page
+      'page_number'=>$current_page,
+      'limit' => $page_size
     );
      
     $result = $this->user_model->get_list($data);

@@ -36,6 +36,7 @@ app.controller('GdListCtrl', function($scope, $http, $location, $modal, noty, $G
       $scope.processing = false;
       $scope.noty.add({type:'info', title:'Thông báo', body:response.data.message});
       $scope.init();
+      $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
     });
     
   };
