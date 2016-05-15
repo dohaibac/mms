@@ -319,8 +319,7 @@ app.controller('UserListDownlineCtrl', function($scope, $http, $location, noty, 
           width: 100
         },
         { field: "system_code", displayName: 'System Code', width: 100 },
-        { field: "block", displayName: 'Trạng thái', width: 100, 
-          cellTemplate:'<i class="fa fa-toggle-on {{ COL_FIELD == 1 ? "Pending" : (COL_FIELD == 2 ? "Pending Payment" : "Approved")}} "></i>' },
+        { field: "block", displayName: 'Trạng thái', width: 100, cellTemplate: "<i class='fa fa-toggle-on active' ></i>" },
         { field: "", 
           cellTemplate:'<a type="button" href="/system#!/user/edit_downline/{{ row.getProperty(\'id\') }}/{{ row.getProperty(\'system_code \')}}" data-toggle="tooltip" tooltip-placement="top" tooltip="Sửa" class="btn btn-xs btn-warning btn-edit"><i class="fa fa-pencil"></i></a><a href="javascript:void(0)" ng-click="delete(row.entity)" data-toggle="tooltip" tooltip-placement="top" tooltip="Xóa" type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times"></i></a>' }]
   };
