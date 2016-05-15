@@ -19,11 +19,6 @@ class SettingController extends JControllerForm
     
     $result = $this->setting_model->get($data);
     
-    if (!isset($result) || empty($result->body)) {
-      $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));
-      $this->renderJson($ret);
-    }
-    
     $data = $result->body;
     
     if (isset($data->type) && $data->type != 0) {
@@ -49,8 +44,8 @@ class SettingController extends JControllerForm
     $this->app->prevent_remote_access();
      
     $list_required_fields = array(
-      'id', 'num_days_pd_pending', 'num_hours_pd_transfer', 'num_hours_gd_pending', 'num_hours_gd_approve',
-      'num_hours_pd_next', 'percent_rate_days', 'percent_hoa_hong'
+      'num_days_pd_pending', 'num_days_pd_transfer', 'num_days_gd_pending', 'num_days_gd_pending_verification',
+      'num_days_gd_approve', 'num_days_pd_next', 'percent_rate_days', 'percent_hoa_hong'
     );
     
     $body = $this->get_request_body();
@@ -66,19 +61,21 @@ class SettingController extends JControllerForm
     
     $id = $this->getSafe('id');
     $num_days_pd_pending = $this->getSafe('num_days_pd_pending');
-    $num_hours_pd_transfer = $this->getSafe('num_hours_pd_transfer');
-    $num_hours_gd_pending = $this->getSafe('num_hours_gd_pending');
-    $num_hours_gd_approve = $this->getSafe('num_hours_gd_approve');
-    $num_hours_pd_next = $this->getSafe('num_hours_pd_next');
+    $num_days_pd_transfer = $this->getSafe('num_days_pd_transfer');
+    $num_days_gd_pending = $this->getSafe('num_days_gd_pending');
+    $num_days_gd_pending_verification = $this->getSafe('num_days_gd_pending_verification');
+    $num_days_gd_approve = $this->getSafe('num_days_gd_approve');
+    $num_days_pd_next = $this->getSafe('num_days_pd_next');
     $percent_rate_days = $this->getSafe('percent_rate_days');
     $percent_hoa_hong = $this->getSafe('percent_hoa_hong');
     
     $meta = array( 
       'num_days_pd_pending' => $num_days_pd_pending,
-      'num_hours_pd_transfer' => $num_hours_pd_transfer,
-      'num_hours_gd_pending' => $num_hours_gd_pending,
-      'num_hours_gd_approve' => $num_hours_gd_approve,
-      'num_hours_pd_next' => $num_hours_pd_next,
+      'num_days_pd_transfer' => $num_days_pd_transfer,
+      'num_days_gd_pending' => $num_days_gd_pending,
+      'num_days_gd_pending_verification' => $num_days_gd_pending_verification,
+      'num_days_gd_approve' => $num_days_gd_approve,
+      'num_days_pd_next' => $num_days_pd_next,
       'percent_rate_days' => $percent_rate_days,
       'percent_hoa_hong' => $percent_hoa_hong
     );
@@ -100,15 +97,21 @@ class SettingController extends JControllerForm
     
     $data = $result->body;
     
-    $this->renderJson($data);
+    if ($data->type == 0) {
+      $ret = $this->message(0, 'setting-message-insert_success', $this->app->lang('setting-message-insert_success'));
+      $this->renderJson($ret);
+    }
+    else {
+      $this->renderJson($data);
+    } 
   }
   
   public function add() {
     $this->app->prevent_remote_access();
      
     $list_required_fields = array(
-      'num_days_pd_pending', 'num_hours_pd_transfer', 'num_hours_gd_pending', 'num_hours_gd_approve',
-      'num_hours_pd_next', 'percent_rate_days', 'percent_hoa_hong'
+      'num_days_pd_pending', 'num_days_pd_transfer', 'num_days_gd_pending', 'num_days_gd_pending_verification',
+      'num_days_gd_approve', 'num_days_pd_next', 'percent_rate_days', 'percent_hoa_hong'
     );
     
     $body = $this->get_request_body();
@@ -123,19 +126,21 @@ class SettingController extends JControllerForm
     $system_code = $this->system_code();
     
     $num_days_pd_pending = $this->getSafe('num_days_pd_pending');
-    $num_hours_pd_transfer = $this->getSafe('num_hours_pd_transfer');
-    $num_hours_gd_pending = $this->getSafe('num_hours_gd_pending');
-    $num_hours_gd_approve = $this->getSafe('num_hours_gd_approve');
-    $num_hours_pd_next = $this->getSafe('num_hours_pd_next');
+    $num_days_pd_transfer = $this->getSafe('num_days_pd_transfer');
+    $num_days_gd_pending = $this->getSafe('num_days_gd_pending');
+    $num_days_gd_pending_verification = $this->getSafe('num_days_gd_pending_verification');
+    $num_days_gd_approve = $this->getSafe('num_days_gd_approve');
+    $num_days_pd_next = $this->getSafe('num_days_pd_next');
     $percent_rate_days = $this->getSafe('percent_rate_days');
     $percent_hoa_hong = $this->getSafe('percent_hoa_hong');
     
     $meta = array( 
       'num_days_pd_pending' => $num_days_pd_pending,
-      'num_hours_pd_transfer' => $num_hours_pd_transfer,
-      'num_hours_gd_pending' => $num_hours_gd_pending,
-      'num_hours_gd_approve' => $num_hours_gd_approve,
-      'num_hours_pd_next' => $num_hours_pd_next,
+      'num_days_pd_transfer' => $num_days_pd_transfer,
+      'num_days_gd_pending' => $num_days_gd_pending,
+      'num_days_gd_pending_verification' => $num_days_gd_pending_verification,
+      'num_days_gd_approve' => $num_days_gd_approve,
+      'num_days_pd_next' => $num_days_pd_next,
       'percent_rate_days' => $percent_rate_days,
       'percent_hoa_hong' => $percent_hoa_hong
     );
@@ -156,7 +161,13 @@ class SettingController extends JControllerForm
     
     $data = $result->body;
     
-    $this->renderJson($data);
+    if ($data->type == 0) {
+      $ret = $this->message(0, 'setting-message-insert_success', $this->app->lang('setting-message-insert_success'));
+      $this->renderJson($ret);
+    }
+    else {
+      $this->renderJson($data);
+    } 
   }
   
 }

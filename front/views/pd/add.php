@@ -17,7 +17,7 @@
     {literal}
     <div class="form-group1">
       <div class="col-md-4 align-right">
-      <label class="control-label">Sponsor</label>
+      <label class="control-label">Thành viên</label>
       </div>
       <div class="col-md-8">
          <ui-select ng-model="pd.sponsor" theme="bootstrap" class="width100p fleft">
@@ -34,7 +34,7 @@
     {/literal}
     <div class="form-group">
       <div class="col-md-4 align-right">
-      <label class="control-label">Amount</label>
+      <label class="control-label">Số tiền</label>
       </div>
       <div class="col-md-8">
         <input ng-model="pd.amount" type="input" name="amount" class="form-control width100p" 
@@ -62,10 +62,10 @@
     </div>
     <div class="form-group">
       <div class="col-md-4 align-right">
-      <label class="control-label">Ngày tạo</label>
+      <label class="control-label">Ngày đặt lệnh</label>
       </div>
       <div class="col-md-8">
-        <input ng-model="pd.issued_at" datetime-picker date-format="MM/dd/yyyy HH:mm:ss" name="issued_at" class="form-control width100p" 
+        <input ng-model="pd.issued_at" datetime-picker date-format="MM/dd/yyyy" name="issued_at" class="form-control width100p" 
          required ng-trim="true" ng-maxlength="255">
       </div>
       <div class="clearfix"></div>
@@ -101,10 +101,10 @@
     </div>
     <div class="form-group">
       <div class="col-md-4 align-right">
-      <label class="control-label">Số giờ chờ chuyển tiền sau khi được xác nhận</label>
+      <label class="control-label">Số ngày chờ chuyển tiền sau khi có lệnh PD</label>
       </div>
       <div class="col-md-8">
-        <input ng-model="pd.num_hours_transfer" type="text"  name="num_hours_transfer" class="form-control width100p" 
+        <input ng-model="pd.num_days_transfer" type="text"  name="num_days_transfer" class="form-control width100p" 
          required ng-trim="true" ng-maxlength="255">
       </div>
       <div class="clearfix"></div>

@@ -82,7 +82,11 @@ class GdController extends JControllerForm
        }
        
        $required_fields = array (
-         'code', 'sponsor', 'amount', 'wallet', 'issued_at', 'num_hours_gd_approve', 'system_code', 'created_at', 'created_by'
+         'code', 'sponsor', 'amount', 'wallet', 'issued_at', 
+         'num_days_gd_pending',
+         'num_days_gd_pending_verification', 
+         'num_days_gd_approve',  
+         'system_code', 'created_at', 'created_by'
        );
        
        foreach ($required_fields as $key) {
@@ -148,7 +152,11 @@ class GdController extends JControllerForm
         
         # list required fields:
         $required_fields = array (
-         'code', 'sponsor', 'amount', 'wallet', 'issued_at', 'num_hours_gd_approve', 'system_code', 'created_at', 'created_by'
+         'code', 'sponsor', 'amount', 'wallet', 'issued_at', 
+         'num_days_gd_pending',
+         'num_days_gd_pending_verification', 
+         'num_days_gd_approve',  
+         'system_code', 'created_at', 'created_by'
         );
          
         // required updated_at and updated_by

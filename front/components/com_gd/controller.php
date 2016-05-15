@@ -101,7 +101,9 @@ class GdController extends JControllerForm
     $this->app->prevent_remote_access();
     
     $list_required_fields = array(
-      'code', 'sponsor', 'amount', 'wallet', 'issued_at', 'num_hours_gd_approve', 'status'
+      'code', 'sponsor', 'amount', 'wallet', 'issued_at', 'num_days_gd_pending',
+      'num_days_gd_pending_verification',
+      'num_days_gd_approve', 'status'
     );
     
     $body = $this->get_request_body();
@@ -121,7 +123,9 @@ class GdController extends JControllerForm
     $wallet = $this->getSafe('wallet');
     $bank = $this->getSafe('bank');
     $issued_at = $this->getSafe('issued_at');
-    $num_hours_gd_approve = $this->getSafe('num_hours_gd_approve');
+    $num_days_gd_pending = $this->getSafe('num_days_gd_pending');
+    $num_days_gd_pending_verification = $this->getSafe('num_days_gd_pending_verification');
+    $num_days_gd_approve = $this->getSafe('num_days_gd_approve');
     $status = $this->getSafe('status');
     
     $issued_at = $this->re_format_datetime($issued_at);
@@ -134,7 +138,9 @@ class GdController extends JControllerForm
       'wallet' =>$wallet,
       'system_code' => $system_code,
       'issued_at' => $issued_at,
-      'num_hours_gd_approve' => $num_hours_gd_approve,
+      'num_days_gd_pending' => $num_days_gd_pending,
+      'num_days_gd_pending_verification' => $num_days_gd_pending_verification,
+      'num_days_gd_approve' => $num_days_gd_approve,
       'status' => $body['status']['id'],
       'created_by' => $this->app->user->data()->id,
       'created_at' => date('Y-m-d h:i:s')
@@ -157,7 +163,10 @@ class GdController extends JControllerForm
     $this->app->prevent_remote_access();
     
     $list_required_fields = array(
-      'id', 'code', 'sponsor', 'amount', 'wallet', 'issued_at', 'num_hours_gd_approve', 'status'
+      'id', 'code', 'sponsor', 'amount', 'wallet', 'issued_at', 'num_days_gd_pending', 
+      'num_days_gd_pending_verification', 
+      'num_days_gd_approve', 
+      'status'
     );
     
     $body = $this->get_request_body();
@@ -177,7 +186,9 @@ class GdController extends JControllerForm
     $amount  = $this->getSafe('amount');
     $wallet = $this->getSafe('wallet');
     $issued_at = $this->getSafe('issued_at');
-    $num_hours_gd_approve = $this->getSafe('num_hours_gd_approve');
+    $num_days_gd_pending = $this->getSafe('num_days_gd_pending');
+    $num_days_gd_pending_verification = $this->getSafe('num_days_gd_pending_verification');
+    $num_days_gd_approve = $this->getSafe('num_days_gd_approve');
     $status = $this->getSafe('status');
     
     $issued_at = $this->re_format_datetime($issued_at);
@@ -191,7 +202,9 @@ class GdController extends JControllerForm
       'wallet' =>$wallet,
       'system_code' => $system_code,
       'issued_at' => $issued_at,
-      'num_hours_gd_approve' => $num_hours_gd_approve,
+      'num_days_gd_pending' => $num_days_gd_pending,
+      'num_days_gd_pending_verification' => $num_days_gd_pending_verification,
+      'num_days_gd_approve' => $num_days_gd_approve,
       'status' => $body['status']['id'],
       'updated_by' => $this->app->user->data()->id,
       'updated_at' => date('Y-m-d h:i:s')
