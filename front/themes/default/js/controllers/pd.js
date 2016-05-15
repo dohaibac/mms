@@ -164,6 +164,10 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
      }); 
     
     $SettingService.view().then(function(response) {
+      if (response.data.type == 1) {
+        $scope.message_setting_type = 1;
+        $scope.message_setting = 'WARNING: Bạn chưa cài đặt tham số hệ thống!. Vào menu Hệ thống >> Cài đặt tham số để cài đặt.';
+      }
       $scope.pd.num_days_pending = response.data.num_days_pd_pending;
       $scope.pd.num_days_transfer = response.data.num_days_pd_transfer;
     });
