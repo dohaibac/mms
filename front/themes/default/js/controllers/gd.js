@@ -166,6 +166,10 @@ app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdServic
      }); 
     
     $SettingService.view().then(function(response) {
+      if (response.data.type == 1) {
+        $scope.message_setting_type = 1;
+        $scope.message_setting = 'WARNING: Bạn chưa cài đặt tham số hệ thống!. Vào menu Hệ thống >> Cài đặt tham số để cài đặt.';
+      }
       $scope.gd.num_days_gd_pending = response.data.num_days_gd_pending;
       $scope.gd.num_days_gd_pending_verification = response.data.num_days_gd_pending_verification;
       $scope.gd.num_days_gd_approve = response.data.num_days_gd_approve;
@@ -277,9 +281,10 @@ app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $
       }
       
       $scope.amount_money_text = DocTienBangChu($scope.gd.amount * 10000);
+      
+      $scope.get_bank_list();
+      
     });
-    
-    $scope.get_bank_list();
     
     $SponsorService.get_list().then(function(response) {
       $scope.sponsors = response.data.sponsors;

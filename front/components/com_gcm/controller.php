@@ -161,6 +161,32 @@ class GcmController extends JControllerForm
     }
   }
   
+  public function update() {
+    try {
+      $data = file_get_contents('php://input');
+      
+      $data = json_decode($data, true);
+      
+      $message_id = isset($data['message_id']) ? $data['message_id'] : '';
+      $status = isset($data['status']) ? $data['status'] : '';
+      
+      if (empty($message_id)) {
+        $ret = $this->message_response(0, 'update', 'message_id is required field.');
+        $this->renderJson($ret);
+      }
+      if (empty($status)) {
+        $ret = $this->message_response(0, 'update', 'status is required field.');
+        $this->renderJson($ret);
+      }
+      
+      $ret = $this->message_response(0, 'update', 'Update message has been successfully.');
+      $this->renderJson($ret);
+      
+    } catch (Exception $ex) {
+       $ret = $this->message(1, 'gcm_logout_exception', EXCEPTION_ERROR_MESSAGE);
+       $this->renderJson($ret);
+    }
+  }
   public function get_list() {
     $system_code = '06';
     
@@ -196,6 +222,7 @@ class GcmController extends JControllerForm
     
     $title = $this->getSafe('title');
     $message = $this->getSafe('message');
+    $message_id = time();
     
     if (empty($registatoin_ids)) {
       $ret = $this->message(1, 'gcm_send_notification_required_registatoin_ids', 'registatoin_ids is required field.');
@@ -212,9 +239,13 @@ class GcmController extends JControllerForm
     
     $data = array(
       'registatoin_ids' => array($registatoin_ids),
-      'message' => array('title' => $title, 'content' => $message, 'timeStamp' => date('Y-m-d h:i:s'),
-      /*'time_to_live' => '10',*/
-      'sound'=>'notification'
+      'message' => array(
+        'message_id' => $message_id,
+        'title' => $title, 
+        'content' => $message, 
+        'timeStamp' => date('Y-m-d h:i:s'),
+        /*'time_to_live' => '10',*/
+        'sound'=>'notification'
       )
     );
     

@@ -4,6 +4,19 @@
   </div>
   <div>
   <div class="col-md-8">
+    <div class="form-group" ng-if="message_setting">
+      <div class="col-md-4 align-right">
+      <label class="control-label"></label>
+      </div>
+      <div class="col-md-8">
+      <div class="alert alert-warning">
+      <div ng-class="message_setting_type == 1 ? 'error-message' : 'success'">
+        {literal}{{ message_setting }}{/literal}
+      </div>
+      </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
     <div class="form-group">
       <div class="col-md-4 align-right">
       <label class="control-label">Mã PD</label>
