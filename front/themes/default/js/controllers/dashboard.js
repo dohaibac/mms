@@ -16,7 +16,6 @@ app.controller('DashboardCtrl', function($scope, $http, $PdService, $GdService) 
       };
     
       $scope.pds = response.data.pds;
-      console.log($scope.pds);
     });
     
     $GdService.get_status().then(function(response) {
