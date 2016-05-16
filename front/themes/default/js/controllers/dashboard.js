@@ -7,16 +7,28 @@ app.controller('DashboardCtrl', function($scope, $http, $PdService, $GdService) 
   $scope.init = function () {
     $scope.loading = true;
     
-      $PdService.get_status().then(function(response) {
+    $PdService.get_status().then(function(response) {
       $scope.loading = false;
       if (response.data.type == 1) {
         $scope.message_type = 1;
         $scope.message = response.data.message;
         return;
-      }
-      
+      };
+    
       $scope.pds = response.data.pds;
       console.log($scope.pds);
+    });
+    
+    $GdService.get_status().then(function(response) {
+      $scope.loading = false;
+      if (response.data.type == 1) {
+        $scope.message_type = 1;
+        $scope.message = response.data.message;
+        return;
+      };
+      
+      $scope.gds = response.data.gds;
+      console.log($scope.gds);
 
     });
   };

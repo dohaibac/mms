@@ -9,9 +9,9 @@ class PdModel extends JModelBase {
   }
   
   /***
-   * get_status
-   * 
-   * */
+  * get_status
+  * 
+  * */
   public function get_status() {
     $rest_client = $this->app->getRestClient();
     

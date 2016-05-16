@@ -306,7 +306,7 @@ class PdController extends JControllerForm
    * */
   public function get_status() {
     try {
-      $status_list = ["no","no","no"];
+
       $db = $this->app->getDbo();
 
       $pd_status = $this->pd_model->get_status();
@@ -314,22 +314,6 @@ class PdController extends JControllerForm
       $ret = array (
         'pds' => $pd_status,
       );
-      
-      foreach($ret as $pd){
-        foreach($pd as $st_index){
-            print $st_index["status"];
-            $status_list[$st_index["status"] -1] = "ok";
-        }
-      }
-      
-      print_r($status_list);
-      
-      foreach( $status_list as $st){
-        if ($st == "no"){
-          $ret[] = 
-        }
-      }
-      exit;
 
       $this->renderJson($ret);
 

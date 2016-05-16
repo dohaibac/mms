@@ -35,30 +35,27 @@
   <div class="dashboard-main-body" ng-init="init()">
   <div class="col-sm-12" ng-repeat="pd in pds">
     <a class="btn">
-      Có {{ pd.stotal }} pd đang {{ pd.status == "1" ? "Pending" : (pd.status == "2" ? "Pending Aproval" : Approved)}}
+      Có {{ pd.stotal }} PD {{ pd.name }}
+    </a>
+  </div>
+  <div class="clearfix"></div>
+  </div>
+</div>
+<!-- END load phan storage -->
+
+<!-- load phan short menu -->
+<div class="dashboard-main" ng-controller="DashboardCtrl">
+  <div class="dashboard-main-title">
+    <i class="fa fa-external-link"></i> Thông tin GD
+  </div>
+  <div class="dashboard-main-body" ng-init="init()">
+  <div class="col-sm-12" ng-repeat="gd in gds">
+    <a class="btn">
+      Có {{ gd.stotal }} GD {{ gd.name }}
     </a>
   </div>
   <div class="clearfix"></div>
   </div>
 </div>
 {/literal}
-<!-- END load phan storage -->
-
-<!-- load phan short menu -->
-<div class="dashboard-main">
-  <div class="dashboard-main-title">
-    <i class="fa fa-external-link"></i> Thông tin GD
-  </div>
-  <div class="dashboard-main-body">
-  <div class="col-sm-12">
-    <a class="btn">
-      Có 01 GD đang chờ xác nhận
-    </a>
-    <a class="btn">
-      Có 100 GD đã hoàn thành
-    </a>
-  </div>
-  <div class="clearfix"></div>
-  </div>
-</div>
 <!-- END load phan short menu -->

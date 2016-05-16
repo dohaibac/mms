@@ -287,6 +287,11 @@ class PdController extends JControllerForm
     return $data;
   }
   
+    /***
+    * Front controller of get status of PD 
+    * 
+    * */
+  
   public function get_status() {
 
     $result = $this->pd_model->get_status();

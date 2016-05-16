@@ -64,6 +64,7 @@ $routerMap = array(
  * =====================================*/
   'gd'=> array('controller'=>'gd', 'action'=>'index'),
   'gd/list'=> array('controller'=>'gd', 'action'=>'get_list'),
+  'gd/get_status'=> array('controller'=>'gd', 'action'=>'get_status'),
 
 /*======================================
  * Config for bank
