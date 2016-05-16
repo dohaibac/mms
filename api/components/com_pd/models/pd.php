@@ -77,5 +77,21 @@ class PdModel extends JModelBase {
     
     return $db->loadAssocList();
   }
+  
+  public function get_status() {    
+    $db = $this->app->getDbo();
+    
+    $select = "STATUS , count( id )";
+    
+    $query = $db->getQuery(true)
+      ->select($select)
+      ->from($db->quoteName($this->model_name));
+
+    $query->group_by("STATUS");
+
+    $db->setQuery($query);
+    
+    return $db->loadAssocList();
+  }
 }
 ?>

@@ -124,6 +124,14 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
         { field: "", 
           cellTemplate:'<div class=ngCellText><a type="button" href="/pd#!/edit/{{ row.getProperty(\'id\') }}" data-toggle="tooltip" tooltip-placement="top" tooltip="Sửa" class="btn btn-xs btn-warning btn-edit"><i class="fa fa-pencil"></i></a><a href="javascript:void(0)" ng-click="delete(row.entity)" data-toggle="tooltip" tooltip-placement="top" tooltip="Xóa" type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times"></i></a></div>' }]
   };
+  
+  $scope.get_status = function () {
+    $PdService.get_status().then(function (largeLoad) {
+        console.log(largeLoad);
+    });
+  };
+    
+  $scope.get_status();
 });
 
 app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdService, $SponsorService, $SettingService, $BankService, noty) {

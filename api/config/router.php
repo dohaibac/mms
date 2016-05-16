@@ -55,6 +55,7 @@ $routerMap = array(
  * =====================================*/
   'pd'=> array('controller'=>'pd', 'action'=>'index'),
   'pd/list'=> array('controller'=>'pd', 'action'=>'get_list'),
+  'pd/get_status'=> array('controller'=>'pd', 'action'=>'get_status'),
 
 
 /*======================================

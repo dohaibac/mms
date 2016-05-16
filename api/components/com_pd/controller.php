@@ -299,5 +299,29 @@ class PdController extends JControllerForm
        $this->renderJson($ret);
      }
   }
+  
+  /***
+   * get total in each status of PD 
+   * 
+   * */
+  public function get_status() {
+    try {
+      $db = $this->app->getDbo();
+
+      $pd_status = $this->pd_model->get_status();
+
+      $ret = array (
+        'pds' => $pd_status,
+      );
+
+      $this->renderJson($ret);
+
+     } catch (Exception $ex) {
+       $this->app->write_log('pd_get_status_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'pd_get_status_exception', $ex->getMessage());
+       $this->renderJson($ret);
+     }
+  }
 }
 ?>

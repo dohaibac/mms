@@ -280,5 +280,24 @@ class PdController extends JControllerForm
     
     return $data;
   }
+  
+  public function get_status() {
+
+    $result = $this->pd_model->get_status();
+    
+    if (!isset($result) || empty($result->body)) {
+      $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));
+      $this->renderJson($ret);
+    }
+    
+    $data = $result->body;
+    
+    if (isset($data->type) && $data->type != 0) {
+      $ret = $this->message($data->type, 'pd-message-' . $data->code, $this->app->lang('pd-message-' . $data->code));
+      $this->renderJson($ret);
+    }
+    
+    $this->renderJson($data);
+  }
 }
 ?>
