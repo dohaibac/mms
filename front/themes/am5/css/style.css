@@ -650,3 +650,15 @@ i.inactive {color: #CCCCCC;font-size:30px;cursor:pointer;}
   box-shadow:none;
   width:auto;
 }
+.angular-ui-tree-handle {
+  cursor: default;
+}
+.angular-ui-tree-empty {
+  display:none;
+}
+#tree-root {
+  list-style: none;
+}
+#tree-root li {
+  padding: 5px;
+}

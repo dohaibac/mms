@@ -1,4 +1,4 @@
-app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, noty, $SponsorService, $window) {
+app.controller('SponsorListTreeCtrl', function($scope, $http, $location, $modal, noty, $SponsorService, $window) {
   
   $scope.noty = noty;
   
@@ -100,6 +100,166 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
         }
         else {
             items[id] = { parentid: parentid, label: label, item: item, 'name': name};
+            source[id] = items[id];
+        }
+    }
+    return source;
+  };
+  
+  $scope.delete = function(sponsor) {
+     if (!confirm_del()) {
+       return false;
+     }
+     
+    $scope.processing = false;
+    $scope.group = {};
+    $scope.group.group_id = group.id;
+    
+    var url = generate_url ('group', 'delete');
+    
+    $http({
+      method  : 'POST',
+      url     : url,
+      data    : $.param($scope.group), 
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+     })
+     .success(function(data) {
+        $scope.noty.add({type:'info', title:'Thông báo', body:'Xóa nhóm thành công!'});
+        $scope.get_list();
+     });
+  };
+  
+  $scope.show_detail = function(sponsor) {
+    var options = {
+      'init': function(mscope) {
+        mscope.sponsor = sponsor;
+        mscope.editing = false;
+        // lay thong tin sponsor invest
+        $SponsorService.check_sponsor_invest(sponsor.item.username).then(function(response) {
+          var data = response.data;
+          if (data.id && data.id > 0) {
+            mscope.sponsor.item.sponsor_invest = 'dt';
+          }
+          else {
+            mscope.sponsor.item.sponsor_invest = 'ht';
+          }
+          mscope.$broadcast('send::data::edit', mscope.sponsor);
+        });
+      },
+      'ok' : function(mscope) {
+       
+      }
+    };
+    $SponsorService.show_modal_detail(options).then(function(response){
+      
+    });
+  };
+});
+
+app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, noty, $SponsorService, $window) {
+  
+  $scope.noty = noty;
+  
+  $scope.loading = false;
+  
+  $scope.sponsor_owner_object = {};
+  $scope.sponsors = [];
+  $scope.sponsor_owner_object.item = {};
+  
+  $scope.init = function () {
+    
+    $scope.loading = true;
+    
+    $SponsorService.get_list().then(function(response) {
+      $scope.loading = false;
+      if (response.data.type == 1) {
+        $scope.message_type = 1;
+        $scope.message = response.data.message;
+        return;
+      }
+      
+      var sponsors = $scope.build_tree(response.data.sponsors);
+      console.log(sponsors);
+      $scope.sponsor_owner = response.data.sponsor_owner;
+      $scope.lsponsor_owner = response.data.lsponsor_owner;
+      
+      angular.forEach(response.data.sponsors, function(sp, index) {
+         if (sp.username == $scope.sponsor_owner) {
+           $scope.sponsor_owner_object.item = sp;
+         }
+      });
+      
+      $scope.sponsors = sponsors[$scope.lsponsor_owner];
+      
+      $scope.total = response.data.total;
+      $scope.group_id = response.data.group_id;
+    });
+  };
+  
+  $scope.search = function () {
+    var keyword = $("#keyword");
+    keyword = $.trim(keyword.val());
+    
+    if (keyword == '') {
+      $scope.init();
+      return false;
+    }
+    
+    $scope.loading = true;
+    
+    $scope.message_type = 0;
+    $scope.message = '';
+    
+    $SponsorService.search(keyword).then(function(response) {
+      
+      $scope.loading = false;
+      
+      if (response.data.type == 1) {
+        $scope.message_type = 1;
+        $scope.message = response.data.message;
+        return;
+      }
+      var sponsors = $scope.build_tree(response.data.sponsors);
+      console.log(sponsors[0]);
+      $scope.sponsor_owner = response.data.sponsor_owner;
+      $scope.lsponsor_owner = response.data.lsponsor_owner;
+      
+      angular.forEach(response.data.sponsors, function(sp, index) {
+         if (sp.username == $scope.sponsor_owner) {
+           $scope.sponsor_owner_object.item = sp;
+         }
+      });
+      
+      $scope.sponsors = sponsors[$scope.lsponsor_owner];
+      
+      $scope.total = response.data.total;
+      $scope.group_id = response.data.group_id;
+    }); 
+  };
+  
+  $scope.build_tree = function (data) {
+    var source = [];
+    var items = [];
+    
+    for (i = 0; i < data.length; i++) {
+        var item = data[i];
+        var name = item["username"];
+        
+        var label = item["lusername"];
+        var parentid = item["lupline"];
+        var id = item["lusername"];
+        var level = item["level"];
+        
+        if (items[parentid]) {
+            var item = { parentid: parentid, label: label, item: item, 'name': name, 'level': level};
+            if (!items[parentid].items) {
+                items[parentid].items = [];
+            }
+            items[parentid].items[items[parentid].items.length] = item;
+            items[id] = item;
+        }
+        else {
+            items[id] = { parentid: parentid, label: label, item: item, 'name': name, 'level': level};
             source[id] = items[id];
         }
     }

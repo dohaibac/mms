@@ -168,11 +168,11 @@ class GcmController extends JControllerForm
       
       $data = json_decode($data, true);
       
-      $message_id = isset($data['message_id']) ? $data['message_id'] : '';
+      $ids = isset($data['ids']) ? $data['ids'] : '';
       $status = isset($data['status']) ? $data['status'] : '';
       
-      if (empty($message_id)) {
-        $ret = $this->message_response(0, 'update', 'message_id is required field.');
+      if (empty($ids)) {
+        $ret = $this->message_response(0, 'update', 'ids is required field.');
         $this->renderJson($ret);
       }
       if (empty($status)) {
