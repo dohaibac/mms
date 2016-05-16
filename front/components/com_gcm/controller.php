@@ -18,6 +18,8 @@ class GcmController extends JControllerForm
 
   public function register() {
     try {
+      $this->write_log(json_encode($_SERVER));
+      
       $data = file_get_contents('php://input');
       
       $data = json_decode($data, true);
@@ -131,6 +133,10 @@ class GcmController extends JControllerForm
   
   public function logout() {
     try {
+      $headers = getallheaders();
+      
+      $this->write_log(json_encode($headers));
+      
       $data = file_get_contents('php://input');
       
       $data = json_decode($data, true);
@@ -164,6 +170,8 @@ class GcmController extends JControllerForm
   
   public function update() {
     try {
+      $this->write_log(json_encode($_SERVER));
+      
       $data = file_get_contents('php://input');
       
       $data = json_decode($data, true);
@@ -189,6 +197,8 @@ class GcmController extends JControllerForm
     }
   }
   public function get_list() {
+   
+    $this->write_log(json_encode($_SERVER));
     $system_code = '06';
     
     $db = $this->app->getDbo();
@@ -218,7 +228,10 @@ class GcmController extends JControllerForm
   
   public function send_notification() {
     //$this->app->prevent_remote_access();
-    
+    $headers = getallheaders();
+      
+      $this->write_log(json_encode($headers));
+      
     $registatoin_ids = $this->getSafe('registatoin_ids');
     
     $title = $this->getSafe('title');

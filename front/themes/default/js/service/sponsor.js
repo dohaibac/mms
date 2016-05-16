@@ -70,7 +70,7 @@ app.service('$SponsorService', function($rootScope, $http, $modal, $q) {
   
   this.show_add_modal = function(options) {
     var deferred = $q.defer();
-    var url = '//' + appConf.domain + '?mod=sponsor.add';
+    var url = '//' + appConf.domain + '?mod=sponsor.add_modal';
     
     var modal =  $modal.open({
       templateUrl: url,

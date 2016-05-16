@@ -166,6 +166,16 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
   $scope.sponsors = [];
   $scope.sponsor_owner_object.item = {};
   
+  $scope.menuOptions = [
+    ['Add', function ($itemScope) {
+       $scope.show_add_modal($itemScope.item);
+    }],
+    null, // Dividier
+    ['Edit', function ($itemScope) {
+        $scope.show_edit($itemScope.item);
+    }]
+  ];
+  
   $scope.init = function () {
     
     $scope.loading = true;
@@ -179,7 +189,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       }
       
       var sponsors = $scope.build_tree(response.data.sponsors);
-      console.log(sponsors);
+      
       $scope.sponsor_owner = response.data.sponsor_owner;
       $scope.lsponsor_owner = response.data.lsponsor_owner;
       
@@ -289,7 +299,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
      });
   };
   
-  $scope.show_detail = function(sponsor) {
+  $scope.show_edit = function(sponsor) {
     var options = {
       'init': function(mscope) {
         mscope.sponsor = sponsor;
@@ -314,6 +324,26 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       
     });
   };
+  
+  $scope.show_add_modal = function(sponsor) {
+    var options = {
+      'init': function(mscope) {
+        mscope.sponsor = {};
+        mscope.sponsor.upline = sponsor.item.username;
+        mscope.sponsor.name = '';
+        mscope.sponsor.name = '';
+        mscope.$broadcast('send::data::add::modal', {'sponsor': mscope.sponsor, 'mscope': mscope } );
+      },
+      'ok' : function(mscope) {
+        mscope.close();
+        $scope.init();
+      },
+    };
+    $SponsorService.show_add_modal(options).then(function(response){
+      
+    });
+  };
+  
 });
 
 app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $SponsorService, $BankService, noty) {
@@ -433,6 +463,113 @@ app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $Spo
     };
     
     $BankService.show_add_modal(options);
+  };
+  
+  $scope.toggle_password = function() {
+    if ($('#show_password').is(":checked")) {
+      $('#ptl').attr('type', 'text');
+    } else {
+      $('#ptl').attr('type', 'password');
+    }
+  };
+ 
+  $scope.toggle_security = function() {
+    if ($('#show_security').is(":checked")) {
+      $('#security').attr('type', 'text');
+    } else {
+      $('#security').attr('type', 'password');
+    }
+  };
+});
+ 
+app.controller('SponsorAddModalCtrl', function($scope, $http, $location, $modal, $SponsorService, $BankService, noty) {
+  $scope.sponsor = {};
+  
+  $scope.$on('send::data::add::modal', function(e, data) {
+     $scope.sponsor = data.sponsor;
+     $scope.mscope = data.mscope;
+  });
+  
+  $scope.noty = noty;
+  
+  $scope.processing = false;
+  
+  $scope.sponsor_check = {};
+  $scope.sponsor.sponsor_invest = 'dt';
+  
+  $scope.sponsor.force_downline_f1 = false;
+  $scope.sponsor.force_downline_fork = false;
+  
+  $scope.levels = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M-GOLD'];
+  
+  $scope.sponsor.sponsor_level = 'M0';
+  
+  $scope.check_sponsor = function() {
+    var username = $('.upline').val();
+    username = $.trim(username);
+    
+    if (username == '') {
+      return false;
+    };
+    
+    $SponsorService.view(username).then(function(response) {
+      var data = response.data;
+      $scope.sponsor_check.message_type = data.type;
+      $scope.sponsor_check.message = data.message;
+      
+      $scope.sponsor_check.sponsor = data.data;
+      
+    });
+  };
+  
+  $scope.disabled = function() {
+    if (!$scope.sponsor.name || !$scope.sponsor.username || 
+      !$scope.sponsor.email || !$scope.sponsor.mobile || !$scope.sponsor.sponsor_invest || $scope.processing) {
+      return true;
+    }
+    return $scope.sponsor.name.length > 0 && $scope.sponsor.username.length > 0 && 
+    $scope.sponsor.email.length > 0 && $scope.sponsor.sponsor_invest.length > 0 && $scope.sponsor.mobile.length > 0 ? false : true;
+    
+  };
+  
+  $scope.submit = function() {
+    $scope.message = '';
+    $scope.message_type = 1;
+    $scope.processing = true;
+    
+    $SponsorService.add($scope.sponsor).then(function(response) {
+      $scope.processing = false;
+      var data = response.data;
+      
+      if (data.code =='sponsor-message-max_downline') {
+        if (confirm(data.message)) {
+          $scope.sponsor.force_downline_f1 = true;
+          $scope.submit();
+          return false;
+        }
+        else {
+          return false;
+        }
+      } 
+      if (data.code =='sponsor-message-max_fork') {
+        if (confirm(data.message)) {
+          $scope.sponsor.force_downline_fork = true;
+          $scope.submit();
+          return false;
+        }
+        else {
+          return false;
+        }
+      }
+      
+      $scope.message = data.message;
+      $scope.message_type = data.type;
+      
+      if ($scope.message_type == 0) {
+        $scope.noty.add({type:'info', title:'Thông báo', body: $scope.message});
+        $scope.mscope.ok($scope.mscope);
+      }
+    });
   };
   
   $scope.toggle_password = function() {

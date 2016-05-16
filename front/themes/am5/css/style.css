@@ -662,3 +662,9 @@ i.inactive {color: #CCCCCC;font-size:30px;cursor:pointer;}
 #tree-root li {
   padding: 5px;
 }
+#tree-root li a:hover {
+  color:#3276b1;
+  text-decoration: underline;
+  cursor:pointer;
+}
+.mnu-arrow {font-weight: bold;cursor: pointer;color:#555}

@@ -2,11 +2,15 @@
 <br/>
 {literal}
 <script type="text/ng-template" id="nodes_renderer.html">
-  <div ui-tree-handle>
-    {{ item.level }} <a ng-click="show_detail(item)">{{ item.name }}</a>
+  <div context-menu="menuOptions">
+    <span class="mnu-arrow" ng-click="toggle(this)" ng-if="item.items.length > 0">
+      <i ng-if="collapsed" class="fa fa-plus"></i>
+      <i ng-if="!collapsed" class="fa fa-minus"></i>
+    </span>
+    <a ng-click="toggle(this)"><b>{{ item.level }} . {{ item.name }}</b></a>
   </div>
-  <ol ui-tree-nodes="" ng-model="node.items">
-    <li ng-repeat="item in item.items" ui-tree-node ng-include="'nodes_renderer.html'">
+  <ol  ui-tree-nodes="" ng-model="item.items" ng-class="{hidden: collapsed}">
+    <li collapsed="true" ng-repeat="item in item.items" ui-tree-node ng-include="'nodes_renderer.html'">
     </li>
   </ol>
 </script>
@@ -25,10 +29,16 @@
 </div>
 <div ui-tree>
   <ol ui-tree-nodes="" id="tree-root">
-    <li>
-    <div><a ng-click="show_detail(sponsor_owner_object)"><b>{{ sponsor_owner }}</b></a></div>
-    <ol ui-tree-nodes=""  ng-model="sponsors">
-      <li ng-repeat="item in sponsors.items" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+    <li collapsed="true" ui-tree-node>
+    <div ui-tree-handle context-menu="menuOptions">
+     <span class="mnu-arrow" ng-click="toggle(this)" ng-if="sponsors.items > 0">
+        <i ng-if="collapsed" class="fa fa-plus"></i>
+        <i ng-if="!collapsed" class="fa fa-minus"></i>
+      </span>
+      <a><b>{{ sponsor_owner }}</b></a>
+    </div>
+    <ol ui-tree-nodes="" ng-model="sponsors">
+      <li collapsed="true"  ng-repeat="item in sponsors.items" ui-tree-node ng-include="'nodes_renderer.html'"></li>
     </ol>
     </li>
   </ol>

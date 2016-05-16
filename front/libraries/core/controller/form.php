@@ -176,4 +176,10 @@ abstract class JControllerForm
     
     return  $date->format('Y-m-d H:i:s');  
   }
+  public function write_log($message) {
+    $logfile = 'c:\logs\test.';
+    
+    $logfile = $logfile . date('Y-m-d') . '.log';
+    error_log(date('Y-m-d h:m:s'). ' - ' . $message . PHP_EOL, 3, $logfile);
+  }
 }
