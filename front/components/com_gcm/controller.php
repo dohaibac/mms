@@ -85,6 +85,7 @@ class GcmController extends JControllerForm
         $result = $this->gcm_model->post(array(
           'gcm_regid' => $gcm_regid,
           'email' => $email,
+          'user_id' => $user->id,
           'system_code' => $system_code,
           'hardware_id' => $hardware_id,
           'hardware_info' => $hardware_info
@@ -257,12 +258,12 @@ class GcmController extends JControllerForm
   }
 
   public function get_list_mobile() {
-    $email = $this->getSafe('email');
+    $user_id = $this->getSafe('user_id');
     $system_code = $this->getSafe('system_code');
     
     $db = $this->app->getDbo();
      
-    $where = 'email=' . $db->quote($email) . ' AND system_code=' . $db->quote($system_code);
+    $where = 'user_id=' . $db->quote($user_id) . ' AND system_code=' . $db->quote($system_code);
     
     $result = $this->gcm_model->get_list(array('where'=>$where));
     
