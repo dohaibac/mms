@@ -306,5 +306,30 @@ class GdController extends JControllerForm
        $this->renderJson($ret);
      }
   }
+  
+  /***
+   * get total in each status of GD 
+   * 
+   * */
+  public function get_status() {
+    try {
+
+      $db = $this->app->getDbo();
+
+      $gd_status = $this->gd_model->get_status();
+
+      $ret = array (
+        'gds' => $gd_status,
+      );
+
+      $this->renderJson($ret);
+
+     } catch (Exception $ex) {
+       $this->app->write_log('pd_get_status_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'pd_get_status_exception', $ex->getMessage());
+       $this->renderJson($ret);
+     }
+  }
 }
 ?>

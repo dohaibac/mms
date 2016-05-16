@@ -55,6 +55,7 @@ $routerMap = array(
  * =====================================*/
   'pd'=> array('controller'=>'pd', 'action'=>'index'),
   'pd/list'=> array('controller'=>'pd', 'action'=>'get_list'),
+  'pd/get_status'=> array('controller'=>'pd', 'action'=>'get_status'),
 
 
 /*======================================
@@ -63,6 +64,7 @@ $routerMap = array(
  * =====================================*/
   'gd'=> array('controller'=>'gd', 'action'=>'index'),
   'gd/list'=> array('controller'=>'gd', 'action'=>'get_list'),
+  'gd/get_status'=> array('controller'=>'gd', 'action'=>'get_status'),
 
 /*======================================
  * Config for bank

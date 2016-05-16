@@ -1,3 +1,7 @@
+<script type="text/javascript" src="{$app->appConf->theme_default}/js/service/pd.js"></script>
+<script type="text/javascript" src="{$app->appConf->theme_default}/js/service/gd.js"></script>s
+<script type="text/javascript" src="{$app->appConf->theme_default}/js/controllers/dashboard.js"></script>
+
 <div class="dashboard-main">
   <div class="dashboard-main-title">
     <i class="fa fa-angle-right"></i> Thông tin wallet
@@ -23,17 +27,15 @@
 </div>
 
 <!-- load phan storage -->
-<div class="dashboard-main">
+{literal}
+<div class="dashboard-main" ng-controller="DashboardCtrl">
   <div class="dashboard-main-title">
     <i class="fa fa-cube"></i> Thông tin PD
   </div>
-  <div class="dashboard-main-body">
-  <div class="col-sm-12">
+  <div class="dashboard-main-body" ng-init="init()">
+  <div class="col-sm-12" ng-repeat="pd in pds">
     <a class="btn">
-      Có 2 pd đang chờ xác nhận
-    </a>
-    <a class="btn">
-      Có 100 PD đã hoàn thành
+      Có {{ pd.stotal }} PD {{ pd.name }}
     </a>
   </div>
   <div class="clearfix"></div>
@@ -42,20 +44,18 @@
 <!-- END load phan storage -->
 
 <!-- load phan short menu -->
-<div class="dashboard-main">
+<div class="dashboard-main" ng-controller="DashboardCtrl">
   <div class="dashboard-main-title">
     <i class="fa fa-external-link"></i> Thông tin GD
   </div>
-  <div class="dashboard-main-body">
-  <div class="col-sm-12">
+  <div class="dashboard-main-body" ng-init="init()">
+  <div class="col-sm-12" ng-repeat="gd in gds">
     <a class="btn">
-      Có 01 GD đang chờ xác nhận
-    </a>
-    <a class="btn">
-      Có 100 GD đã hoàn thành
+      Có {{ gd.stotal }} GD {{ gd.name }}
     </a>
   </div>
   <div class="clearfix"></div>
   </div>
 </div>
+{/literal}
 <!-- END load phan short menu -->
