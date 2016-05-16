@@ -36,6 +36,7 @@ $routerConf['/^gcm$/'] = array('page'=>'gcm');
 $routerConf['/^gcm\/register$/'] = array('page'=>'gcm', 'controller'=>'gcm', 'action'=>'register');
 $routerConf['/^gcm\/send$/'] = array('page'=>'gcm', 'controller'=>'gcm', 'action'=>'send_notification');
 $routerConf['/^gcm\/logout/'] = array('page'=>'gcm', 'controller'=>'gcm', 'action'=>'logout');
+$routerConf['/^gcm\/update/'] = array('page'=>'gcm', 'controller'=>'gcm', 'action'=>'update');
 
 // api cho phep site khac lay thong tin user
 $routerConf['/^api\/get-user-session$/'] = array('page'=>'cpanel', 'controller'=>'user', 'action'=>'get_user_session');

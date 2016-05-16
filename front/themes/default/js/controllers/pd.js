@@ -172,6 +172,10 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
      }); 
     
     $SettingService.view().then(function(response) {
+      if (response.data.type == 1) {
+        $scope.message_setting_type = 1;
+        $scope.message_setting = 'WARNING: Bạn chưa cài đặt tham số hệ thống!. Vào menu Hệ thống >> Cài đặt tham số để cài đặt.';
+      }
       $scope.pd.num_days_pending = response.data.num_days_pd_pending;
       $scope.pd.num_days_transfer = response.data.num_days_pd_transfer;
     });
@@ -284,10 +288,11 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
       }
       
       $scope.amount_money_text = DocTienBangChu($scope.pd.amount * 10000);
+      
+      $scope.get_bank_list();
+      
     });
-    
-    $scope.get_bank_list();
-    
+     
     $SponsorService.get_list().then(function(response) {
       $scope.sponsors = response.data.sponsors;
       
@@ -315,7 +320,7 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
   $scope.disabled = function() {
     if (!$scope.pd.code || !$scope.pd.sponsor || !$scope.pd.amount ||
        !$scope.pd.remain_amount || !$scope.pd.issued_at || !$scope.pd.num_days_pending ||
-       !$scope.pd.num_hours_transfer || !$scope.pd.status || $scope.processing) {
+       !$scope.pd.num_days_transfer || !$scope.pd.status || $scope.processing) {
       return true;
     }
     
