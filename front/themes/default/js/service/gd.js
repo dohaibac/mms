@@ -61,5 +61,10 @@ app.service('$GdService', function($rootScope, $http, $modal, $q) {
     return $http.get(url);
   };
   
+  this.get_status = function () {
+    var url = generate_url('gd', 'get_status');
+    return $http.get(url);
+  };
+  
   return this;
 });

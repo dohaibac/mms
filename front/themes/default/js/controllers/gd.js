@@ -36,6 +36,7 @@ app.controller('GdListCtrl', function($scope, $http, $location, $modal, noty, $G
       $scope.processing = false;
       $scope.noty.add({type:'info', title:'Thông báo', body:response.data.message});
       $scope.init();
+      $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
     });
     
   };
@@ -121,7 +122,7 @@ app.controller('GdListCtrl', function($scope, $http, $location, $modal, noty, $G
           width: 150
         },
         { field: "status", displayName: 'Trạng thái', width: 130, 
-          cellTemplate:'<div class=ngCellText>{{ COL_FIELD == 1 ? "Pending" : (COL_FIELD == 2 ? "Pending Virifycation" : "Done ")}}</div>' },
+          cellTemplate:'<div class=ngCellText>{{ COL_FIELD == 1 ? "Pending" : (COL_FIELD == 2 ? "Pending Veifycation" : "Done ")}}</div>' },
         { field: "", 
           cellTemplate:'<div class=ngCellText><a type="button" href="/gd#!/edit/{{ row.getProperty(\'id\') }}" data-toggle="tooltip" tooltip-placement="top" tooltip="Sửa" class="btn btn-xs btn-warning btn-edit"><i class="fa fa-pencil"></i></a><a href="javascript:void(0)" ng-click="delete(row.entity)" data-toggle="tooltip" tooltip-placement="top" tooltip="Xóa" type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times"></i></a></div>' }]
   };
