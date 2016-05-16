@@ -37,7 +37,7 @@ class PdController extends JControllerForm
     
     $s_text = empty($this->data['s_text']) ? "" : $this->data['s_text'];
     if (!empty($s_text) and $s_text != ""){
-        $where .= " and (code like '%" . $s_text . "%' or sponsor like '%" . $s_text . "%')";
+        $where .= " and (code like '%" . $db->quote($s_text) . "%' or sponsor like '%" . $db->quote($s_text) . "%')";
     }
     
     $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
@@ -242,6 +242,12 @@ class PdController extends JControllerForm
     
     $ret = $this->message($data->type, $data->code, $this->app->lang($data->code));
     $this->renderJson($ret);
+  }
+  
+  public function get_by_status() {
+    $this->app->prevent_remote_access();
+    
+    
   }
   
   public function get_list_for_job() {

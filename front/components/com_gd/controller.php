@@ -37,7 +37,7 @@ class GdController extends JControllerForm
     
     $s_text = empty($this->data['s_text']) ? "" : $this->data['s_text'];
     if (!empty($s_text) and $s_text != ""){
-        $where .= " and (code like '%" . $s_text . "%' or sponsor like '%" . $s_text . "%')";
+        $where .= " and (code like '%" . $db->quote($s_text) . "%' or sponsor like '%" . $db->quote($s_text) . "%')";
     }
 
     $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
