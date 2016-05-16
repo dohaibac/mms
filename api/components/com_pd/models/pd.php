@@ -81,13 +81,14 @@ class PdModel extends JModelBase {
   public function get_status() {    
     $db = $this->app->getDbo();
     
-    $select = "STATUS , count( id )";
+    $select = "status , count( id ) as stotal";
     
     $query = $db->getQuery(true)
       ->select($select)
       ->from($db->quoteName($this->model_name));
-
-    $query->group_by("STATUS");
+      
+    $query->order("status");
+    $query->group("status");
 
     $db->setQuery($query);
     

@@ -5,8 +5,6 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
   $scope.loading = false;
   $scope.myData = [];
 
-  var url = generate_url('pd', 'get_list');
-
   $scope.init = function () {
     $scope.loading = true;
     /* *****
