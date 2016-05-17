@@ -638,6 +638,23 @@ i.inactive {color: #CCCCCC;font-size:30px;cursor:pointer;}
   height: 700px
 }
 
+.ngHeaderCell {
+    background-color: #64809d !important;
+    bottom: 0;
+    color: #fff !important;
+    position: absolute;
+    top: 0;
+    text-align: center;
+}
+.ngCellText{
+    margin-left: 2px;
+}
+
+i.fa-toggle-on, a.btn {
+    margin-left: 5px;
+    margin-top: 2px;
+}
+
 .width300 {width:300px}
 .width50p {width:50%}
 .width70p {width:70%}
