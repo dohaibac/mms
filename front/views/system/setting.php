@@ -5,11 +5,20 @@
   <div>
   <div class="col-md-8">
     <div class="form-group">
+      <label class="col-md-4 control-label">Số lệnh trong một ngày</label>
+      <div class="col-md-8">
+        <input type="hidden" ng-model="setting.id" />
+      <input ng-model="setting.num_commands_per_day" type="input" name="num_commands_per_day" class="form-control" 
+          required autofocus ng-trim="true"  ng-maxlength="255" placeholder="">
+       </div>
+       <div class="clearfix"></div>
+    </div>
+    <div class="form-group">
       <label class="col-md-4 control-label">Số ngày chờ PD tạm tính</label>
       <div class="col-md-8">
         <input type="hidden" ng-model="setting.id" />
       <input ng-model="setting.num_days_pd_pending" type="input" name="num_days_pd_pending" class="form-control" 
-          required autofocus ng-trim="true"  ng-maxlength="255" placeholder="">
+          required ng-trim="true"  ng-maxlength="255" placeholder="">
        </div>
        <div class="clearfix"></div>
     </div>

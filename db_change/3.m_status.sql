@@ -19,5 +19,5 @@ INSERT INTO `m_status` (`id`, `name`, `value`, `type`) VALUES
 (2, 'Pending Payment', 2, 'pd'),
 (3, 'Approved', 3, 'pd'),
 (4, 'Pending', 1, 'gd'),
-(5, 'Pending Veifycation', 2, 'gd'),
+(5, 'Pending Verification', 2, 'gd'),
 (6, 'Done', 3, 'gd');

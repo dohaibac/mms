@@ -85,6 +85,7 @@ class GcmController extends JControllerForm
         $result = $this->gcm_model->post(array(
           'gcm_regid' => $gcm_regid,
           'email' => $email,
+          'user_id' => $user->id,
           'system_code' => $system_code,
           'hardware_id' => $hardware_id,
           'hardware_info' => $hardware_info
@@ -130,6 +131,7 @@ class GcmController extends JControllerForm
   
   public function logout() {
     try {
+      
       $data = file_get_contents('php://input');
       
       $data = json_decode($data, true);
@@ -163,15 +165,16 @@ class GcmController extends JControllerForm
   
   public function update() {
     try {
+        
       $data = file_get_contents('php://input');
-      
+      $this->write_log($data);
       $data = json_decode($data, true);
       
-      $message_id = isset($data['message_id']) ? $data['message_id'] : '';
+      $ids = isset($data['ids']) ? $data['ids'] : '';
       $status = isset($data['status']) ? $data['status'] : '';
       
-      if (empty($message_id)) {
-        $ret = $this->message_response(0, 'update', 'message_id is required field.');
+      if (empty($ids)) {
+        $ret = $this->message_response(0, 'update', 'ids is required field.');
         $this->renderJson($ret);
       }
       if (empty($status)) {
@@ -217,7 +220,7 @@ class GcmController extends JControllerForm
   
   public function send_notification() {
     //$this->app->prevent_remote_access();
-    
+     
     $registatoin_ids = $this->getSafe('registatoin_ids');
     
     $title = $this->getSafe('title');
@@ -257,12 +260,12 @@ class GcmController extends JControllerForm
   }
 
   public function get_list_mobile() {
-    $email = $this->getSafe('email');
+    $user_id = $this->getSafe('user_id');
     $system_code = $this->getSafe('system_code');
     
     $db = $this->app->getDbo();
      
-    $where = 'email=' . $db->quote($email) . ' AND system_code=' . $db->quote($system_code);
+    $where = 'user_id=' . $db->quote($user_id) . ' AND system_code=' . $db->quote($system_code);
     
     $result = $this->gcm_model->get_list(array('where'=>$where));
     

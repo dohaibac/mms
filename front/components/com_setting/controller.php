@@ -44,7 +44,7 @@ class SettingController extends JControllerForm
     $this->app->prevent_remote_access();
      
     $list_required_fields = array(
-      'num_days_pd_pending', 'num_days_pd_transfer', 'num_days_gd_pending', 'num_days_gd_pending_verification',
+      'num_commands_per_day', 'num_days_pd_pending', 'num_days_pd_transfer', 'num_days_gd_pending', 'num_days_gd_pending_verification',
       'num_days_gd_approve', 'num_days_pd_next', 'percent_rate_days', 'percent_hoa_hong'
     );
     
@@ -60,6 +60,7 @@ class SettingController extends JControllerForm
     $system_code = $this->system_code();
     
     $id = $this->getSafe('id');
+    $num_commands_per_day = $this->getSafe('num_commands_per_day');
     $num_days_pd_pending = $this->getSafe('num_days_pd_pending');
     $num_days_pd_transfer = $this->getSafe('num_days_pd_transfer');
     $num_days_gd_pending = $this->getSafe('num_days_gd_pending');
@@ -70,6 +71,7 @@ class SettingController extends JControllerForm
     $percent_hoa_hong = $this->getSafe('percent_hoa_hong');
     
     $meta = array( 
+      'num_commands_per_day' => $num_commands_per_day,
       'num_days_pd_pending' => $num_days_pd_pending,
       'num_days_pd_transfer' => $num_days_pd_transfer,
       'num_days_gd_pending' => $num_days_gd_pending,
@@ -110,7 +112,7 @@ class SettingController extends JControllerForm
     $this->app->prevent_remote_access();
      
     $list_required_fields = array(
-      'num_days_pd_pending', 'num_days_pd_transfer', 'num_days_gd_pending', 'num_days_gd_pending_verification',
+      'num_commands_per_day', 'num_days_pd_pending', 'num_days_pd_transfer', 'num_days_gd_pending', 'num_days_gd_pending_verification',
       'num_days_gd_approve', 'num_days_pd_next', 'percent_rate_days', 'percent_hoa_hong'
     );
     
@@ -125,6 +127,7 @@ class SettingController extends JControllerForm
     
     $system_code = $this->system_code();
     
+    $num_commands_per_day = $this->getSafe('num_commands_per_day');
     $num_days_pd_pending = $this->getSafe('num_days_pd_pending');
     $num_days_pd_transfer = $this->getSafe('num_days_pd_transfer');
     $num_days_gd_pending = $this->getSafe('num_days_gd_pending');
@@ -135,6 +138,7 @@ class SettingController extends JControllerForm
     $percent_hoa_hong = $this->getSafe('percent_hoa_hong');
     
     $meta = array( 
+      'num_commands_per_day' => $num_commands_per_day,
       'num_days_pd_pending' => $num_days_pd_pending,
       'num_days_pd_transfer' => $num_days_pd_transfer,
       'num_days_gd_pending' => $num_days_gd_pending,

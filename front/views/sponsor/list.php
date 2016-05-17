@@ -1,14 +1,20 @@
 <div class="dashboard-main">
 <br/>
 {literal}
-<script type="text/ng-template" id="sponsor_list_render.html">
-   <div>
-   <a ng-click="show_detail(item)">{{ item.name }}</a>
-   </div>
-   <div class="child" ng-show="item.items.length > 0">
-     <div class="child1" ng-repeat="item in item.items" ng-include="'sponsor_list_render.html'"></div>
-   </div>
+<script type="text/ng-template" id="nodes_renderer.html">
+  <div context-menu="menuOptions">
+    <span class="mnu-arrow" ng-click="toggle(this)" ng-if="item.items.length > 0">
+      <i ng-if="collapsed" class="fa fa-plus"></i>
+      <i ng-if="!collapsed" class="fa fa-minus"></i>
+    </span>
+    <a ng-click="toggle(this)"><b>{{ item.level }} . {{ item.name }}</b></a>
+  </div>
+  <ol  ui-tree-nodes="" ng-model="item.items" ng-class="{hidden: collapsed}">
+    <li collapsed="true" ng-repeat="item in item.items" ui-tree-node ng-include="'nodes_renderer.html'">
+    </li>
+  </ol>
 </script>
+
 <div class="container" ng-init="init()">
 <div class="form-group">
   <input class="form-control fleft" ng-enter="search()" id="keyword" name="keyword" style="width:300px" placeholder="Search sponsor"/>&nbsp; 
@@ -21,18 +27,21 @@
   {{ message }}
 </div>
 </div>
-<div class="sponsor-list-dragable-container">
-<div ng-draggable class="sponsor-list-container">
-<div class="sponsor-list">
-  <div class="parent" ng-hide="loading || message_type == 1">
-     <div class="parent-root"><a ng-click="show_detail(sponsor_owner_object)">{{ sponsor_owner }}</a></div>
-     <div class="child child-container">
-      <div class="child1" ng-repeat="item in sponsors.items" ng-include="'sponsor_list_render.html'"></div>
-     </div>
-  </div> 
-  <div class="clearfix"></div>
-</div>
-</div>
+<div ui-tree>
+  <ol ui-tree-nodes="" id="tree-root">
+    <li collapsed="true" ui-tree-node>
+    <div ui-tree-handle context-menu="menuOptions">
+     <span class="mnu-arrow" ng-click="toggle(this)" ng-if="sponsors.items > 0">
+        <i ng-if="collapsed" class="fa fa-plus"></i>
+        <i ng-if="!collapsed" class="fa fa-minus"></i>
+      </span>
+      <a><b>{{ sponsor_owner }}</b></a>
+    </div>
+    <ol ui-tree-nodes="" ng-model="sponsors">
+      <li collapsed="true"  ng-repeat="item in sponsors.items" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+    </ol>
+    </li>
+  </ol>
 </div>
 </div>
 {/literal}

@@ -2,6 +2,10 @@ app.config(['$routeProvider', '$locationProvider', function AppConfig($routeProv
   //$locationProvider.html5Mode({ enabled: true, requireBase: false});
   $locationProvider.hashPrefix('!');
   $routeProvider
+    .when('/list_tree', {
+        templateUrl: '//' + appConf.domain + '?mod=sponsor.list_tree',
+        controller: 'SponsorListTreeCtrl'
+    })
     .when('/list', {
         templateUrl: '//' + appConf.domain + '?mod=sponsor.list',
         controller: 'SponsorListCtrl'

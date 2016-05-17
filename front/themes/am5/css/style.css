@@ -667,3 +667,21 @@ i.fa-toggle-on, a.btn {
   box-shadow:none;
   width:auto;
 }
+.angular-ui-tree-handle {
+  cursor: default;
+}
+.angular-ui-tree-empty {
+  display:none;
+}
+#tree-root {
+  list-style: none;
+}
+#tree-root li {
+  padding: 5px;
+}
+#tree-root li a:hover {
+  color:#3276b1;
+  text-decoration: underline;
+  cursor:pointer;
+}
+.mnu-arrow {font-weight: bold;cursor: pointer;color:#555}

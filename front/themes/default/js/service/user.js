@@ -110,7 +110,7 @@ app.service('$UserService', function($rootScope, $http, $modal, $q) {
     
      return $http({
       method  : 'GET',
-      url     : url + '&email=' + user.email + '&system_code=' + user.system_code,
+      url     : url + '&user_id=' + user.id + '&system_code=' + user.system_code,
       headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
      });
   };

@@ -82,20 +82,18 @@ class GdModel extends JModelBase {
    * get total in each status of GD by a complex query
    * 
    * */
-  public function get_status() {    
+  public function get_status() {
     $db = $this->app->getDbo();
     
-    #$select = "status , count( id ) as stotal";
+    $select = "s.name, count(g.id ) as stotal";
     
-    #$query = $db->getQuery(true)
-    #  ->select($select)
-    #  ->from($db->quoteName($this->model_name));
-      
-    #$query->order("status");
-    #$query->group("status");
+    $query = $db->getQuery(true)
+      ->select($select)
+      ->from($db->quoteName($this->model_name, 'g'))
+      ->join('RIGHT', $db->quoteName('#__status', 's') . ' ON (' . $db->quoteName('g.status') . ' = ' . $db->quoteName('s.id') . ')')
+      ->group('g.status')
+      ->order('s.value ASC');
     
-    $query = "SELECT B.name, Count( A.ID ) AS stotal FROM m_gds AS A RIGHT JOIN ( SELECT * FROM m_status WHERE TYPE = 'gd') AS B ON A.status = B.value GROUP BY A.status ORDER BY B.value";
-
     $db->setQuery($query);
     
     return $db->loadAssocList();
