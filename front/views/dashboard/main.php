@@ -59,12 +59,17 @@
         <td> {{ $index + 1 }} </td>
         <td><a class="btn-link" ng-click="view_sponsor(pd)"> {{ pd.sponsor }} </a></td>
         <td>
+          <div ng-if="pd.status == 0">
            <button class="btn btn-sm btn-warning" ng-click="confirm(pd)">Xác nhận</button>
            <a class="btn btn-link" target="_blank" href="https://vphp.biz/login">Link M5</a>
+          </div>
+          <div ng-if="pd.status == 1">
+           <a class="btn confirmed"><i class="fa fa-check"></i></a>
+          </div> 
         </td>
       </tr>
-      <tr ng-if="pds.length == 0">
-        <td colspan="8">Chưa có PD nào!</td>
+      <tr ng-if="planpds.length == 0">
+        <td colspan="3">Chưa có PD dự kiến nào!</td>
       </tr>
       {/literal}
     </tbody>

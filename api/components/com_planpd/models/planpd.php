@@ -22,7 +22,7 @@ class PlanpdModel extends JModelBase {
     return $db->query();
   }
   /***
-   * Lay danh sach user bank
+   * Lay danh sach 
    * 
    * $data array
    *   - limit
@@ -52,5 +52,37 @@ class PlanpdModel extends JModelBase {
     
     return $db->loadAssocList();
   }
+
+  /***
+   * Update by id
+   * 
+   * $data array
+   * 
+   * @return mix
+   * 
+   * */
+  public function update_by_sponsor($data) {
+    $db = $this->app->getDbo();
+    
+    $query = $db->getQuery(true);
+    
+    $fields = array(
+      $db->quoteName('updated_at') . ' = ' . $db->quote($data['updated_at']),
+      $db->quoteName('updated_by') . ' = ' . $db->quote($data['updated_by']),
+      $db->quoteName('status') . ' = ' . $db->quote($data['status'])
+    );
+    
+    $conditions = array(
+      $db->quoteName('sponsor') . ' = ' . $db->quote($data['sponsor']), 
+      $db->quoteName('system_code') . ' = ' . $db->quote($data['system_code'])
+    );
+    
+    $query->update($db->quoteName($this->model_name))->set($fields)->where($conditions);
+ 
+    $db->setQuery($query);
+     
+    $result = $db->execute();
+  }
+  
 }
 ?>

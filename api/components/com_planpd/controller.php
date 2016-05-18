@@ -108,6 +108,32 @@ class PlanpdController extends JControllerForm
     }
   }
   
+  
+  /***
+   * update 
+   * 
+   * */
+  public function update() {
+    try {
+      $body = $this->get_request_body();
+      
+      if (empty($body)) {
+         $ret = $this->message(1, 'planpd_update_empty_data', 'Empty data.');
+         $this->renderJson($ret);
+      }
+      
+      $this->planpd_model->update_by_sponsor($body);
+      
+      $ret = $this->message(0, 'planpd_update_success', 'Update Pd has been successfully.');
+      $this->renderJson($ret);
+      
+    } catch (Exception $ex) {
+       $this->app->write_log('planpd_update_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'planpd_update_exception', $ex->getMessage());
+       $this->renderJson($ret);
+    }
+  }
 
   /***
    * delete by date

@@ -96,7 +96,7 @@ class JobsHelper
      $obj = new stdClass;
      $obj->id = $sponsor->id;
      $obj->username = $sponsor->username;
-     $obj->updated_at = $sponsor->updated_at;
+     $obj->updated_at = $this->get_updated_at($sponsor_invest_list, $sponsor->username);
      $obj->upline = $sponsor->upline;
      
      $path = explode('>', $sponsor->path);
@@ -107,12 +107,18 @@ class JobsHelper
    $data = json_decode(json_encode($data), true);
    
    $data = $this->sort_sponsors($data);
-   //echo '<pre>';
-   //print_r($data);
+   
    $this->insert_plan_pd($data, $num_commands_per_day);
    
   }
   
+  function get_updated_at ($sponsors, $username) {
+    foreach($sponsors as $sponsor) {
+      if ($sponsor->sponsor == $username) {
+        return $sponsor->updated_at;
+      }
+    }
+  }
   /***
    * Tao ra so luong ma du kien PD trong ngay
    * 

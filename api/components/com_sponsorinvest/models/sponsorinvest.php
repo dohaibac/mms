@@ -39,6 +39,35 @@ class SponsorinvestModel extends JModelBase {
     return $db->loadAssocList();
   }
   
+  /***
+   * Update by id
+   * 
+   * $data array
+   * 
+   * @return mix
+   * 
+   * */
+  public function update_by_sponsor($data) {
+    $db = $this->app->getDbo();
+    $query = $db->getQuery(true);
+    
+    $fields = array(
+      $db->quoteName('updated_at') . ' = ' . $db->quote($data['updated_at']),
+      $db->quoteName('updated_by') . ' = ' . $db->quote($data['updated_by'])
+    ); 
+      
+    $conditions = array(
+      $db->quoteName('sponsor') . ' = ' . $db->quote($data['sponsor']), 
+      $db->quoteName('system_code') . ' = ' . $db->quote($data['system_code'])
+    );
+    
+    $query->update($db->quoteName($this->model_name))->set($fields)->where($conditions);
+    
+    $db->setQuery($query);
+     
+    $result = $db->execute();
+  }
+  
   public function delete_by_sponsor($sponsor, $system_code) {
     $db = $this->app->getDbo();
     

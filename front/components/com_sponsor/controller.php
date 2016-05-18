@@ -197,7 +197,9 @@ class SponsorController extends JControllerForm
       // neu khong co thi insert, neu co roi thi thoi
       $data = array(
         'sponsor'=> $username,
-        'system_code' => $system_code
+        'system_code' => $system_code,
+        'created_at' => date('Y-m-d h:i:s'),
+        'created_by' => $this->user->data()->id
       );
       
       $result = $this->sponsorinvest_model->get($data);

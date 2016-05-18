@@ -12,12 +12,12 @@ class PlanpdModel extends JModelBase {
   * get_status
   * 
   * */
-  public function get_all() {
+  public function get_all($data) {
     $rest_client = $this->app->getRestClient();
     
     $path = '/' . $this->model_name . '/get_all';
     
-    return $rest_client->get($path, array());
+    return $rest_client->get($path, $data);
   }
   
   /***

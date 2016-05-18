@@ -70,7 +70,7 @@ class PdController extends JControllerForm
     $this->renderJson($data);
   }
   
-  public function view() {
+  public function view () {
     $id = $this->getSafe('id');
     
     if (empty($id)) {
