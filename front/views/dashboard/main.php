@@ -1,3 +1,4 @@
+<script type="text/javascript" src="{$app->appConf->theme_default}/js/service/sponsor.js"></script>
 <script type="text/javascript" src="{$app->appConf->theme_default}/js/service/pd.js"></script>
 <script type="text/javascript" src="{$app->appConf->theme_default}/js/service/gd.js"></script>
 <script type="text/javascript" src="{$app->appConf->theme_default}/js/service/planpd.js"></script>
@@ -56,9 +57,10 @@
       {literal}
       <tr ng-repeat="pd in planpds">
         <td> {{ $index + 1 }} </td>
-        <td> {{ pd.sponsor }} </td>
+        <td><a class="btn-link" ng-click="view_sponsor(pd)"> {{ pd.sponsor }} </a></td>
         <td>
-           <button class="btn btn-warning" ng-click="confirm(pd)">Xác nhận</button>
+           <button class="btn btn-sm btn-warning" ng-click="confirm(pd)">Xác nhận</button>
+           <a class="btn btn-link" target="_blank" href="https://vphp.biz/login">Link M5</a>
         </td>
       </tr>
       <tr ng-if="pds.length == 0">
