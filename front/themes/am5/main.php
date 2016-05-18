@@ -52,7 +52,7 @@
 </head>
 <body ng-app="jApp">
 <section id="wrapper">
-<div ng-controller="NotyCtrl">
+<div ng-controller="NotyCtrl" style="z-index: 9999">
 <div class="alerts" ng-shw="noty.queue.length>0">
   <div class="alert alert-{{(m.type)||'info'}} alert-dismissable fade in pull-right" ng-repeat="m in noty.queue">
     <button type="button" class="close" data-dismiss="alert">×</button>

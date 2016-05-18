@@ -11,7 +11,12 @@ class JobsController extends JControllerForm
     require_once PATH_COMPONENT . '/com_gd/models/gd.php';
     require_once PATH_COMPONENT . '/com_message/models/message.php';
     
-    $this->bank_model =  new BankModel($this->app);
+    require_once __DIR__ . '/helper.php';
+    
+    $system_code = '06';
+    
+    $this->helper = new JobsHelper($this->app, $system_code);
+    
   }
   
   public function update_pd_status() {
@@ -39,6 +44,10 @@ class JobsController extends JControllerForm
    * **/
   public function alert() {
     
+  }
+  
+  public function create_commands() {
+    $this->helper->create_commands();
   }
 }
 ?>

@@ -90,7 +90,8 @@ class PdModel extends JModelBase {
     $query = $db->getQuery(true)
       ->select($select)
       ->from($db->quoteName($this->model_name, 'g'))
-      ->join('RIGHT', $db->quoteName('#__status', 's') . ' ON (' . $db->quoteName('g.status') . ' = ' . $db->quoteName('s.id') . ')')
+      ->join('RIGHT', $db->quoteName('#__status', 's') . ' ON (' . $db->quoteName('g.status') . ' = ' . $db->quoteName('s.value') . ')')
+      ->where('s.type=' . $db->quote('pd'))
       ->group('g.status')
       ->order('s.value ASC');
     
