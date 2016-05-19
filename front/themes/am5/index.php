@@ -18,6 +18,7 @@
   <link href="<?= $appConf->cdn_base_url ?>angular-xeditable-0.1.12/css/xeditable.min.css" rel="stylesheet">
   <link href="<?= $appConf->cdn_base_url ?>ui-select/select.min.css" rel="stylesheet">
   <link href="<?= $appConf->cdn_base_url ?>angular-ui-tree/angular-ui-tree.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="<?= $appConf->theme_default ?>/css/ng-grid.min.css" />
   
   <link href="<?= $appConf->theme  ?>/css/style.css?v=<?= $appConf->theme_css_version ?>" rel="stylesheet">
   
