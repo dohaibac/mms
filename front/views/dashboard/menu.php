@@ -4,11 +4,11 @@
   </div>
   <div class="box-body">
   <ul>
-    <li><a href="/pd#!/add">Danh sách PD dự kiến</a></li>
-    <li><a href="/pd#!/add">Danh sách cho đi</a></li>
-    <li><a href="/pd#!/add">Danh sách GET</a></li>
-    <li><a href="/pd#!/add">Danh sách GD</a></li>
-    <li><a href="/pd#!/add">Danh sách Xác nhận GD</a></li>
+    <li><a href="/dashboard#!/planpd">Danh sách PD dự kiến</a></li>
+    <li><a href="/dashboard#!/pd">Danh sách cho đi</a></li>
+    <li><a href="/dashboard#!/get">Danh sách GET</a></li>
+    <li><a href="/dashboard#!/gd">Danh sách GD</a></li>
+    <li><a href="/dashboard#!/approve">Danh sách Xác nhận GD</a></li>
   </ul>
   </div>
 </div>

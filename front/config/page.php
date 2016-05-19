@@ -219,6 +219,19 @@ $pageConf['gd']['modules'] = array (
   'position-3' => 'gd',
 );
 
+// trang dashboard
+$pageConf['dashboard'] = array (
+  'title'=> 'page_dashboard_title',
+  'keywords' => 'page_dashboard_keywords',
+  'description' => 'page_dashboard_description',
+  'theme_page_name' => 'main',
+  'required_login' =>TRUE
+);
+$pageConf['dashboard']['modules'] = array (
+  'position-1' => 'head',
+  'position-2' => 'dashboard.menu',
+  'position-3' => 'dashboard.index',
+);
 
 // trang other
 $pageConf['other'] = array (
