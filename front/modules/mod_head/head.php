@@ -49,8 +49,8 @@
           <i class="fa fa-user"></i> Thành viên</a>
           <ul class="sub">
             <li><a href="/sponsor#!/add">Thêm thành viên</a></li>
-            <li><a href="/sponsor#!/list_tree">Danh sách thành viên</a></li>
-            <li><a href="/sponsor#!/list">D.s tv dạng list</a></li>
+            <li><a href="/sponsor#!/list">Danh sách thành viên</a></li>
+            <li><a href="/sponsor#!/list_tree">Danh sách tree</a></li>
           </ul>
         </li>
         <li><a href="/report#!/profit">

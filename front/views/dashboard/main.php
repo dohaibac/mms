@@ -1,71 +1,79 @@
-<div ng-controller="DashboardCtrl" ng-init="init()">
+<script type="text/javascript" src="{$app->appConf->theme_default}/js/service/sponsor.js"></script>
 <script type="text/javascript" src="{$app->appConf->theme_default}/js/service/pd.js"></script>
 <script type="text/javascript" src="{$app->appConf->theme_default}/js/service/gd.js"></script>
+<script type="text/javascript" src="{$app->appConf->theme_default}/js/service/planpd.js"></script>
+<script type="text/javascript" src="{$app->appConf->theme_default}/js/controllers/planpd.js"></script>
 <script type="text/javascript" src="{$app->appConf->theme_default}/js/controllers/dashboard.js"></script>
 
-<div class="dashboard-main">
-  <div class="dashboard-main-title">
-    <i class="fa fa-angle-right"></i> Thông tin wallet
-  </div>
-  <div class="dashboard-main-body">
-  <div class="col-sm-4">
-    <a class="btn">
-      <img src="/themes/am5/images/e-wallet.png" /> <span>0.00</span>
-    </a>
-  </div>
-  <div class="col-sm-4">
-    <a class="btn">
-      <img src="/themes/am5/images/r-wallet.png" /> <span>0.00</span>
-    </a>
-  </div>
-  <div class="col-sm-4">
-     <a class="btn">
-      <img src="/themes/am5/images/i-wallet.png" /> <span>0.00</span>
-    </a>
-  </div>
-  <div class="clearfix"></div>
-  </div>
-</div>
-
+<div ng-controller="DashboardCtrl" ng-init="init()">
 <!-- load phan storage -->
 {literal}
 <div class="dashboard-main">
-  <div class="dashboard-main-title">
-    <i class="fa fa-cube"></i> Thông tin PD
+  <div class="col-lg-12 header-title">
+    <h1>Dashboard</h1>
   </div>
   <div class="dashboard-main-body">
-  <div class="col-sm-12" ng-repeat="pd in pds">
-    <a class="btn">
-     <b> Có <span class="bold red">{{ pd.stotal }}</span> PD {{ pd.name }}</b>
+  <ul class="switch-item">
+  <li ng-repeat="pd in pds">
+    <a><span>{{ pd.stotal }}</span> <br/>PD {{ pd.name }}</a>
+  </li>
+  <li ng-repeat="gd in gds">
+    <a>
+    <div ng-if="gd.name == 'Pending'">
+      <span>{{ gd.stotal }}</span> <br/> GET
+    </div>
+    <div ng-if="gd.name == 'Pending Verification'">
+      <span>{{ gd.stotal }}</span> <br/> GD
+    </div>
+    <div ng-if="gd.name == 'Done'">
+     <span>{{ gd.stotal }}</span> <br/>  GD hoàn thành
+    </div>
     </a>
-  </div>
+  </li>
+  </ul>
   <div class="clearfix"></div>
   </div>
 </div>
 <!-- END load phan storage -->
+{/literal}
+</div>
 
-<!-- load phan short menu -->
-<div class="dashboard-main">
-  <div class="dashboard-main-title">
-    <i class="fa fa-external-link"></i> Thông tin GD
+<div class="dashboard-main" ng-controller="PlanpdListCtrl" ng-init="init()">
+  <div class="col-lg-12 header-title">
+    <h4>Danh sách PD dự kiến <b>{literal} {{ from_date }} {/literal}</b></h4>
   </div>
   <div class="dashboard-main-body">
-  <div class="col-sm-12" ng-repeat="gd in gds">
-    <a class="btn">
-      <span ng-if="gd.name == 'Pending'">
-       <b> Có <span class="bold red">{{ gd.stotal }}</span> lệnh GET</b>
-      </span>
-      <span ng-if="gd.name == 'Pending Verification'">
-        <b>Có <span class="bold red">{{ gd.stotal }}</span> lệnh GD</b>
-      </span>
-      <span ng-if="gd.name == 'Done'">
-       <b> Có <span class="bold red">{{ gd.stotal }}</span> lệnh GD đã hoàn thành</b>
-      </span>
-    </a>
+   <div class="table-responsive">
+    <p class="loading" ng-show="loading"><i class="fa fa-spinner fa-spin" ></i></p>
+    <table class="table table-bordered table-striped" ng-hide="loading">
+    <thead>
+      <tr>
+        <th class="th-ord">#</th>
+        <th class="th-des">Mã</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {literal}
+      <tr ng-repeat="pd in planpds">
+        <td> {{ $index + 1 }} </td>
+        <td><a class="btn-link" ng-click="view_sponsor(pd)"> {{ pd.sponsor }} </a></td>
+        <td>
+          <div ng-if="pd.status == 0">
+           <button class="btn btn-sm btn-warning" ng-click="confirm(pd)">Xác nhận</button>
+           <a class="btn btn-link" target="_blank" href="https://vphp.biz/login">Link M5</a>
+          </div>
+          <div ng-if="pd.status == 1">
+           <a class="btn confirmed"><i class="fa fa-check"></i></a>
+          </div> 
+        </td>
+      </tr>
+      <tr ng-if="planpds.length == 0">
+        <td colspan="3">Chưa có PD dự kiến nào!</td>
+      </tr>
+      {/literal}
+    </tbody>
+  </table>
+  </div> <!-- end list-->
   </div>
-  <div class="clearfix"></div>
-  </div>
-</div>
-{/literal}
-<!-- END load phan short menu -->
 </div>

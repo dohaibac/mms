@@ -9,7 +9,7 @@ class SponsorinvestController extends JControllerForm
     
     require_once __DIR__ . '/models/sponsorinvest.php';
     
-    $this->sponsorinvest_model =  new sponsorinvestModel($this->app);
+    $this->sponsorinvest_model =  new SponsorinvestModel($this->app);
   }
    
   /***
@@ -110,6 +110,33 @@ class SponsorinvestController extends JControllerForm
        $this->renderJson($ret);
     }
   }
+  
+  /***
+   * update 
+   * 
+   * */
+  public function update() {
+    try {
+      $body = $this->get_request_body();
+      
+      if (empty($body)) {
+         $ret = $this->message(1, 'sponsorinvest_update_empty_data', 'Empty data.');
+         $this->renderJson($ret);
+      }
+      
+      $this->sponsorinvest_model->update_by_sponsor($body);
+      
+      $ret = $this->message(0, 'sponsorinvest_update_success', 'Update Pd has been successfully.');
+      $this->renderJson($ret);
+      
+    } catch (Exception $ex) {
+       $this->app->write_log('sponsorinvest_update_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'sponsorinvest_update_exception', $ex->getMessage());
+       $this->renderJson($ret);
+    }
+  }
+  
   
   /***
    * Lay danh sach 

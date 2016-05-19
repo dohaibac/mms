@@ -2,8 +2,7 @@ app.controller('DashboardCtrl', function($scope, $http, $PdService, $GdService) 
   
   $scope.pds = {};
   $scope.loading = false;
-  $scope.myData = [];
-
+  
   $scope.init = function () {
     $scope.loading = true;
     
@@ -27,8 +26,6 @@ app.controller('DashboardCtrl', function($scope, $http, $PdService, $GdService) 
       };
       
       $scope.gds = response.data.gds;
-      console.log($scope.gds);
-
     });
   };
 });

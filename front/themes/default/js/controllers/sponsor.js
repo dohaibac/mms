@@ -566,8 +566,8 @@ app.controller('SponsorAddModalCtrl', function($scope, $http, $location, $modal,
       $scope.message_type = data.type;
       
       if ($scope.message_type == 0) {
-        $scope.noty.add({type:'info', title:'Thông báo', body: $scope.message});
-        $scope.mscope.ok($scope.mscope);
+        $scope.noty.add({type:'info', title:'Thông báo', body: 'Thêm thành công!'});
+        //$scope.mscope.ok($scope.mscope);
       }
     });
   };

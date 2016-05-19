@@ -7,5 +7,13 @@ class SponsorinvestModel extends JModelBase {
     
     parent::__construct($app, $this->model_name);
   }
+  
+  public function get_all($data) {
+    $rest_client = $this->app->getRestClient();
+    
+    $path = '/' . $this->model_name . '/all';
+    
+    return $rest_client->get($path, $data);
+  }
 }
 ?>

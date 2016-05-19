@@ -142,7 +142,7 @@ a.logout-btn {
   font-weight:bold;font-size:16px;padding:0px 10px;
 }
 .dashboard-main-body {
-  padding-top:10px;
+  padding:10px;
 }
 .dashboard-main .col-sm-4 {
   margin-bottom:10px;
@@ -685,3 +685,20 @@ i.fa-toggle-on, a.btn {
   cursor:pointer;
 }
 .mnu-arrow {font-weight: bold;cursor: pointer;color:#555}
+.switch-item li {float:left}
+.switch-item li a {
+  width:176px;
+  display:block;
+  padding:10px;
+  border-radius: 4px;
+  border: 1px solid #CCCCCC;
+  margin-left: 10px;
+  text-align: center;
+ }
+.switch-item li a:hover {
+  color:#3276b1;
+}
+.switch-item li a span {
+  font-size: 24px;
+  font-weight: bold;
+}
