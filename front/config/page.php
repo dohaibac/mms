@@ -229,7 +229,7 @@ $pageConf['dashboard'] = array (
 );
 $pageConf['dashboard']['modules'] = array (
   'position-1' => 'head',
-  'position-2' => 'dashboard.menu',
+  'position-2' => 'dashboard.menu, user.menu',
   'position-3' => 'dashboard.index',
 );
 
