@@ -58,6 +58,7 @@ body {
   background: #4b6580;
   padding:1px 0px;
   line-height: 28px;
+  border-top:3px solid #428bca;
 }
 .user-info {padding:0px 5px; text-align:right}
 .user-info .email{font-weight:bold;margin-right:5px;color:#FFFFFF}
@@ -199,6 +200,10 @@ border-top-right-radius: 4px;
   padding:10px;
 }
 
+.box-title-green {
+  background: #5cb85c !important;
+}
+
 .box .box-body ul, .box .box-body ul li{
   padding:5px;
 }
@@ -224,14 +229,14 @@ border-top-right-radius: 4px;
   list-style: none;
   padding-bottom:10px;
 }
-#sidebar ul li a{
-  color:#000;
+#sidebar ul li a {
+  color:#3276b1;
 }
 #sidebar ul li a.active{
-  color:#c52d2f;
+  color:#FFFFFF;
 }
 #sidebar ul li a:hover{
-  color:#c52d2f;
+  color:#FFFFFF;
 }
 .main-one-cols {
   background:#ffffff;

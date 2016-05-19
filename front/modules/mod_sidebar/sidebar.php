@@ -1,8 +1,6 @@
 <div id="sidebar">
   
-  <?php $this->loadView('pd/menu'); ?>
-  
-  <?php $this->loadView('gd/menu'); ?>
+  <?php $this->loadView('dashboard/menu'); ?>
   
   <div class="box">
     <div class="box-title">
