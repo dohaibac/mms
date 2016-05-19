@@ -80,11 +80,16 @@ return array(
   'page_system_keywords'=> 'Quản trị hệ thống',
   'page_system_description'=> 'Quản trị hệ thống',
   
-    // other page
+  // other page
   'page_other_title'=> 'Quản lý ứng viên và đặt lịch',
   'page_other_keywords'=> 'Quản lý ứng viên và đặt lịch',
   'page_other_description'=> 'Quản lý ứng viên và đặt lịch',
-    
+
+  // report page
+  'page_dashboard_title'=> 'Dashboard',
+  'page_dashboard_keywords'=> 'Dashboard',
+  'page_dashboard_description'=> 'Dashboard',
+  
     // report page
   'page_report_title'=> 'Thống kê báo cáo',
   'page_report_keywords'=> 'Thống kê báo cáo',

@@ -31,6 +31,7 @@ $routerConf['/^pd$/'] = array('page'=>'pd');
 $routerConf['/^gd$/'] = array('page'=>'gd');
 $routerConf['/^sponsor$/'] = array('page'=>'sponsor');
 $routerConf['/^other$/'] = array('page'=>'other');
+$routerConf['/^dashboard$/'] = array('page'=>'dashboard');
 $routerConf['/^report$/'] = array('page'=>'report');
 $routerConf['/^gcm$/'] = array('page'=>'gcm');
 $routerConf['/^gcm\/register$/'] = array('page'=>'gcm', 'controller'=>'gcm', 'action'=>'register');

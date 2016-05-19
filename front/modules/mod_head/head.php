@@ -19,7 +19,7 @@
   }
 ?>
 <header id="header">
-<div class="navbar-inner">
+<div class="navbar-inner" style="display: none">
   <div class="container top-container">
     <div class="navbar-header col-md-2">
       <a class="navbar-brand logo" href="/"></a>
