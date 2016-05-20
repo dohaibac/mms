@@ -67,6 +67,9 @@ class PlanpdController extends JControllerForm
     $system_code = $this->system_code();
     
     $code = 'PD' . time();
+    
+    $id = $this->getSafe('id');
+    
     $sponsor = $this->getSafe('sponsor');
     $amount  = $this->getSafe('amount');
     
@@ -105,13 +108,14 @@ class PlanpdController extends JControllerForm
     if ($data->type == 0) {
       // update table plan_pd : updated_at and status
       $plan_pd = array(
+        'id' => $id,
         'sponsor' => $sponsor,
         'system_code' => $system_code,
         'status' => 1,
         'updated_at'=> date('Y-m-d h:i:s'),
         'updated_by'=>$this->app->user->data()->id
       );
-      
+     
      $ret = $this->planpd_model->put($plan_pd);
      
       // update updated_at trong table sponsor_invest

@@ -18,32 +18,15 @@ class JobsController extends JControllerForm
     $this->helper = new JobsHelper($this->app, $system_code);
     
   }
-  
-  public function update_pd_status() {
-    
-  }
-  
-  public function update_gd_status() {
-    
-  }
-  
+
   /***
-   * Dua vao thong tin tinh toan se push message
+   * Tinh toan xem co bao nhieu PD trong ngay
    * 
-   * */
-  public function create_message() {
-    
-  }
-  
-  /***
-   *  Nhac co lenh PD
-      Nhac GET
-      Nhac co lenh GD
-      Nhac lenh approve
+   * Can cu vao thoi gian So ngay cho PD : num_days_pd_pending
    * 
    * **/
-  public function alert() {
-    
+  public function get_pd_in_day() {
+    $this->helper->get_list_pd_in_day();
   }
   
   public function create_commands() {

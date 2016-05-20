@@ -78,6 +78,30 @@ class PlanpdModel extends JModelBase {
     
     return $db->loadAssocList();
   }
+  
+  /***
+   * Update by id
+   * 
+   * $data array
+   * 
+   * @return mix
+   * 
+   * */
+  public function update_by_id($data) {
+    $system_code = $data['system_code'];
+    
+    if (!isset($data['id'])) {
+      return false;
+    }
+    
+    $model_name = $this->model_name . '_' .$system_code;
+    
+    $object = $this->generate_object_update($data);
+    
+    $db = $this->app->getDbo();
+    
+    $db->updateObject($model_name, $object, 'id');
+  }
 
   /***
    * Update by id

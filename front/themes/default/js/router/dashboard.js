@@ -7,7 +7,7 @@ app.config(['$routeProvider', '$locationProvider', function AppConfig($routeProv
         })
         .when('/pd', {
             templateUrl: '//' + appConf.domain + '?mod=dashboard.pd',
-            controller: 'DashboardPdCtrl'
+            controller: 'PdexListCtrl'
         })
         .when('/get', {
             templateUrl: '//' + appConf.domain + '?mod=dashboard.get',
@@ -15,7 +15,7 @@ app.config(['$routeProvider', '$locationProvider', function AppConfig($routeProv
         })
         .when('/gd', {
             templateUrl: '//' + appConf.domain + '?mod=dashboard.gd',
-            controller: 'DashboardGdCtrl'
+            controller: 'GdListCtrl'
         })
         .when('/approve', {
             templateUrl: '//' + appConf.domain + '?mod=dashboard.approve',

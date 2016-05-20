@@ -149,7 +149,7 @@ class PdController extends JControllerForm
         
         # list required fields:
         $required_fields = array (
-         'code', 'sponsor', 'amount', 'issued_at', 'system_code', 'created_at', 'created_by'
+         'sponsor', 'system_code', 'created_at', 'created_by'
         );
          
         // required updated_at and updated_by
@@ -321,6 +321,31 @@ class PdController extends JControllerForm
        $this->app->write_log('pd_get_status_exception - ' . $ex->getMessage());
        
        $ret = $this->message(1, 'pd_get_status_exception', $ex->getMessage());
+       $this->renderJson($ret);
+     }
+  }
+  
+   /***
+   * get total in each status of PD 
+   * 
+   * */
+  public function get_all() {
+    try {
+
+      $db = $this->app->getDbo();
+
+      $pds = $this->pd_model->get_all($this->data);
+
+      $ret = array (
+        'pds' => $pds,
+      );
+
+      $this->renderJson($ret);
+
+     } catch (Exception $ex) {
+       $this->app->write_log('pd_get_all_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'pd_get_all_exception', $ex->getMessage());
        $this->renderJson($ret);
      }
   }

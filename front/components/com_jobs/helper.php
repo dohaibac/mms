@@ -17,6 +17,7 @@ class JobsHelper
     require_once PATH_COMPONENT .'/com_sponsorinvest/models/sponsorinvest.php';
     require_once PATH_COMPONENT .'/com_systemcode/models/systemcode.php';
     require_once PATH_COMPONENT .'/com_planpd/models/planpd.php';
+    require_once PATH_COMPONENT .'/com_pdex/models/pdex.php';
     
     $this->setting_model = new SettingModel($app);
     $this->pd_model = new PdModel($app);
@@ -25,6 +26,8 @@ class JobsHelper
     $this->sponsorinvest_model = new SponsorinvestModel($app);
     $this->systemcode_model = new SystemcodeModel($app);
     $this->planpd_model = new PlanpdModel($app);
+    
+    $this->pdex_model = new PdexModel($app);
     
     $this->db = JBase::getDbo();
   }
@@ -42,16 +45,8 @@ class JobsHelper
    * 
    * **/
   public function create_commands() {
-    // lay thong tin so lenh trong mot ngay
-    $data = array(
-      'system_code' => $this->system_code
-    );
     
-    $result = $this->setting_model->get($data);
-    
-    $data = $result->body;
-    
-    $meta = json_decode($data->meta);
+    $meta = $this->get_setting();
     
     $num_commands_per_day = $meta->num_commands_per_day;
     
@@ -164,5 +159,95 @@ class JobsHelper
     
     return $data;
   }
+  
+  /******
+   * Lay thong tin setting
+   * 
+   * @return object
+   * 
+   * */
+  function get_setting () {
+    // lay thong tin so lenh trong mot ngay
+    $data = array(
+      'system_code' => $this->system_code
+    );
+    
+    $result = $this->setting_model->get($data);
+    
+    $data = $result->body;
+    
+    $meta = json_decode($data->meta);
+    
+    return $meta;
+  }
+  
+  
+  /*************************************
+   * 
+   * Lay danh sach cac Ma can PD trong ngay
+   * Can cu vao issued_at va num_days_pd_pending 
+   * 
+   * ***********************************/
+   
+   function get_list_pd_in_day () {
+     $meta = $this->get_setting();
+    
+     $num_days_pd_pending = $meta->num_days_pd_pending;
+     $num_days_pd_transfer = $meta->num_days_pd_transfer;
+     
+     // lay danh sach pd pending
+     $db = JBase::getDbo();
+     
+     $total_days_pending = $num_days_pd_pending + $num_days_pd_transfer;
+     
+     $current_time = time();
+     $from_date = date('Y-m-d 00:00:00', strtotime('-'. $total_days_pending .' day', $current_time));
+     
+     $to_date = date('Y-m-d 23:59:59', strtotime('-'. $num_days_pd_pending .' day', $current_time));
+     
+     $where = 'system_code = ' . $db->quote($this->system_code) . 
+      ' AND (issued_at BETWEEN ' . $db->quote($from_date) . ' AND ' . $db->quote($to_date) . ')' .
+      ' AND status=1';
+     
+     $order_by ='issued_at ASC';
+      
+      $data = array(
+        'where'=>$where,
+        'order_by'=>$order_by,
+        'system_code'=>$this->system_code
+      );
+       
+      $data = $this->pd_model
+        ->get_all($data)
+        ->body;
+     
+     $pds = $data->pds;
+     
+     $rows = array();
+     
+     foreach($pds as $pd) {
+       $row = array(
+        'pd_id' => $pd->id,
+        'sponsor' => $pd->sponsor,
+        'system_code' =>$this->system_code,
+        'status' => 0,
+        'created_at'=> date('Y-m-d h:i:s'),
+        'created_by'=>1
+       );
+       $rows []= $row;
+     }
+     
+     if (empty($rows)) {
+       return;
+     }
+     
+     $pdexs = array(
+        'rows' => $rows,
+        'system_code' => $this->system_code
+      );
+      
+    $ret =  $this->pdex_model->insert_multi($pdexs);
+    print_r($ret->body);
+   }
 }
 ?>
