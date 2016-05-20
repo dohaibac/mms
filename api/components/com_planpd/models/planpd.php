@@ -9,11 +9,35 @@ class PlanpdModel extends JModelBase {
     parent::__construct($app);
   }
   
+  public function insert($data) {
+    $system_code = $data['system_code'];
+    $db = $this->app->getDbo();
+    
+    $query = $db->getQuery(true);
+    
+    $columns = $this->build_columns_list($data);
+    
+    $values = $this->build_columns_value($data, $db);
+    
+    // Prepare the insert query.
+    $query
+        ->insert($db->quoteName($this->model_name .'_' . $system_code))
+        ->columns($db->quoteName($columns))
+        ->values(implode(',', $values));
+     
+    
+    $db->setQuery($query);
+    $db->query();
+    
+    return $db->insertid();
+  }
+  
   public function delete_by_date($system_code, $from_date, $to_date) {
+    
     $db = $this->app->getDbo();
     
     $query = $db->getQuery(true)
-     ->delete($db->quoteName($this->model_name))
+     ->delete($db->quoteName($this->model_name . '_' . $system_code))
      ->where('system_code=' . $db->quote($system_code) .
      ' AND (created_at BETWEEN ' . $db->quote($from_date) .' AND ' . $db->quote($to_date) .')');
     
@@ -30,6 +54,8 @@ class PlanpdModel extends JModelBase {
    *   - where: condition
    * */
   public function get_all($data) {
+    $system_code = $data['system_code'];
+    
     $where = $data['where'];
     $order_by = $data['order_by'];
     
@@ -39,7 +65,7 @@ class PlanpdModel extends JModelBase {
     
     $query = $db->getQuery(true)
      ->select($select)
-     ->from($db->quoteName($this->model_name));
+     ->from($db->quoteName($this->model_name . '_' . $system_code));
    
    if (!empty($where)) {
      $query->where($where);
@@ -62,6 +88,7 @@ class PlanpdModel extends JModelBase {
    * 
    * */
   public function update_by_sponsor($data) {
+    $system_code = $data['system_code'];
     $db = $this->app->getDbo();
     
     $query = $db->getQuery(true);
@@ -77,7 +104,7 @@ class PlanpdModel extends JModelBase {
       $db->quoteName('system_code') . ' = ' . $db->quote($data['system_code'])
     );
     
-    $query->update($db->quoteName($this->model_name))->set($fields)->where($conditions);
+    $query->update($db->quoteName($this->model_name . '_' . $system_code))->set($fields)->where($conditions);
  
     $db->setQuery($query);
      

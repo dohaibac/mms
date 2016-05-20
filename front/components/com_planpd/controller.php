@@ -35,7 +35,8 @@ class PlanpdController extends JControllerForm
     
     $data = array(
       'where'=>$where,
-      'order_by'=>$order_by
+      'order_by'=>$order_by,
+      'system_code'=>$system_code
     );
      
     $data = $this->planpd_model

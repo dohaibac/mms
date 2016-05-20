@@ -174,7 +174,8 @@ class PlanpdController extends JControllerForm
       
       $data = array (
         'order_by' => $order_by,
-        'where' => $where
+        'where' => $where,
+        'system_code' => $this->getSafe('system_code')
       );
       
       $planpd_list = $this->planpd_model->get_all($data);

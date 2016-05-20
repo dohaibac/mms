@@ -346,6 +346,22 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
   
 });
 
+
+app.controller('SponsorListInvestCtrl', function($scope, $http, $location, $modal, noty, $SponsorService, $window) {
+  
+  $scope.noty = noty;
+  
+  $scope.loading = false;
+  
+  $scope.init = function () {
+    
+  };
+  
+  $scope.search = function () {
+    
+  };
+});
+
 app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $SponsorService, $BankService, noty) {
   $scope.processing = false;
   

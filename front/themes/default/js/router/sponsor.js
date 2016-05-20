@@ -10,6 +10,10 @@ app.config(['$routeProvider', '$locationProvider', function AppConfig($routeProv
         templateUrl: '//' + appConf.domain + '?mod=sponsor.list',
         controller: 'SponsorListCtrl'
     })
+    .when('/list_invest', {
+        templateUrl: '//' + appConf.domain + '?mod=sponsor.list_invest',
+        controller: 'SponsorListInvestCtrl'
+    })
     .when('/add', {
         templateUrl: '//' + appConf.domain + '?mod=sponsor.add',
         controller: 'SponsorAddCtrl'
