@@ -23,11 +23,10 @@ require_once PATH_PLUGINS . '/cache/phpfastcache.php';
 
 $app = JBase::getApplication(__APP_NAME__);
 
-// Job nay se tu dong tinh toan trang thai cua PD de set ve trang thai DONE!
-// sau khi set trang thai done, se tu dong create lenh GET.
+// Can cu vao so ngay cho GD hoan thanh de tinh ra GD da xong. insert vao table moi
 
 $ctrl = 'jobs';
-$task = 'set_pd_status_to_done';
+$task = 'set_gd_to_approved';
 
 $controller = $app->getController($ctrl);
 

@@ -1,7 +1,7 @@
 <div class="dashboard-main" ng-controller="PlanGetListCtrl" ng-init="init()">
   <div class="col-lg-12 header-title">
-    <h4>Danh sách GET dự kiến <b>{literal} {{ from_date }} {/literal}</b></h4>
-    <span><br/><br/></span>
+    <h4>Danh sách GET dự kiến ngày <b>{literal} {{ from_date }} {/literal}</b></h4>
+    <span>Bạn cần vào M5 để đặt lệnh GET cho các mã sau, GET càng sớm tiền về càng sớm:<br/><br/></span>
   </div>
   <div class="dashboard-main-body">
    <div class="table-responsive">

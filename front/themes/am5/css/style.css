@@ -10,7 +10,7 @@ a:hover, a:focus {
 }
 body {
   background-color:#f3f3f3;
-  background: rgba(0, 0, 0, 0) url("https://www.vietcombank.com.vn/IBanking2015/Content/web/images/v2/body_bg.png") repeat scroll left top
+  background: rgba(0, 0, 0, 0) url("../images/body_bg.png") repeat scroll left top
 }
 .wrapper {padding:0px}
 
@@ -148,14 +148,18 @@ a.logout-btn {
 .dashboard-main .col-sm-4 {
   margin-bottom:10px;
 }
+.nav-bar {display:none;height:25px;}
+.nav-bar button {float:right;margin-right:0px; margin-top:10px;}
 @media(max-width:980px){
   .top-nav {display:none}
+  .nav-bar {display:block}
   .main-menu {float:none}
   .top-container {width:100% !important}
   .dashboard-main-container {margin-top:20px}
 }
 @media(max-width:360px){
   .top-nav {display:none}
+  .nav-bar {display:block}
   .main-menu {float:none}
   .top-container {width:100% !important}
   .dashboard-main-container {margin-top:20px}
@@ -311,6 +315,9 @@ ul.sub{
   top: 100%;
   width: auto !important;
   z-index: 999999;
+}
+.sub2{
+  min-width: 250px !important;
 }
 ul.menu li:hover ul.sub{
   display:block;
@@ -689,4 +696,55 @@ i.inactive {color: #CCCCCC;font-size:30px;cursor:pointer;}
 .switch-item li a span {
   font-size: 24px;
   font-weight: bold;
+}
+.transition (@value1,@value2:X,...) { @value: ~`"@{arguments}".replace(/[\[\]]|\,\sX/g, '')`; -webkit-transition: @value; -moz-transition: @value; -ms-transition: @value; -o-transition: @value; transition: @value; }
+.transform (@value1,@value2:X,...) { @value: ~`"@{arguments}".replace(/[\[\]]|\,\sX/g, '')`; transform:@value; -ms-transform:@value; -webkit-transform:@value; -o-transform:@value; -moz-transform:@value; }
+
+.border-box { box-sizing:border-box; -moz-box-sizing:border-box; }
+menu { display:block;
+    @menu-width:250px;
+    >div { position:absolute; z-index:2; top:0;  width:@menu-width; height:100%; .border-box; .transition(-webkit-transform ease 250ms); .transition(transform ease 250ms);
+        &.left { background:#273D7A; left:@menu-width*-1; }
+        &.show.left { .transform(translate3d(@menu-width, 0, 0)); }
+        
+        &.right { background:#6B1919; right:@menu-width*-1; }
+        &.show.right { .transform(translate3d(@menu-width*-1, 0, 0)); }
+        
+        >menu-item { display:block;
+            >div { float:left; width:100%; margin:0; padding:10px 15px; border-bottom:solid 1px #555; cursor:pointer; .border-box; color:#B0B0B0;
+                &:hover { color:#F0F0F0; }
+                >span { float:left; color:inherit; }
+            }
+        }
+    }
+}
+menu > div.show.left {
+    transform: translate3d(250px, 0px, 0px);
+}
+menu > div.left {
+    background: #273d7a none repeat scroll 0 0;
+    left: -250px;
+}
+menu > div {
+    box-sizing: border-box;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    transition: transform 250ms ease 0s;
+    width: 250px;
+    z-index: 2;
+    overflow: auto;
+}
+
+menu ul li a {
+   border-top: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  display:block;
+}
+menu ul ul a {
+   background-color: rgba(255, 255, 255, 0.1);
+   padding: 10px 30px;
 }

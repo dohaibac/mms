@@ -1,7 +1,7 @@
-<div class="dashboard-main" ng-controller="PlanpdListCtrl" ng-init="init()">
+<div class="dashboard-main" ng-init="init()">
   <div class="col-lg-12 header-title">
-    <h4>Danh sách GD <b>{literal} {{ from_date }} {/literal}</b></h4>
-    <span>Danh sách các mã GD - Đang trong quá trình nhận tiền!<br/><br/></span>
+    <h4>Danh sách các mã đang GD</b></h4>
+    <span class="bold green">Các mã đang ở trạng thái GD bên M5 - Tiền đang về :D <br/><br/></span>
   </div>
   <div class="dashboard-main-body">
    <div class="table-responsive">
@@ -16,12 +16,12 @@
     </thead>
     <tbody>
       {literal}
-      <tr ng-repeat="pd in planpds">
+      <tr ng-repeat="get in gds">
         <td> {{ $index + 1 }} </td>
-        <td><a class="btn-link" ng-click="view_sponsor(pd)"> {{ pd.sponsor }} </a></td>
+        <td><a class="btn-link" ng-click="view_sponsor(get)"> {{ get.sponsor }} </a></td>
         <td>
           <div ng-if="pd.status == 0">
-           <button class="btn btn-sm btn-warning" ng-click="confirm(pd)">Xác nhận</button>
+           <button class="btn btn-sm btn-warning" ng-click="confirm(get)">Xác nhận</button>
            <a class="btn btn-link" target="_blank" href="https://vphp.biz/login">Link M5</a>
           </div>
           <div ng-if="pd.status == 1">
@@ -29,8 +29,8 @@
           </div> 
         </td>
       </tr>
-      <tr ng-if="planpds.length == 0">
-        <td colspan="3">Chưa có PD dự kiến nào!</td>
+      <tr ng-if="gds.length == 0">
+        <td colspan="3">Chưa có GD nào!</td>
       </tr>
       {/literal}
     </tbody>

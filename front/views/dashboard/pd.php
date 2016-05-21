@@ -29,7 +29,7 @@
           </div> 
         </td>
       </tr>
-      <tr ng-if="planpds.length == 0">
+      <tr ng-if="pdexs.length == 0">
         <td colspan="3">Chưa có PD nào!</td>
       </tr>
       {/literal}

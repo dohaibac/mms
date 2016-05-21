@@ -371,6 +371,9 @@ class JobsHelper
        );
        
        $ret = $this->pd_model->put($pd_update);
+       
+       // save xong thi tao luon lenh GET
+       $this->auto_create_plan_get($pd->sponsor, $pd->amount, $this->system_code);
      }
    }
 }

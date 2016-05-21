@@ -23,11 +23,10 @@ require_once PATH_PLUGINS . '/cache/phpfastcache.php';
 
 $app = JBase::getApplication(__APP_NAME__);
 
-// Job tinh toan cac lenh GET du kien trong ngay
-// Can cu vao trang thai PD
+// Can cu vao so ngay cho GD ma he thong se tu dong set GET ve GD
 
 $ctrl = 'jobs';
-$task = 'get_pd_in_day';
+$task = 'set_get_to_gd';
 
 $controller = $app->getController($ctrl);
 
