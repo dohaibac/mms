@@ -1,7 +1,7 @@
-<div ng-controller="PdexEditCtrl">
+<div ng-controller="PdexApprovedEditCtrl">
 {literal}
 <div class="modal-header">
-  <h3 class="modal-title">Xác nhận đã chuyển tiền</h3>
+  <h3 class="modal-title">Xác nhận PD đã hoàn thành</h3>
 </div>
 <div class="modal-body dashboard-main"> 
    <div class="table-responsive">
@@ -10,7 +10,7 @@
         <label class="control-label">Mã</label>
       </div>
       <div class="col-md-10">
-        <input ng-model="pdex.sponsor" readonly="readonly" type="input" name="sponsor" class="form-control" 
+        <input ng-model="pd.sponsor" readonly="readonly" type="input" name="sponsor" class="form-control" 
           required ng-maxlength="255">
       </div>
       <div class="clearfix"></div>

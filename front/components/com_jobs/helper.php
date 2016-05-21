@@ -18,6 +18,7 @@ class JobsHelper
     require_once PATH_COMPONENT .'/com_systemcode/models/systemcode.php';
     require_once PATH_COMPONENT .'/com_planpd/models/planpd.php';
     require_once PATH_COMPONENT .'/com_pdex/models/pdex.php';
+    require_once PATH_COMPONENT .'/com_planget/models/planget.php';
     
     $this->setting_model = new SettingModel($app);
     $this->pd_model = new PdModel($app);
@@ -26,6 +27,7 @@ class JobsHelper
     $this->sponsorinvest_model = new SponsorinvestModel($app);
     $this->systemcode_model = new SystemcodeModel($app);
     $this->planpd_model = new PlanpdModel($app);
+    $this->planget_model = new PlangetModel($app);
     
     $this->pdex_model = new PdexModel($app);
     
@@ -44,7 +46,7 @@ class JobsHelper
    * 
    * 
    * **/
-  public function create_commands() {
+  public function create_plan_pd() {
     
     $meta = $this->get_setting();
     
@@ -146,6 +148,78 @@ class JobsHelper
     }
   }
   
+   /***
+   * Tu dong tao GET
+   * 
+   * */
+  function auto_create_plan_get($sponsor, $amount, $system_code) {
+    $sponsor = $sponsor;
+    
+    $status = 0;
+    
+    // tinh toan so tien co the get ve
+    
+    $meta = $this->get_setting();
+    
+    $num_days_pd_pending = $meta->num_days_pd_pending;
+    $percent_rate_days  = $meta->percent_rate_days;
+    
+    $receive_amount = $amount + ($amount * $num_days_pd_pending) * ($percent_rate_days / 100);
+    
+    $data = array(
+      'sponsor' => $sponsor,
+      'amount' => $receive_amount,
+      'system_code' => $system_code,
+      'status' => $status,
+      'created_by' => 1,
+      'created_at' => date('Y-m-d h:i:s')
+    );
+     
+    $result = $this->planget_model->post($data);
+  }
+  
+  /***
+   * Tu dong tao GET
+   * 
+   * */
+  function auto_create_get($sponsor, $amount, $system_code) {
+    $meta = $this->get_setting();
+    
+    $code = 'GD' . time();
+    
+    $num_days_pd_pending = $meta->num_days_pd_pending;
+    $percent_rate_days = $meta->percent_rate_days;
+   
+    $wallet = 'R-Wallet';
+    $bank = 1;
+    $issued_at = date('Y-m-d h:i:s');
+    
+    $num_days_gd_pending = $meta->num_days_gd_pending;
+    $num_days_gd_pending_verification = $meta->num_days_gd_pending_verification;
+    $num_days_gd_approve = $meta->num_days_gd_approve;
+    
+    $status = 1;
+    
+    $data = array(
+      'code' => $code,
+      'sponsor' => $sponsor,
+      'bank_id' => $bank,
+      'amount' =>$amount,
+      'wallet' =>$wallet,
+      'system_code' => $system_code,
+      'issued_at' => $issued_at,
+      'num_days_gd_pending' => $num_days_gd_pending,
+      'num_days_gd_pending_verification' => $num_days_gd_pending_verification,
+      'num_days_gd_approve' => $num_days_gd_approve,
+      'status' => $status,
+      'auto_set' => 1,
+      'created_by' => 1,
+      'created_at' => date('Y-m-d h:i:s')
+    );
+     
+    return $this->gd_model->post($data);
+  }
+  
   function sort_sponsors($data) {
     $updated_at = array();
     $path_len = array();
@@ -180,7 +254,6 @@ class JobsHelper
     
     return $meta;
   }
-  
   
   /*************************************
    * 
@@ -248,6 +321,57 @@ class JobsHelper
       
     $ret =  $this->pdex_model->insert_multi($pdexs);
     print_r($ret->body);
+   }
+   
+   /***
+    * Tu dong set trang thai cua PD ve done khi issued_at vuot qua thoi gian
+    * 
+    * 
+    * 
+    * */
+   function set_pd_status_to_done() {
+     $meta = $this->get_setting();
+    
+     $num_days_pd_pending = $meta->num_days_pd_pending;
+     $num_days_pd_transfer = $meta->num_days_pd_transfer;
+     
+     // lay danh sach pd pending
+     $db = JBase::getDbo();
+     
+     $total_days_pending = $num_days_pd_pending + $num_days_pd_transfer;
+     
+     $current_time = time();
+     $from_date = date('Y-m-d 00:00:00', strtotime('-'. $total_days_pending .' day', $current_time));
+     
+     $where = 'system_code = ' . $db->quote($this->system_code) . 
+      ' AND issued_at < ' . $db->quote($from_date) .
+      ' AND status=2';  // payment pending
+     
+     $order_by ='issued_at ASC';
+      
+     $data = array(
+        'where'=>$where,
+        'order_by'=>$order_by,
+        'system_code'=>$this->system_code
+     );
+       
+     $data = $this->pd_model
+        ->get_all($data)
+        ->body;
+     
+     $pds = $data->pds;
+     
+     foreach($pds as $pd) {
+       $pd_update = array(
+        'id' => $pd->id,
+        'system_code' =>$this->system_code,
+        'status' => 3,
+        'updated_at'=> date('Y-m-d h:i:s'),
+        'updated_by'=>1
+       );
+       
+       $ret = $this->pd_model->put($pd_update);
+     }
    }
 }
 ?>

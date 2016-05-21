@@ -1,14 +1,14 @@
-app.controller('GdexGetListCtrl', function($scope, $http, $location, $modal, noty, $PdexService, $SponsorService) {
+app.controller('PlanGetListCtrl', function($scope, $http, $location, $modal, noty, $PlanGetService, $SponsorService) {
   
   $scope.noty = noty;
   
-  $scope.pdexs = [];
+  $scope.plangets = [];
   
   $scope.loading = false;
   
   $scope.init = function () {
     $scope.loading = true;
-    $PdexService.get_all().then(function(response) {
+    $PlanGetService.get_all().then(function(response) {
       $scope.loading = false;
       if (response.data.type == 1) {
         $scope.message_type = 1;
@@ -17,14 +17,14 @@ app.controller('GdexGetListCtrl', function($scope, $http, $location, $modal, not
       }
       
       $scope.from_date = response.data.from_date;
-      $scope.pdexs = response.data.pdexs;
+      $scope.plangets = response.data.plangets;
     });
   };
   
-  $scope.view_sponsor = function (pd) {
+  $scope.view_sponsor = function (get) {
     var options = {
       'init': function(mscope) {
-        $SponsorService.view(pd.sponsor).then(function(response) {
+        $SponsorService.view(get.sponsor).then(function(response) {
           var data = response.data;
           if (data.type == 1) {
             mscope.message = data.message;
@@ -55,44 +55,52 @@ app.controller('GdexGetListCtrl', function($scope, $http, $location, $modal, not
     $SponsorService.show_view_only(options);
   };
   
-  $scope.confirm = function (pd) {
+  $scope.confirm = function (get) {
     var options = {
       'init': function(mscope) {
-        mscope.pd = pdex;
+        mscope.get = get;
         
-        mscope.$broadcast('pdex::edit', mscope);
+        mscope.$broadcast('planget::edit', mscope);
       }
     };
     
-    $PdexService.show_confirm_modal(options).then(function() {
+    $PlanGetService.show_confirm_modal(options).then(function() {
       
     });
   };
   
 });
 
-app.controller('GdexGetEditCtrl', function($scope, $http, $location, $modal, noty, $PdexService, $SponsorService) {
-  
-  $scope.pdex = {};
-  
-  $scope.$on('pdex::edit', function(e, data) {
-     $scope.pdex = data.pdex;
-     $scope.mscope = data;
-  });
+app.controller('PlanGetEditCtrl', function($scope, $http, $location, $modal, noty, $PlanGetService, $SponsorService) {
   
   $scope.noty = noty;
   
   $scope.processing = false;
   
+  $scope.amount_money_text = '';
+  
+  $scope.get = {};
+  
+  $scope.$on('planget::edit', function(e, data) {
+    $scope.get = data.get;
+    $scope.mscope = data;
+    $scope.amount_money_text = DocTienBangChu($scope.get.amount * 10000);
+  });
+  
   $scope.disabled = function() {
-   return false;
+    if (!$scope.get.amount || $scope.processing) {
+      return true;
+    }
+    
+    return $scope.get.amount.length > 0 ? false : true;
+    
   };
   
   $scope.submit = function() {
     
     $scope.processing = true;
     
-    $PdexService.edit($scope.pdex).then(function(response) {
+    $PlanGetService.auto_create_get($scope.get).then(function(response) {
       $scope.processing = false;
       
       if ($scope.message_type == 1) { 
@@ -100,10 +108,15 @@ app.controller('GdexGetEditCtrl', function($scope, $http, $location, $modal, not
         $scope.message = response.data.message;
       }
       else {
+        $scope.get.status = 1;
         $scope.mscope.cancel();
-        $scope.noty.add({type:'info', title:'Thông báo', body: 'Cập nhật thành công!'});
+        $scope.noty.add({type:'info', title:'Thông báo', body: 'Xác nhận thành công!'});
       }
     });
+  };
+  
+  $scope.convert_money = function () {
+    $scope.amount_money_text = DocTienBangChu($scope.get.amount * 10000);
   };
 });
 

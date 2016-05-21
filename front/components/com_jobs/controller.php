@@ -29,8 +29,21 @@ class JobsController extends JControllerForm
     $this->helper->get_list_pd_in_day();
   }
   
-  public function create_commands() {
-    $this->helper->create_commands();
+  /*****
+   * Function tao PD trong ngay
+   * 
+   * */
+  public function create_plan_pd() {
+    $this->helper->create_plan_pd();
+  }
+  
+  
+  /****
+   * Tu dong set trang thai PD ve done
+   * 
+   * **/
+  public function set_pd_status_to_done () {
+    $this->helper->set_pd_status_to_done();
   }
 }
 ?>

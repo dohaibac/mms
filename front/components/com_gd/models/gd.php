@@ -19,5 +19,7 @@ class GdModel extends JModelBase {
     
     return $rest_client->get($path, array());
   }
+
+  
 }
 ?>

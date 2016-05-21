@@ -10,7 +10,7 @@
   
 </head>
 <body ng-app="jApp"> 
-  <div style="padding:20px;"><a href="/Notfify-debug.apk">Android App</a></div>
+  <div style="padding:20px;"><a href="https://play.google.com/store/apps/details?id=com.pt.pd.app.notifyme">Android App</a></div>
   This is for test!!!
 </body>
 </html>

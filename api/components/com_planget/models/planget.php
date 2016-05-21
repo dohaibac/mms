@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') or die;
 
-class PlanpdModel extends JModelBase {
+class PlangetModel extends JModelBase {
   
   public function __construct($app) {
-    $this->model_name = '#__plan_pd';
+    $this->model_name = '#__plan_get';
     
     parent::__construct($app);
   }
@@ -45,6 +45,7 @@ class PlanpdModel extends JModelBase {
      
     return $db->query();
   }
+  
   /***
    * Lay danh sach 
    * 

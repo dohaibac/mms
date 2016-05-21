@@ -66,6 +66,13 @@ $routerMap = array(
   'planpd/get_all'=> array('controller'=>'planpd', 'action'=>'get_all'),
   'planpd/delete_by_date'=> array('controller'=>'planpd', 'action'=>'delete_by_date'),
   
+/*======================================
+ * Config for planget
+ * 
+ * =====================================*/
+  'planget'=> array('controller'=>'planget', 'action'=>'index'),
+  'planget/get_all'=> array('controller'=>'planget', 'action'=>'get_all'),
+  'planget/delete_by_date'=> array('controller'=>'planget', 'action'=>'delete_by_date'),
 
 /*======================================
  * Config for pdex

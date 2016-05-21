@@ -1,7 +1,7 @@
 <div class="dashboard-main" ng-controller="PlanpdListCtrl" ng-init="init()">
   <div class="col-lg-12 header-title">
     <h4>Danh sách GET dự kiến <b>{literal} {{ from_date }} {/literal}</b></h4>
-    <span>Danh sách các mã cần vào để đặt lệnh GET!<br/><br/></span>
+    <span>Danh sách các mã cần vào M5 để đặt lệnh GET!<br/><br/></span>
   </div>
   <div class="dashboard-main-body">
    <div class="table-responsive">

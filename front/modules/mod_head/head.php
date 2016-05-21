@@ -44,7 +44,7 @@
       <ul class="menu">
         <li><a href="<?= $this->lang('common-url-dashboard') ?>"><i class="fa fa-eye"></i> <?= $this->lang('common-menu-dashboard') ?></a></li>
         <li><a href="pd#!/add">PD</a></li>
-        <li><a href="gd#!/add">GD</a></li>
+        <li><a href="gd#!/add">GET</a></li>
         <li><a href="sponsor#!/list">
           <i class="fa fa-user"></i> Thành viên</a>
           <ul class="sub">

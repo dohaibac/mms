@@ -24,7 +24,7 @@ require_once PATH_PLUGINS . '/cache/phpfastcache.php';
 $app = JBase::getApplication(__APP_NAME__);
 
 $ctrl = 'jobs';
-$task = 'create_commands';
+$task = 'create_plan_pd';
 
 $controller = $app->getController($ctrl);
 
