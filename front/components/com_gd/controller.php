@@ -341,5 +341,31 @@ class GdController extends JControllerForm
      
     $this->renderJson($data);
   }
+
+  public function get_all_approve() {
+    $this->app->prevent_remote_access();
+    
+    $db = $this->app->getDbo();
+    
+    $system_code = $this->system_code();
+    $status = $this->getSafe('status');
+    
+    $where = 'system_code = ' . $db->quote($system_code) . 
+      ' AND status=' . $db->quote($status);
+     
+    $order_by ='issued_at ASC';
+      
+    $data = array(
+      'where'=>$where,
+      'order_by'=>$order_by,
+      'system_code'=>$system_code
+    );
+       
+    $data = $this->gd_model
+      ->get_all($data)
+      ->body;
+     
+    $this->renderJson($data);
+  }
 }
 ?>

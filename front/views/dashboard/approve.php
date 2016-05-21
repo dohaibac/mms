@@ -1,6 +1,6 @@
-<div class="dashboard-main" ng-controller="PlanpdListCtrl" ng-init="init()">
+<div class="dashboard-main" ng-init="init()">
   <div class="col-lg-12 header-title">
-    <h4>Danh sách GD cần xác nhận <b>{literal} {{ from_date }} {/literal}</b></h4>
+    <h4>Danh sách GD cần xác nhận</b></h4>
     <span>Bạn cần vào M5 để xác nhận cho khách!<br/><br/></span>
   </div>
   <div class="dashboard-main-body">
@@ -16,7 +16,7 @@
     </thead>
     <tbody>
       {literal}
-      <tr ng-repeat="pd in planpds">
+      <tr ng-repeat="gd in gds">
         <td> {{ $index + 1 }} </td>
         <td><a class="btn-link" ng-click="view_sponsor(pd)"> {{ pd.sponsor }} </a></td>
         <td>
@@ -29,7 +29,7 @@
           </div> 
         </td>
       </tr>
-      <tr ng-if="planpds.length == 0">
+      <tr ng-if="gds.length == 0">
         <td colspan="3">Chưa có GD cần xác nhận nào!</td>
       </tr>
       {/literal}

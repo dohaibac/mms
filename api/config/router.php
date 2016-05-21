@@ -130,6 +130,7 @@ $routerMap = array(
   * =====================================*/
   'sponsorinvest'=> array('controller'=>'sponsorinvest', 'action'=>'index'),
   'sponsorinvest/all'=> array('controller'=>'sponsorinvest', 'action'=>'get_all'),
+  'sponsorinvest/list'=> array('controller'=>'sponsorinvest', 'action'=>'get_list'),
   
  /*======================================
   * Config for gcm
