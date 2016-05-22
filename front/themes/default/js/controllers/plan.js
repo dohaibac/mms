@@ -123,14 +123,14 @@ app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $m
                 description: $scope.newTask,
                 date: "No deadline",
                 complete: false,
-                category: $scope.newTaskCategory.name
+                category: $scope.newProvinces.name
             }) 
         } else {
             $scope.taskItem.push({
                 description: $scope.newTask,
                 date: $scope.newTaskDate,
                 complete: false,
-                category: $scope.newTaskCategory.name
+                category: $scope.newProvinces.name
             })
         };
         $scope.newTask = '';
