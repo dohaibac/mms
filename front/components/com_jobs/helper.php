@@ -376,5 +376,61 @@ class JobsHelper
        $this->auto_create_plan_get($pd->sponsor, $pd->amount, $this->system_code);
      }
    }
+
+/***
+    * Tu dong set trang thai cua PD ve done khi issued_at vuot qua thoi gian
+    * 
+    * 
+    * 
+    * */
+   function set_gd_to_done() {
+     $meta = $this->get_setting();
+     
+     // lay danh sach pd pending
+     $db = JBase::getDbo();
+    $status = 2;
+    
+    $num_days_pd_pending = $meta->num_days_pd_pending;
+    $num_days_pd_transfer = $meta->num_days_pd_transfer;
+    $num_days_gd_pending = $meta->num_days_gd_pending;
+    $num_days_gd_pending_verification = $meta->num_days_gd_pending_verification;
+     
+    $total = $num_days_pd_pending + $num_days_pd_transfer + $num_days_gd_pending + $num_days_gd_pending_verification;
+    
+    $current_time = time();
+    
+    $to_date = date('Y-m-d 23:59:59', strtotime('-'. $total .' day', $current_time));
+     
+    $where = 'system_code = ' . $db->quote($system_code) . 
+      ' AND issued_at < ' . $db->quote($to_date) .
+      ' AND status=' . $db->quote($status);
+     
+    $order_by ='issued_at ASC';
+    
+    $data = array(
+      'where'=>$where,
+      'order_by'=>$order_by,
+      'system_code'=>$system_code
+    );
+       
+    $data = $this->gd_model
+      ->get_all($data)
+      ->body;
+     $order_by ='issued_at ASC';
+      
+     $gds = $data->gds;
+     
+     foreach($gds as $gd) {
+       $gd_update = array(
+        'id' => $gd->id,
+        'system_code' =>$this->system_code,
+        'status' => 3,
+        'updated_at'=> date('Y-m-d h:i:s'),
+        'updated_by'=>1
+       );
+       
+       $ret = $this->gd_model->put($gd_update);
+     }
+   }
 }
 ?>

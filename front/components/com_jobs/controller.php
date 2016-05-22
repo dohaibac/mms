@@ -45,5 +45,13 @@ class JobsController extends JControllerForm
   public function set_pd_status_to_done () {
     $this->helper->set_pd_status_to_done();
   }
+  
+   /****
+   * Tu dong set trang thai GD ve done
+   * 
+   * **/
+  public function set_gd_to_done () {
+    $this->helper->set_gd_to_done();
+  }
 }
 ?>
