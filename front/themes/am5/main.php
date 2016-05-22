@@ -19,6 +19,8 @@
   <link href="<?= $appConf->cdn_base_url ?>ui-select/select.min.css" rel="stylesheet">
   <link href="<?= $appConf->cdn_base_url ?>angular-ui-tree/angular-ui-tree.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="<?= $appConf->theme_default ?>/css/ng-grid.min.css" />
+  <link href="<?= $appConf->cdn_base_url ?>css/todo_list.css" rel="stylesheet">
+  <link href="<?= $appConf->cdn_base_url ?>css/sticky.css" rel="stylesheet">
   
   <link href="<?= $appConf->theme  ?>/css/style.css?v=<?= $appConf->theme_css_version ?>" rel="stylesheet">
   

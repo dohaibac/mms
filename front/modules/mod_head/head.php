@@ -75,7 +75,7 @@
         <li><a href="/other"><i class="fa fa-connectdevelop"></i> Khác</a>
           <ul class="sub">
             <li><a href="/other#!/candidate/list">Ứng viên tiềm năng</a></li>
-            <li><a href="/other#!/plan/list">Lập kế hoạch</a></li>
+            <li><a href="/other#!/plan/list">Lịch Công Tác</a></li>
           </ul>
         </li>
       </ul>
