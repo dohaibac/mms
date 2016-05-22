@@ -104,7 +104,7 @@ class PdController extends JControllerForm
     $this->app->prevent_remote_access();
     
     $list_required_fields = array(
-      'code', 'sponsor', 'amount', 'issued_at', 'num_days_pending', 'num_days_transfer', 'status'
+      'sponsor', 'amount', 'issued_at', 'status'
     );
     
     $body = $this->get_request_body();
@@ -118,23 +118,23 @@ class PdController extends JControllerForm
     
     $system_code = $this->system_code();
     
-    $code = $this->getSafe('code');
+    $code = 'PD' . time();
     $sponsor = $this->getSafe('sponsor');
     $amount  = $this->getSafe('amount');
-    $remain_amount = $this->getSafe('remain_amount');
+    $remain_amount = "0";
     $issued_at = $this->getSafe('issued_at');
-    $num_days_pending = $this->getSafe('num_days_pending');
-    $num_days_transfer = $this->getSafe('num_days_transfer');
+    
+    $num_days_pending = '0';
+    $num_days_transfer = '0';
     $status = $this->getSafe('status');
-    $bank = $this->getSafe('bank');
     
     $issued_at = $this->re_format_datetime($issued_at);
     
     $data = array(
       'code' => $code,
-      'sponsor' => $sponsor['username'],
+      'sponsor' => $sponsor['sponsor'],
       'amount' =>$amount,
-      'bank_id' =>$bank['id'],
+      'bank_id' => '1',
       'remain_amount' =>$remain_amount,
       'system_code' => $system_code,
       'issued_at' => $issued_at,
@@ -145,14 +145,7 @@ class PdController extends JControllerForm
       'created_at' => date('Y-m-d h:i:s')
     );
      
-    $result = $this->pd_model->post($data);
-    
-    if (!isset($result) || empty($result->body)) {
-      $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));
-      $this->renderJson($ret);
-    }
-    
-    $data = $result->body;
+    $data = $this->pd_model->post($data)->body;
     
     $ret = $this->message($data->type, $data->code, $this->app->lang($data->code));
     $this->renderJson($ret);
@@ -162,7 +155,7 @@ class PdController extends JControllerForm
     $this->app->prevent_remote_access();
     
     $list_required_fields = array(
-      'id', 'code', 'sponsor', 'amount', 'issued_at', 'num_days_pending', 'num_days_transfer', 'status'
+      'id', 'code', 'sponsor', 'amount', 'issued_at', 'status'
     );
     
     $body = $this->get_request_body();
@@ -191,27 +184,20 @@ class PdController extends JControllerForm
     $data = array(
       'id' => $id,
       'code' => $code,
-      'sponsor' => $sponsor['username'],
-      'bank_id' => $bank['id'],
+      'sponsor' => $sponsor['sponsor'],
+      'bank_id' => 1,
       'amount' =>$amount,
-      'remain_amount' =>$remain_amount,
+      'remain_amount' =>'0',
       'system_code' => $system_code,
       'issued_at' => $issued_at,
-      'num_days_pending' => $num_days_pending,
-      'num_days_transfer' => $num_days_transfer,
+      'num_days_pending' => '0',
+      'num_days_transfer' => '0',
       'status' => $body['status']['id'],
       'updated_by' => $this->app->user->data()->id,
       'updated_at' => date('Y-m-d h:i:s')
     );
      
-    $result = $this->pd_model->put($data);
-    
-    if (!isset($result) || empty($result->body)) {
-      $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));
-      $this->renderJson($ret);
-    }
-    
-    $data = $result->body;
+    $data = $this->pd_model->put($data)->body;
     
     $ret = $this->message($data->type, $data->code, $this->app->lang($data->code));
     $this->renderJson($ret);

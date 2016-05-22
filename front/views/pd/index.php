@@ -1,4 +1,4 @@
-<script type="text/javascript" src="{$app->appConf->theme_default}/js/service/bank.js"></script>
+<script type="text/javascript" src="{$app->appConf->theme_default}/js/service/sponsorinvest.js"></script>
 <script type="text/javascript" src="{$app->appConf->theme_default}/js/service/setting.js"></script>
 <script type="text/javascript" src="{$app->appConf->theme_default}/js/service/sponsor.js"></script>
 <script type="text/javascript" src="{$app->appConf->theme_default}/js/service/pd.js"></script>
