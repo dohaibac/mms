@@ -46,7 +46,7 @@
       </div>
       <div class="clearfix"></div>
     </div>
-    <div class="form-group">
+    <div class="form-group hide">
       <label class="col-md-7 control-label">Số ngày yêu cầu vào approve đã nhận tiền</label>
       <div class="col-md-5">
         <input ng-model="setting.num_days_gd_approve" ng-trim="true"  type="input" name="num_days_gd_approve" class="form-control" 

@@ -348,13 +348,33 @@ class GdController extends JControllerForm
     $db = $this->app->getDbo();
     
     $system_code = $this->system_code();
-    $status = $this->getSafe('status');
     
+    require_once  PATH_COMPONENT . '/com_jobs/helper.php';
+    
+    $helper = new JobsHelper($this->app, $system_code);
+    
+    $status = 2; // dang GD
+    
+    $meta = $helper->get_setting();
+    
+    $num_days_pd_pending = $meta->num_days_pd_pending;
+    $num_days_pd_transfer = $meta->num_days_pd_transfer;
+    $num_days_gd_pending = $meta->num_days_gd_pending;
+    $num_days_gd_pending_verification = $meta->num_days_gd_pending_verification;
+     
+    $total = $num_days_pd_pending + $num_days_pd_transfer + $num_days_gd_pending + $num_days_gd_pending_verification;
+    
+    $current_time = time();
+    $from_date = date('Y-m-d 00:00:00', strtotime('-'. ($total - 1) .' day', $current_time));
+     
+    $to_date = date('Y-m-d 23:59:59', strtotime('-'. $total .' day', $current_time));
+     
     $where = 'system_code = ' . $db->quote($system_code) . 
+      ' AND (issued_at BETWEEN ' . $db->quote($from_date) . ' AND ' . $db->quote($to_date) . ')' .
       ' AND status=' . $db->quote($status);
      
     $order_by ='issued_at ASC';
-      
+    
     $data = array(
       'where'=>$where,
       'order_by'=>$order_by,

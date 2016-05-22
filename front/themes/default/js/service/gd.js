@@ -77,5 +77,11 @@ app.service('$GdService', function($rootScope, $http, $modal, $q) {
       }
     });
   };
+  
+  this.get_all_approve = function () {
+    var url = generate_url('gd', 'get_all_approve');
+    return $http.get(url);
+  };
+  
   return this;
 });

@@ -123,7 +123,9 @@ app.controller('GdexApproveListCtrl', function($scope, $http, $location, $modal,
   
   $scope.init = function () {
     $scope.loading = true;
-    $GdService.get_all(3).then(function(response) {
+    
+    $GdService.get_all_approve().then(function(response) {
+      
       $scope.loading = false;
       if (response.data.type == 1) {
         $scope.message_type = 1;

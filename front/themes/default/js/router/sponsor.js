@@ -1,5 +1,4 @@
 app.config(['$routeProvider', '$locationProvider', function AppConfig($routeProvider, $locationProvider) {
-  //$locationProvider.html5Mode({ enabled: true, requireBase: false});
   $locationProvider.hashPrefix('!');
   $routeProvider
     .when('/list_tree', {
