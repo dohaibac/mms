@@ -46,12 +46,24 @@ class JobsController extends JControllerForm
     $this->helper->set_pd_status_to_done();
   }
   
-   /****
+ /****
    * Tu dong set trang thai GD ve done
    * 
    * **/
   public function set_gd_to_done () {
     $this->helper->set_gd_to_done();
+  }
+  
+  /****
+   * Gui message ve device
+   * 
+   * **/
+  public function alert () {
+    require_once PATH_COMPONENT . '/com_jobs/alert.php';
+    $system_code = '06';
+    $alert = new JobsAlert($this->app, $system_code);
+    
+    $alert->alert();
   }
 }
 ?>

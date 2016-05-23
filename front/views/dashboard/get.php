@@ -11,7 +11,7 @@
       <tr>
         <th class="th-ord">#</th>
         <th class="th-des">Mã</th>
-        <th></th>
+        <th>Ngày đặt lệnh</th>
       </tr>
     </thead>
     <tbody>
@@ -20,7 +20,7 @@
         <td> {{ $index + 1 }} </td>
         <td><a class="btn-link" ng-click="view_sponsor(get)"> {{ get.sponsor }} </a></td>
         <td>
-          
+          {{ get.issued_at_display}}
         </td>
       </tr>
       <tr ng-if="gds.length == 0">

@@ -318,7 +318,13 @@ class GdController extends JControllerForm
     $data = $this->gd_model
       ->get_all($data)
       ->body;
-     
+    
+    if (isset($data->gds)) {
+      foreach($data->gds as $gd) {
+        $date =  new DateTime($gd->issued_at);
+        $gd->issued_at_display = $date->format('Y-m-d');
+      }
+    }
     $this->renderJson($data);
   }
 
@@ -345,14 +351,14 @@ class GdController extends JControllerForm
     $total = $num_days_pd_pending + $num_days_pd_transfer + $num_days_gd_pending + $num_days_gd_pending_verification;
     
     $current_time = time();
-    $from_date = date('Y-m-d 00:00:00', strtotime('-'. ($total - 1) .' day', $current_time));
+    $to_date = date('Y-m-d 23:59:59', strtotime('-'. ($total - 1) .' day', $current_time));
      
-    $to_date = date('Y-m-d 23:59:59', strtotime('-'. $total .' day', $current_time));
+    $from_date = date('Y-m-d 00:00:00', strtotime('-'. $total .' day', $current_time));
      
     $where = 'system_code = ' . $db->quote($system_code) . 
       ' AND (issued_at BETWEEN ' . $db->quote($from_date) . ' AND ' . $db->quote($to_date) . ')' .
       ' AND status=' . $db->quote($status);
-     
+    
     $order_by ='issued_at ASC';
     
     $data = array(
