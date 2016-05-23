@@ -57,34 +57,10 @@ class JobsHelper
       'system_code' => $this->system_code
     );
     
-    $ret = $this->sponsorinvest_model->get_all($data);
-    
-    $sponsor_invest_list = $ret->body->lst;
-    
-    $array_sponsor_invest_list = array();
-    
-    foreach($sponsor_invest_list as $sponsor) {
-      $array_sponsor_invest_list []= $this->db->quote($sponsor->sponsor);
-    }
-    
-    $sponsor_invest_list_string = implode(',', $array_sponsor_invest_list);
-    
-    $where = 'username IN ('. $sponsor_invest_list_string .')';
-    
-    $current_page =  1;
-    $order_by ='updated_at';
-    
-    $data = array(
-      'where'=>$where,
-      'order_by'=>$order_by,
-      'page_number'=>$current_page,
-      'limit' => 50000000
-    );
-     
     $result = $this->sponsor_model
-      ->get_list($data)
+      ->get_sponsor_invest($data)
       ->body;
-      
+     
    $sponsors = $result->sponsors;
    
    $data = array();
@@ -93,7 +69,7 @@ class JobsHelper
      $obj = new stdClass;
      $obj->id = $sponsor->id;
      $obj->username = $sponsor->username;
-     $obj->updated_at = $this->get_updated_at($sponsor_invest_list, $sponsor->username);
+     $obj->updated_at = $sponsor->updated_at_invest;
      $obj->upline = $sponsor->upline;
      
      $path = explode('>', $sponsor->path);
@@ -105,7 +81,8 @@ class JobsHelper
    
    $data = $this->sort_sponsors($data);
    
-   $this->insert_plan_pd($data, $num_commands_per_day);
+  $ret= $this->insert_plan_pd($data, $num_commands_per_day);
+  print_r($ret);
    
   }
   

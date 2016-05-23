@@ -41,13 +41,14 @@ $routerMap = array(
  * =====================================*/
   'sponsor'=> array('controller'=>'sponsor', 'action'=>'index'),
   'sponsor/list'=> array('controller'=>'sponsor', 'action'=>'get_list'),
+  'sponsor/get_all'=> array('controller'=>'sponsor', 'action'=>'get_all'),
   'sponsor/top_one'=> array('controller'=>'sponsor', 'action'=>'get_top_one'),
   'sponsor/get_by_username'=> array('controller'=>'sponsor', 'action'=>'get_by_username'),
   'sponsor/get_downline_f1'=> array('controller'=>'sponsor', 'action'=>'get_downline_f1'),
   'sponsor/get_upline'=> array('controller'=>'sponsor', 'action'=>'get_upline'),
   'sponsor/bank'=> array('controller'=>'sponsorbank', 'action'=>'index'),
   'sponsor/update_has_fork'=> array('controller'=>'sponsor', 'action'=>'update_has_fork'),
-
+  'sponsor/get_sponsor_invest'=> array('controller'=>'sponsor', 'action'=>'get_sponsor_invest'),
 
 /*======================================
  * Config for pd
@@ -132,6 +133,21 @@ $routerMap = array(
   'sponsorinvest/all'=> array('controller'=>'sponsorinvest', 'action'=>'get_all'),
   'sponsorinvest/list'=> array('controller'=>'sponsorinvest', 'action'=>'get_list'),
   
+  
+/*======================================
+ * Config for message
+ * 
+ * =====================================*/
+  'message'=> array('controller'=>'message', 'action'=>'index'),
+  'message/list'=> array('controller'=>'message', 'action'=>'get_list'),
+  
+  
+  /*======================================
+ * Config for message
+ * 
+ * =====================================*/
+  'messagequeue'=> array('controller'=>'messagequeue', 'action'=>'index'),
+  'messagequeue/list'=> array('controller'=>'messagequeue', 'action'=>'get_list'),
  /*======================================
   * Config for gcm
   * 

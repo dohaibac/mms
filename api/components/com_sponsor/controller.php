@@ -309,6 +309,39 @@ class SponsorController extends JControllerForm
      }
   }
   
+  
+   /***
+   * Lay danh sach user group theo paging
+   * 
+   * */
+  public function get_all() {
+    try {
+      $where = $this->getSafe('where', '');
+      $order_by = $this->getSafe('order_by', '');
+      
+      $db = $this->app->getDbo();
+      
+      $data = array (
+        'order_by' => $order_by,
+        'where' => $where
+      );
+      
+      $sponsor_list = $this->sponsor_model->get_all($data);
+      
+      $ret = array (
+        'sponsors' => $sponsor_list
+      );
+      
+      $this->renderJson($ret);
+      
+     } catch (Exception $ex) {
+       $this->app->write_log('sponsor_get_list_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'sponsor_get_list_exception', $ex->getMessage());
+       $this->renderJson($ret);
+     }
+  }
+  
   /***
    * Lay thong tin sponsor dau tien
    * */
@@ -469,6 +502,36 @@ class SponsorController extends JControllerForm
        $this->app->write_log('sponsor_update_has_fork_exception - ' . $ex->getMessage());
        
        $ret = $this->message(1, 'sponsor_update_has_fork_exception', $ex->getMessage());
+       $this->renderJson($ret);
+    }
+  }
+  
+  /****
+   * Lay thong tin sponsor theo sponsor invest
+   * 
+   * **/
+  public function get_sponsor_invest() {
+    try {
+      // check get user group theo id
+      $system_code = $this->getSafe('system_code', '');
+      
+      if (empty($system_code)) {
+        $ret = $this->message(1, 'sponsor_get_sponsor_invest_missing_system_code', 'Missing or Empty system_code.');
+        $this->renderJson($ret);
+      }
+      
+      $sponsors = $this->sponsor_model->get_sponsor_invest($system_code);
+     
+      $ret = array (
+        'sponsors' => $sponsors
+      );
+      
+      $this->renderJson($ret);
+      
+    } catch (Exception $ex) {
+       $this->app->write_log('sponsor_get_sponsor_invest_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'sponsor_get_sponsor_invest_oneexception', $ex->getMessage());
        $this->renderJson($ret);
     }
   }

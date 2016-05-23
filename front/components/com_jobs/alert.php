@@ -35,13 +35,35 @@ class JobsAlert
   }
   
   /***
-   * 
+   * Lay danh sach plan PD trong ngay ma chua xac nhan
    * 
    * 
    * **/
-  public function alert() {
+  public function alert_plan_pd() {
+    $db = JBase::getDbo();
+    $system_code = $this->system_code;
     
-    $meta = $this->get_setting();
+    $from_date = date('Y-m-d');
+    $to_date = date('Y-m-d 23:59:59');
+    
+    $where = 'system_code = ' . $db->quote($system_code) . 
+    ' AND (created_at BETWEEN ' . $db->quote($from_date) . ' AND ' . $db->quote($to_date) . ')' .
+    ' AND status = 0';
+    
+    $order_by ='created_at ASC';
+    
+    $data = array(
+      'where'=>$where,
+      'order_by'=>$order_by,
+      'system_code'=>$system_code
+    );
+     
+    $data = $this->planpd_model
+      ->get_all($data)
+      ->body;
+    
+    $planpds = $data->planpds;
+    
     
   }
 }

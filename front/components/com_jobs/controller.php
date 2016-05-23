@@ -58,12 +58,12 @@ class JobsController extends JControllerForm
    * Gui message ve device
    * 
    * **/
-  public function alert () {
+  public function alert_plan_pd () {
     require_once PATH_COMPONENT . '/com_jobs/alert.php';
     $system_code = '06';
     $alert = new JobsAlert($this->app, $system_code);
     
-    $alert->alert();
+    $alert->alert_plan_pd();
   }
 }
 ?>
