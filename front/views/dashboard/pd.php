@@ -10,7 +10,8 @@
     <thead>
       <tr>
         <th class="th-ord">#</th>
-        <th class="th-des">Mã</th>
+        <th class="th-code">Mã</th>
+        <th class="th-date">Ngày đặt lệnh</th>
         <th></th>
       </tr>
     </thead>
@@ -19,6 +20,9 @@
       <tr ng-repeat="pd in pdexs">
         <td> {{ $index + 1 }} </td>
         <td><a class="btn-link" ng-click="view_sponsor(pd)"> {{ pd.sponsor }} </a></td>
+        <td>
+          {{ pd.issued_at_display}}
+        </td>
         <td>
           <div ng-if="pd.status == 0">
            <button class="btn btn-sm btn-warning" ng-click="confirm(pd)">Xác nhận đã chuyển tiền</button>
@@ -30,7 +34,7 @@
         </td>
       </tr>
       <tr ng-if="pdexs.length == 0">
-        <td colspan="3">Chưa có PD nào!</td>
+        <td colspan="4">Chưa có PD nào!</td>
       </tr>
       {/literal}
     </tbody>

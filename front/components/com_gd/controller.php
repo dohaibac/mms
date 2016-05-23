@@ -370,7 +370,13 @@ class GdController extends JControllerForm
     $data = $this->gd_model
       ->get_all($data)
       ->body;
-     
+    
+    if (isset($data->gds)) {
+      foreach($data->gds as $gd) {
+        $date =  new DateTime($gd->issued_at);
+        $gd->issued_at_display = $date->format('Y-m-d');
+      }
+    }
     $this->renderJson($data);
   }
 }

@@ -10,8 +10,8 @@
     <thead>
       <tr>
         <th class="th-ord">#</th>
-        <th class="th-des">Mã</th>
-        <th>Ngày đặt lệnh</th>
+        <th class="th-name">Mã</th>
+        <th class="th-date">Ngày đặt lệnh</th>
       </tr>
     </thead>
     <tbody>

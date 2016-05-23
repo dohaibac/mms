@@ -10,8 +10,8 @@
     <thead>
       <tr>
         <th class="th-ord">#</th>
-        <th class="th-des">Mã</th>
-        <th></th>
+        <th class="th-name">Mã</th>
+        <th class="th-date">Ngày đặt lệnh</th>
       </tr>
     </thead>
     <tbody>
@@ -20,13 +20,7 @@
         <td> {{ $index + 1 }} </td>
         <td><a class="btn-link" ng-click="view_sponsor(get)"> {{ get.sponsor }} </a></td>
         <td>
-          <div ng-if="pd.status == 0">
-           <button class="btn btn-sm btn-warning" ng-click="confirm(get)">Xác nhận</button>
-           <a class="btn btn-link" target="_blank" href="https://vphp.biz/login">Link M5</a>
-          </div>
-          <div ng-if="pd.status == 1">
-           <a class="btn confirmed"><i class="fa fa-check"></i></a>
-          </div> 
+          {{ get.issued_at_display}}
         </td>
       </tr>
       <tr ng-if="gds.length == 0">

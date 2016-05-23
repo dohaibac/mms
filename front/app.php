@@ -1,3 +1,9 @@
+<?php 
+  $current_time = time();
+  $total_days_pending = 37;
+     $from_date = date('Y-m-d 00:00:00', strtotime('-'. $total_days_pending .' day', $current_time));
+     echo $from_date;
+?>
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="vi"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="vi"> <![endif]-->

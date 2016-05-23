@@ -334,6 +334,13 @@ class PdController extends JControllerForm
       $this->renderJson($ret);
     }
     
+    if (isset($data->pds)) {
+      foreach($data->pds as $pd) {
+        $date =  new DateTime($pd->issued_at);
+        $pd->issued_at_display = $date->format('Y-m-d');
+      }
+    }
+    
     $this->renderJson($data);
   }
 
@@ -367,6 +374,13 @@ class PdController extends JControllerForm
      
     $from_date = date('Y-m-d');
     $data->from_date = $from_date;
+    
+    if (isset($data->pds)) {
+      foreach($data->pds as $pd) {
+        $date =  new DateTime($pd->issued_at);
+        $pd->issued_at_display = $date->format('Y-m-d');
+      }
+    }
     
     $this->renderJson($data);
   }
