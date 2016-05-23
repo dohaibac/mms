@@ -171,4 +171,57 @@ app.controller('GdexApproveListCtrl', function($scope, $http, $location, $modal,
     $SponsorService.show_view_only(options);
   };
   
+  $scope.confirm = function (gd) {
+    var options = {
+      'init': function(mscope) {
+        mscope.gd = gd;
+        
+        mscope.$broadcast('GdexApproveListCtrl::edit', mscope);
+        mscope.$on('GdexApproveListCtrl::edit::done', function(e, data) {
+          $scope.init();
+        });
+      }
+    };
+    
+    $GdexService.show_confirm_approve_modal(options).then(function() {
+      
+    });
+  };
+});
+
+app.controller('GdexApproveEditCtrl', function($scope, $http, $location, $modal, noty, $GdexService, $GdService, $SponsorService) {
+  
+  $scope.pdex = {};
+  
+  $scope.$on('GdexApproveListCtrl::edit', function(e, data) {
+     $scope.gd = data.gd;
+     $scope.mscope = data;
+  });
+  
+  $scope.noty = noty;
+  
+  $scope.processing = false;
+  
+  $scope.disabled = function() {
+   return false;
+  };
+  
+  $scope.submit = function() {
+    $scope.processing = true;
+    
+    $GdexService.edit($scope.gd).then(function(response) {
+      $scope.processing = false;
+      
+      if ($scope.message_type == 1) { 
+        $scope.message_type = response.data.type;
+        $scope.message = response.data.message;
+      }
+      else {
+        $scope.pdex.status = 3;
+        $scope.mscope.cancel();
+        $scope.noty.add({type:'info', title:'Thông báo', body: 'Cập nhật thành công!'});
+        $scope.$emit('GdexApproveListCtrl::edit::done', []);
+      }
+    });
+  };
 });

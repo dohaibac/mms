@@ -91,7 +91,7 @@ class GdexController extends JControllerForm
       $ret = array ();
       
       if (empty($body)) {
-         $ret = $this->message(1, 'pdex_update_empty_data', 'Empty data.');
+         $ret = $this->message(1, 'gdex_update_empty_data', 'Empty data.');
          $this->renderJson($ret);
       }
       

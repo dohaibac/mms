@@ -44,5 +44,39 @@ class GdexController extends JControllerForm
     $this->renderJson($data);
   }
   
+  public function edit () {
+    $this->app->prevent_remote_access();
+    
+    $list_required_fields = array(
+      'sponsor'
+    );
+    
+    $body = $this->get_request_body();
+    
+    foreach($list_required_fields as $field) {
+      if (!isset($body[$field]) || empty($body[$field])) {
+        $ret = $this->message(1, 'gdex-message-required_'. $field, $this->app->lang('gdex-message-required_' . $field));
+        $this->renderJson($ret);
+      }
+    }
+    
+   $system_code = $this->system_code();
+   $id = $body['id'];
+   $sponsor = $body['sponsor'];
+   
+   // update table gds : updated_at and status
+   $gdex = array(
+      'id' => $id,
+      'sponsor' => $sponsor,
+      'system_code' => $system_code,
+      'status' => 3,
+      'updated_at'=> date('Y-m-d h:i:s'),
+      'updated_by'=>$this->app->user->data()->id
+   );
+    
+   $ret = $this->gd_model->put($gdex)->body;
+   
+   $this->renderJson($ret);
+  }
 }
 ?>
