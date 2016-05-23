@@ -10,7 +10,6 @@
             <div class="todo_row">
               <div class="inputContainer todo_cell">
                 <textarea id="description" class="taskName" placeholder="Bạn cần làm gì?" ng-model="newTask"></textarea>
-                <label for="description">Nội Dung</label>
               </div>
             </div>
             <div class="todo_row">
