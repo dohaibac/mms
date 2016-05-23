@@ -215,31 +215,15 @@ class SponsorController extends JControllerForm
     try {
       $body = $this->get_request_body();
       
-      $ret = array ();
-      
-      $usergroup = new stdClass;
-      
       $system_code = $body['system_code'];
       
-      if (isset($body['id']) && !empty($body['id'])) { // update theo id
-        $usergroup = $this->sponsor_model->get_by_id($body['id'], $system_code);
-      }
-      else {
-        $ret = $this->message(1, 'sponsor_delete_missing_sponsor_id', 'Missing bank id.');
-        $this->renderJson($ret);
-      }
+      $sponsor = $body['sponsor'];
       
-      if (isset($usergroup) && !empty($usergroup->id)) {
-        if (isset($body['id']) && !empty ($body['id'])) {
-          $this->sponsor_model->delete_by_id($body);
-          $ret = $this->message(0, 'sponsor_delete_success', 'Delete bank has been successfully.');
-          $this->renderJson($ret);
-        }
-      }
-      else {
-        $ret = $this->message(1, 'sponsor_delete_sponsor_not_found', 'Bank not found.');
-        $this->renderJson($ret);
-      }
+      $this->sponsor_model->delete_by_sponsor($sponsor);
+      
+      $ret = $this->message(0, 'sponsor_delete_success', 'Delete Sponsor has been successfully.');
+      $this->renderJson($ret);
+      
     } catch (Exception $ex) {
        $this->app->write_log('sponsor_delete_exception - ' . $ex->getMessage());
        

@@ -204,5 +204,26 @@ class SponsorModel extends JModelBase {
     $db->updateObject($this->model_name, $object, 'username');
   }
   
+   /***
+   * delete by id
+   * 
+   * $data array
+   * 
+   * @return mix
+   * 
+   * */
+  public function delete_by_sponsor($sponsor) {
+    
+    $db = $this->app->getDbo();
+    
+    $query = $db->getQuery(true)
+     ->delete($db->quoteName($this->model_name))
+     ->where('username=' . $db->quote($sponsor));
+    
+    $db->setQuery($query);
+    
+    return $db->query();
+  }
+  
 }
 ?>
