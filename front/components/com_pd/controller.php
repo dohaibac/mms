@@ -8,8 +8,10 @@ class PdController extends JControllerForm
     parent::__construct($app);
     
     require_once __DIR__ . '/models/pd.php';
+    require_once PATH_COMPONENT . '/com_sponsorinvest/models/sponsorinvest.php';
     
     $this->pd_model =  new PdModel($this->app);
+    $this->sponsorinvest_model =  new SponsorinvestModel($this->app);
   }
 
   public function get_list() {
@@ -146,6 +148,16 @@ class PdController extends JControllerForm
     );
      
     $data = $this->pd_model->post($data)->body;
+    
+    // update updated_at trong table sponsor_invest
+      $sponsor_invest = array(
+        'sponsor' => $sponsor['sponsor'],
+        'system_code' => $system_code,
+        'updated_at'=> date('Y-m-d h:i:s'),
+        'updated_by'=>$this->app->user->data()->id
+      );
+      
+      $ret = $this->sponsorinvest_model->put($sponsor_invest);
     
     $ret = $this->message($data->type, $data->code, $this->app->lang($data->code));
     $this->renderJson($ret);
@@ -332,13 +344,6 @@ class PdController extends JControllerForm
     if (isset($data->type) && $data->type != 0) {
       $ret = $this->message($data->type, 'pd-message-' . $data->code, $this->app->lang('pd-message-' . $data->code));
       $this->renderJson($ret);
-    }
-    
-    if (isset($data->pds)) {
-      foreach($data->pds as $pd) {
-        $date =  new DateTime($pd->issued_at);
-        $pd->issued_at_display = $date->format('Y-m-d');
-      }
     }
     
     $this->renderJson($data);
