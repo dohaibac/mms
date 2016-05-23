@@ -173,6 +173,10 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
     null, // Dividier
     ['Edit', function ($itemScope) {
         $scope.show_edit($itemScope.item);
+    }],
+    null, // Dividier
+    ['Delete', function ($itemScope) {
+        $scope.show_delete($itemScope.item);
     }]
   ];
   
@@ -340,6 +344,21 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       },
     };
     $SponsorService.show_add_modal(options).then(function(response){
+      
+    });
+  };
+  
+  $scope.show_delete = function(sponsor) {
+    var options = {
+      'init': function(mscope) {
+        mscope.sponsor = sponsor;
+        mscope.$broadcast('SponsorListCtrl::send::data::delete', mscope);
+      },
+      'ok' : function(mscope) {
+       
+      }
+    };
+    $SponsorService.show_modal_delete(options).then(function(response){
       
     });
   };
@@ -651,4 +670,48 @@ app.controller('SponsorEditCtrl', function($scope, $http, $location, $modal, $Sp
       $('#security_input').attr('type', 'password');
     }
   };
+});
+
+app.controller('SponsorDeleteModalCtrl', function($scope, $http, $location, $modal, $SponsorService, $BankService, noty) {
+  $scope.sponsor = {};
+  $scope.sponsor.item = {};
+  $scope.sponsor.items = [];
+  
+  $scope.$on('SponsorListCtrl::send::data::delete', function(e, data) {
+     
+     $scope.sponsor = data.sponsor; 
+     
+     $scope.mscope = data.mscope;
+  });
+  
+  $scope.noty = noty;
+  
+  $scope.processing = false;
+  
+  $scope.disabled = function() {
+    if (!$scope.sponsor.item.username || $scope.sponsor.items ||  $scope.processing) {
+      return true;
+    }
+    
+    return $scope.sponsor.item.username.length > 0 ? false : true;
+  };
+  
+  $scope.submit = function() {
+    $scope.message = '';
+    $scope.message_type = 1;
+    $scope.processing = true;
+    
+    $SponsorService.delete($scope.sponsor).then(function(response) {
+      $scope.processing = false;
+      var data = response.data;
+      
+      $scope.message = data.message;
+      $scope.message_type = data.type;
+      
+      if ($scope.message_type == 0) {
+        $scope.noty.add({type:'info', title:'Thông báo', body: 'Xóa thành công!'});
+      }
+    });
+  };
+  
 });

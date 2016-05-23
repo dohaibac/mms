@@ -109,7 +109,7 @@
       </div>
       <div class="clearfix"></div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-if="message">
       <div class="col-md-3 align-right">
       <label class="control-label"></label>
       </div>
