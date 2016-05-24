@@ -83,15 +83,15 @@ class PlansModel extends JModelBase {
    * get all provinces
    * 
    * */
-  public function get_provinces() {    
+  public function provinces() {    
     $db = $this->app->getDbo();
     
     $select = "id, name";
     
     $query = $db->getQuery(true)
       ->select($select)
-      ->from($db->quoteName('provinces'));
-    
+      ->from($db->quoteName('#__provinces'));
+   
     $db->setQuery($query);
     
     return $db->loadAssocList();

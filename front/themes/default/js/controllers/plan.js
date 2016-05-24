@@ -18,9 +18,10 @@ app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $m
         {id: '5', name: 'Can Tho'}
     ];
   
-    $scope.provinces = $PlanService.get_provinces();
-    console.log ($scope.provinces);
-    
+    $PlanService.get_provinces().then(function (largeLoad) {
+            $scope.provinces = largeLoad.data.provinces;
+          });
+
     $scope.newProvinces = "";
     
     $scope.addNew = function () {

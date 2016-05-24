@@ -69,9 +69,8 @@ class PlansController extends JControllerForm
       
       $db = $this->app->getDbo();
       
-      $provinces = $this->plans_model->get_provinces();
-      print_r($provinces);
-      exit;
+      $provinces = $this->plans_model->provinces();
+
       $ret = array (
         'provinces' => $provinces,
       );
