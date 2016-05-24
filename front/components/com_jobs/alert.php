@@ -95,7 +95,7 @@ class JobsAlert
       $content []= $planpd->sponsor;
     }
     
-    $content = implode(',', $content);
+    $content = implode(', ', $content);
     
     require_once PATH_COMPONENT . '/com_messagequeue/helper.php';
     require_once PATH_PLUGINS . '/uuid/uuid.php';
@@ -160,7 +160,7 @@ class JobsAlert
       $content []= $pd->sponsor;
     }
     
-    $content = implode(',', $content);
+    $content = implode(', ', $content);
     $content = '<p><font color="red">Bạn cần vào M5 để chuyển tiền!</font></p><p>' . $content . '</p>';
     require_once PATH_COMPONENT . '/com_messagequeue/helper.php';
     require_once PATH_PLUGINS . '/uuid/uuid.php';
@@ -225,7 +225,7 @@ class JobsAlert
       $content []= $planget->sponsor;
     }
     
-    $content = implode(',', $content);
+    $content = implode(', ', $content);
     $content = '<p>Bạn cần vào M5 để đặt lệnh GET cho các mã sau:</p><p>' . $content . '</p>';
     require_once PATH_COMPONENT . '/com_messagequeue/helper.php';
     require_once PATH_PLUGINS . '/uuid/uuid.php';
@@ -307,7 +307,7 @@ class JobsAlert
       $content []= $gd->sponsor;
     }
     
-    $content = implode(',', $content);
+    $content = implode(', ', $content);
     $content = '<p>Bạn cần vào M5 để xác nhận cho các mã sau:</p><p>' . $content . '</p>';
     require_once PATH_COMPONENT . '/com_messagequeue/helper.php';
     require_once PATH_PLUGINS . '/uuid/uuid.php';
