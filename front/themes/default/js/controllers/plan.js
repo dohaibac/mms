@@ -1,5 +1,17 @@
 app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $modal, $PlanService) {
   
+    $PlanService.get_list().then(function(response) {
+      $scope.loading = false;
+      if (response.data.type == 1) {
+        $scope.message_type = 1;
+        $scope.message = response.data.message;
+        return;
+      }
+      
+      $scope.plans = response.data.plans_list;
+      //console.log($scope.plans);
+
+    });
   // JS Code for todoList
   
     $scope.today = new Date();
@@ -9,14 +21,6 @@ app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $m
     
     $scope.newTask = null;
     $scope.newTaskDate = null;
-  
-    $scope.provinces = [
-        {id: '1', name: 'Ha Noi'},
-        {id: '2', name: 'TP HCM'},
-        {id: '3', name: 'Hai Phong'},
-        {id: '4', name: 'Da Nang'},
-        {id: '5', name: 'Can Tho'}
-    ];
   
     $PlanService.get_provinces().then(function (largeLoad) {
             $scope.provinces = largeLoad.data.provinces;

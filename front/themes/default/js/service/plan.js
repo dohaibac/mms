@@ -39,7 +39,6 @@ app.service('$PlanService', function($rootScope, $http, $modal, $q) {
   
   this.get_list = function () {
     var url = generate_url('plans', 'get_list');
-    
     return $http.get(url);
   };
     

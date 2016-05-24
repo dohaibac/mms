@@ -42,8 +42,40 @@ class PlansController extends JControllerForm
   /***
    *  View a plan
    * */
-  public function view() {
+  public function get_list() {
+    try {
 
+      $db = $this->app->getDbo();
+      
+      $condition = $this->getSafe('where', '');
+      $user = $this->getSafe('user', '');
+      $order_by = $this->getSafe('order_by', '');
+      
+      
+      $where = "user_id = " . $user;
+      if (!empty($condition)){
+        $where .= " AND " . $condition;
+      }
+      
+      $data = array (
+        'order_by' => $order_by,
+        'where' => $where
+      );
+      
+      $plans_list = $this->plans_model->get_list($data);
+
+      $ret = array (
+        'plans_list' => $plans_list,
+      );
+
+      $this->renderJson($ret);
+      
+     } catch (Exception $ex) {
+       $this->app->write_log('provinces_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'provinces_exception', $ex->getMessage());
+       $this->renderJson($ret);
+     }
   }
   
   /***

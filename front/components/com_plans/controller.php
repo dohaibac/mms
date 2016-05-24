@@ -13,7 +13,35 @@ class PlansController extends JControllerForm
   }
 
   public function get_list() {
+    $this->app->prevent_remote_access();
+    
+    // kiem tra xem user da co sponsor chua?
+    if (empty($this->app->user->data()->sponsor_owner)) {
+      $ret = $this->message(1, 'user-message-require_sponsor_owner', $this->app->lang('user-message-require_sponsor_owner'));
+      $this->renderJson($ret);
+    }
+    
+    $db = $this->app->getDbo();
 
+    $where = '';
+    $order_by ='task_date ASC';
+    
+    $data = array(
+      'where' => $where,
+      'user' => 1,
+      'order_by' => $order_by
+    );
+     
+    $result = $this->plans_model->get_list($data);
+    
+    if (!isset($result) || empty($result->body)) {
+      $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));
+      $this->renderJson($ret);
+    }
+    
+    $data = $result->body;
+
+    $this->renderJson($data);
   }
   
   public function view () {
