@@ -27,7 +27,7 @@ $app = JBase::getApplication(__APP_NAME__);
 // Setup 1h
 
 $ctrl = 'jobs';
-$task = 'alert';
+$task = 'alert_pd';
 
 $controller = $app->getController($ctrl);
 

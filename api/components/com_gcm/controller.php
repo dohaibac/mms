@@ -384,5 +384,39 @@ class GcmController extends JControllerGcm
        $this->renderJson($ret);
     }
   }
+
+  /***
+   * Get all
+   * 
+   * */
+  public function get_all() {
+    try {
+      
+      $where = $this->getSafe('where', '');
+      $order_by = $this->getSafe('order_by', '');
+      
+      $db = $this->app->getDbo();
+      
+      $data = array (
+        'order_by' => $order_by,
+        'where' => $where
+      );
+      
+      $gcm_list = $this->gcm_model->get_all($data);
+      
+      $ret = array (
+        'gcms' => $gcm_list
+      );
+      
+      $this->renderJson($ret);
+      
+     } catch (Exception $ex) {
+       $this->app->write_log('gcm_get_all_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'gcm_get_all_exception', EXCEPTION_ERROR_MESSAGE);
+       $this->renderJson($ret);
+     }
+  }
+  
 }
 ?>

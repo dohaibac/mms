@@ -82,7 +82,7 @@ class MessagequeueController extends JControllerForm
        }
        
        $required_fields = array (
-         'system_code', 'created_at', 'created_by'
+         'title', 'message', 'gcm_regid', 'system_code', 'user_id', 'created_at', 'created_by'
        );
        
        foreach ($required_fields as $key) {
@@ -96,7 +96,7 @@ class MessagequeueController extends JControllerForm
        
        $inserted_id = $this->messagequeue_model->insert($body);
        
-       $ret = $this->message(0, 'messagequeue_insert_success', 'Insert candidate has been successfully.');
+       $ret = $this->message(0, 'messagequeue_insert_success', 'Insert message has been successfully.');
        
        $ret['data'] = array('messagequeue_id' => $inserted_id);
        
@@ -123,21 +123,21 @@ class MessagequeueController extends JControllerForm
          $this->renderJson($ret);
       }
       
-      $candidate = new stdClass;
+      $message = new stdClass;
       $system_code = $body['system_code'];
       
-      if (isset($body['id']) && !empty($body['id'])) { // update theo id
-        $candidate = $this->messagequeue_model->get_by_id($body['id'], $system_code);
+      if (isset($body['id']) && !empty($body['id'])) {
+        $message = $this->messagequeue_model->get_by_id($body['id'], $system_code);
       }
       else {
-        $ret = $this->message(1, 'messagequeue_update_missing_messagequeue_id', 'Missing user bank id.');
+        $ret = $this->message(1, 'messagequeue_update_missing_messagequeue_id', 'Missing user message id.');
         $this->renderJson($ret);
       }
   
-      if (isset($candidate) && !empty($candidate->id)) {
+      if (isset($message) && !empty($message->id)) {
        # list required fields:
          $required_fields = array (
-           'system_code', 'created_at', 'created_by'
+           'title', 'message', 'registatoin_ids', 'user_id', 'system_code', 'created_at', 'created_by'
          );
          
         // required updated_at and updated_by
@@ -166,7 +166,7 @@ class MessagequeueController extends JControllerForm
         $this->renderJson($ret);
       }
       else {
-        $ret = $this->message(1, 'messagequeue_update_does_not_exist', 'Candidate not exist.');
+        $ret = $this->message(1, 'messagequeue_update_does_not_exist', 'Message not exist.');
         $this->renderJson($ret);
       }
     } catch (Exception $ex) {
@@ -186,29 +186,19 @@ class MessagequeueController extends JControllerForm
       
       $ret = array ();
       
-      $candidate = new stdClass;
+      $message = new stdClass;
       
       $system_code = $body['system_code'];
       
-      if (isset($body['id']) && !empty($body['id'])) { // update theo id
-        $candidate = $this->messagequeue_model->get_by_id($body['id'], $system_code);
-      }
-      else {
-        $ret = $this->message(1, 'messagequeue_delete_missing_messagequeue_id', 'Missing candidate id.');
+      if (!isset($body['message_id']) || empty($body['message_id'])) { // update theo id
+        $ret = $this->message(1, 'messagequeue_delete_missing_messagequeue_id', 'Missing message id.');
         $this->renderJson($ret);
       }
       
-      if (isset($candidate) && !empty($candidate->id)) {
-        if (isset($body['id']) && !empty ($body['id'])) {
-          $this->messagequeue_model->delete_by_id($body);
-          $ret = $this->message(0, 'messagequeue_delete_success', 'Delete candidate has been successfully.');
-          $this->renderJson($ret);
-        }
-      }
-      else {
-        $ret = $this->message(1, 'messagequeue_delete_messagequeue_not_found', 'Candidate not found.');
-        $this->renderJson($ret);
-      }
+      $this->messagequeue_model->delete_by_id($body);
+     
+      $ret = $this->message(0, 'messagequeue_delete_success', 'Delete message queue has been successfully.');
+      $this->renderJson($ret);
     } catch (Exception $ex) {
        $this->app->write_log('messagequeue_delete_exception - ' . $ex->getMessage());
        
@@ -264,7 +254,7 @@ class MessagequeueController extends JControllerForm
       $total_messagequeue_list = $this->messagequeue_model->get_list_total($where);
       
       $ret = array (
-        'candidates' => $messagequeue_list,
+        'messages' => $messagequeue_list,
         'total' => $total_messagequeue_list
       );
       
@@ -274,6 +264,39 @@ class MessagequeueController extends JControllerForm
        $this->app->write_log('messagequeue_get_list_exception - ' . $ex->getMessage());
        
        $ret = $this->message(1, 'messagequeue_get_list_exception', $ex->getMessage());
+       $this->renderJson($ret);
+     }
+  }
+
+  /***
+   * Lay danh sach user group theo paging
+   * 
+   * */
+  public function get_all() {
+    try {
+      
+      $where = $this->getSafe('where', '');
+      $order_by = $this->getSafe('order_by', '');
+      
+      $db = $this->app->getDbo();
+      
+      $data = array (
+        'order_by' => $order_by,
+        'where' => $where
+      );
+      
+      $list = $this->messagequeue_model->get_all($data);
+      
+      $ret = array (
+        'messages' => $list
+      );
+      
+      $this->renderJson($ret);
+      
+     } catch (Exception $ex) {
+       $this->app->write_log('messagequeue_get_all_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'messagequeue_get_all_exception', $ex->getMessage());
        $this->renderJson($ret);
      }
   }

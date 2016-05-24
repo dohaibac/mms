@@ -297,7 +297,7 @@ class JobsHelper
       );
       
     $ret =  $this->pdex_model->insert_multi($pdexs);
-    print_r($ret->body);
+    
    }
    
    /***

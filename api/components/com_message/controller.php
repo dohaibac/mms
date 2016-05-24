@@ -82,7 +82,7 @@ class MessageController extends JControllerForm
        }
        
        $required_fields = array (
-         'system_code', 'created_at', 'created_by'
+         'title', 'message', 'gcm_regid', 'system_code', 'user_id', 'created_at', 'created_by'
        );
        
        foreach ($required_fields as $key) {
@@ -96,7 +96,7 @@ class MessageController extends JControllerForm
        
        $inserted_id = $this->message_model->insert($body);
        
-       $ret = $this->message(0, 'message_insert_success', 'Insert candidate has been successfully.');
+       $ret = $this->message(0, 'message_insert_success', 'Insert message has been successfully.');
        
        $ret['data'] = array('message_id' => $inserted_id);
        
@@ -123,21 +123,21 @@ class MessageController extends JControllerForm
          $this->renderJson($ret);
       }
       
-      $candidate = new stdClass;
+      $message = new stdClass;
       $system_code = $body['system_code'];
       
-      if (isset($body['id']) && !empty($body['id'])) { // update theo id
-        $candidate = $this->message_model->get_by_id($body['id'], $system_code);
+      if (isset($body['id']) && !empty($body['id'])) {
+        $message = $this->message_model->get_by_id($body['id'], $system_code);
       }
       else {
-        $ret = $this->message(1, 'message_update_missing_message_id', 'Missing user bank id.');
+        $ret = $this->message(1, 'message_update_missing_message_id', 'Missing user message id.');
         $this->renderJson($ret);
       }
   
-      if (isset($candidate) && !empty($candidate->id)) {
+      if (isset($message) && !empty($message->id)) {
        # list required fields:
          $required_fields = array (
-           'system_code', 'created_at', 'created_by'
+           'title', 'message', 'registatoin_ids', 'user_id', 'system_code', 'created_at', 'created_by'
          );
          
         // required updated_at and updated_by
@@ -166,7 +166,7 @@ class MessageController extends JControllerForm
         $this->renderJson($ret);
       }
       else {
-        $ret = $this->message(1, 'message_update_does_not_exist', 'Candidate not exist.');
+        $ret = $this->message(1, 'message_update_does_not_exist', 'Message not exist.');
         $this->renderJson($ret);
       }
     } catch (Exception $ex) {
@@ -186,19 +186,19 @@ class MessageController extends JControllerForm
       
       $ret = array ();
       
-      $candidate = new stdClass;
+      $message = new stdClass;
       
       $system_code = $body['system_code'];
       
       if (isset($body['id']) && !empty($body['id'])) { // update theo id
-        $candidate = $this->message_model->get_by_id($body['id'], $system_code);
+        $message = $this->message_model->get_by_id($body['id'], $system_code);
       }
       else {
         $ret = $this->message(1, 'message_delete_missing_message_id', 'Missing candidate id.');
         $this->renderJson($ret);
       }
       
-      if (isset($candidate) && !empty($candidate->id)) {
+      if (isset($message) && !empty($message->id)) {
         if (isset($body['id']) && !empty ($body['id'])) {
           $this->message_model->delete_by_id($body);
           $ret = $this->message(0, 'message_delete_success', 'Delete candidate has been successfully.');
@@ -264,7 +264,7 @@ class MessageController extends JControllerForm
       $total_message_list = $this->message_model->get_list_total($where);
       
       $ret = array (
-        'candidates' => $message_list,
+        'messages' => $message_list,
         'total' => $total_message_list
       );
       

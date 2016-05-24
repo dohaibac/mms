@@ -148,6 +148,7 @@ $routerMap = array(
  * =====================================*/
   'messagequeue'=> array('controller'=>'messagequeue', 'action'=>'index'),
   'messagequeue/list'=> array('controller'=>'messagequeue', 'action'=>'get_list'),
+  'messagequeue/get_all'=> array('controller'=>'messagequeue', 'action'=>'get_all'),
  /*======================================
   * Config for gcm
   * 
@@ -156,6 +157,7 @@ $routerMap = array(
   * =====================================*/
   'gcm'=> array('controller'=>'gcm', 'action'=>'index'),
   'gcm/list'=> array('controller'=>'gcm', 'action'=>'get_list'),
+  'gcm/get_all'=> array('controller'=>'gcm', 'action'=>'get_all'),
   'gcm/send'=> array('controller'=>'gcm', 'action'=>'send_notification'),
 );
 
