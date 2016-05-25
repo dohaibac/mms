@@ -23,10 +23,10 @@ app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $m
     });
   // JS Code for todoList
   
-    $scope.today = new Date();
-    $scope.saved = localStorage.getItem('taskItems');
+    today = new Date();
+    //$scope.saved = localStorage.getItem('taskItems');
     //$scope.taskItem = (localStorage.getItem('taskItems')!==null) ? JSON.parse($scope.saved) : [ {description: "Why not add a task?", date: $scope.today, complete: false}];
-    localStorage.setItem('taskItems', JSON.stringify($scope.taskItem));
+    //localStorage.setItem('taskItems', JSON.stringify($scope.taskItem));
     
     $scope.newTask = null;
     $scope.newTaskDate = null;
