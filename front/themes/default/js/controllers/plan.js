@@ -1,4 +1,13 @@
 app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $modal, $PlanService) {
+    $scope.province_list = {};    
+    $PlanService.get_provinces().then(function (largeLoad) {
+      $scope.provinces = largeLoad.data.provinces;
+
+      for (var i in largeLoad.data.provinces) {
+        $scope.province_list[largeLoad.data.provinces[i].id] = largeLoad.data.provinces[i].name;
+      }
+
+    });
   
     $PlanService.get_list().then(function(response) {
       $scope.loading = false;
@@ -7,8 +16,8 @@ app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $m
         $scope.message = response.data.message;
         return;
       }
-      
-      $scope.plans = response.data.plans_list;
+
+      $scope.taskItem = response.data.plans_list;
       //console.log($scope.plans);
 
     });
@@ -16,16 +25,11 @@ app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $m
   
     $scope.today = new Date();
     $scope.saved = localStorage.getItem('taskItems');
-    $scope.taskItem = (localStorage.getItem('taskItems')!==null) ? JSON.parse($scope.saved) : [ {description: "Why not add a task?", date: $scope.today, complete: false}];
+    //$scope.taskItem = (localStorage.getItem('taskItems')!==null) ? JSON.parse($scope.saved) : [ {description: "Why not add a task?", date: $scope.today, complete: false}];
     localStorage.setItem('taskItems', JSON.stringify($scope.taskItem));
     
     $scope.newTask = null;
     $scope.newTaskDate = null;
-  
-    $PlanService.get_provinces().then(function (largeLoad) {
-            $scope.provinces = largeLoad.data.provinces;
-          });
-
     $scope.newProvinces = "";
     
     $scope.addNew = function () {
