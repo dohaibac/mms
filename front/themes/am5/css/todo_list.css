@@ -239,15 +239,15 @@ button {
 
 .category- { background: transparent; }
 
-.category-Personal { background: #2980b9; }
+.category-1 { background: #2980b9; }
 
-.category-Work { background: #8e44ad; }
+.category-2 { background: #8e44ad; }
 
-.category-School { background: #f39c12; }
+.category-3 { background: #f39c12; }
 
-.category-Cleaning { background: #16a085; }
+.category-4 { background: #16a085; }
 
-.category-Other { background: #d35400; }
+.category-5 { background: #d35400; }
 
 /* custom checkboxes */
 
