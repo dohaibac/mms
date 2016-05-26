@@ -92,6 +92,15 @@ $routerMap = array(
   'gd/get_status'=> array('controller'=>'gd', 'action'=>'get_status'),
   'gd/get_all'=> array('controller'=>'gd', 'action'=>'get_all'),
 
+  
+/*======================================
+ * Config for plans
+ * 
+ * =====================================*/
+  'plans'=> array('controller'=>'plans', 'action'=>'index'),
+  'plans/list'=> array('controller'=>'plans', 'action'=>'get_list'),
+  'plans/provinces'=> array('controller'=>'plans', 'action'=>'get_provinces'),
+
 /*======================================
  * Config for bank
  * 

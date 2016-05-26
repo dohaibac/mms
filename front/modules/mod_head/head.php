@@ -93,12 +93,12 @@
         <li><a href="/other"><i class="fa fa-connectdevelop"></i> Khác</a>
           <ul class="sub">
             <li><a href="/other#!/candidate/list">Ứng viên tiềm năng</a></li>
-            <li><a href="/other#!/plan/list">Lập kế hoạch</a></li>
+            <li><a href="/other#!/plan/list">Lịch Công Tác</a></li>
           </ul>
         </li>
       </ul>
     </section>
- </div>
+
  <div class="nav-bar">
    <button class="btn btn-sm btn-primary" ng-click="toggle_menu($event)"><i class="fa fa-bars" aria-hidden="true"></i></button>
  </div>
@@ -174,4 +174,3 @@
     </ul>
 </menu>
 </header>
- 
