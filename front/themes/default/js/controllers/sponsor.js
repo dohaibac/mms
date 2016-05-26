@@ -238,7 +238,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
         return;
       }
       var sponsors = $scope.build_tree(response.data.sponsors);
-      console.log(sponsors[0]);
+      
       $scope.sponsor_owner = response.data.sponsor_owner;
       $scope.lsponsor_owner = response.data.lsponsor_owner;
       
@@ -739,14 +739,45 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
   $scope.sponsor = {};
   $scope.sponsor.item = {};
   
+  $scope.result_test = [];
+  
   $scope.$on('SponsorListCtrl::send::data::show_test_153', function(e, data) {
      
      $scope.sponsor = data.sponsor; 
-     
+    
      $scope.mscope = data.mscope;
+     $scope.check_153($scope.sponsor);
+     
+     var result_html = '<table style="width:100%">';
+     result_html += '<tr><td>Mã</td><td>F1</td><td>F1 of F1</td></tr>';
+    
+     for(var i=0;i<$scope.result_test.length; i++) {
+       result_html += '<tr>';
+       if ($scope.result_test[i].items && $scope.result_test[i].items.length > 0) {
+         var num_downline_f1 = $scope.get_num_downline_f1($scope.result_test[i].lusername);
+         var num_fork_f1 = $scope.get_num_fork_downline($scope.result_test[i].lusername);
+         
+         if (num_downline_f1 < 5) {
+           num_downline_f1 = '<span class="red bold">' + num_downline_f1 + '</span>';
+         }
+         
+         if (num_fork_f1 < 3) {
+           num_fork_f1 = '<span class="red bold">' + num_fork_f1 + '</span>';
+         }
+         
+         result_html += '<td>'+ $scope.result_test[i].lusername + '</td><td>' + num_downline_f1 + 
+                        '</td><td>'+ num_fork_f1 + '</td>';
+       }
+       else {
+         result_html += '<td>'+ $scope.result_test[i].lusername + '</td><td><span class="red bold">0</span></td><td><span class="red bold">0</span></td>';
+       }
+       result_html += '</tr>';
+     }
+     
+     result_html += '</table>';
+     
+     $('#result').html(result_html);
   });
-  
-  $scope.noty = noty;
   
   $scope.processing = false;
   
@@ -758,22 +789,47 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
     return $scope.sponsor.item.username.length > 0 ? false : true;
   };
   
-  $scope.submit = function() {
-    $scope.message = '';
-    $scope.message_type = 1;
-    $scope.processing = true;
+  $scope.check_153 = function(sponsor) {
+    var item = {};
+    item.lusername = sponsor.item.lusername;
+    item.items = sponsor.items;
+    $scope.result_test.push(item);
     
-    $SponsorService.test_153($scope.sponsor).then(function(response) {
-      $scope.processing = false;
-      var data = response.data;
-      
-      $scope.message = data.message;
-      $scope.message_type = data.type;
-      
-      if ($scope.message_type == 0) {
-        $scope.noty.add({type:'info', title:'Thông báo', body: 'Xóa thành công!'});
+    if (sponsor.items && sponsor.items.length > 0) {
+      for (var i=0; i<sponsor.items.length; i++) {
+        $scope.check_153(sponsor.items[i]);
       }
-    });
+    }
   };
+  
+  $scope.get_num_downline_f1 = function (sponsor) {
+    for(var i=0; i< $scope.result_test.length; i++) {
+      if ($scope.result_test[i].lusername == sponsor) {
+        if ($scope.result_test[i].items) {
+          return $scope.result_test[i].items.length;
+        }
+        else {
+          return 0;
+        }
+      }
+    }
+  };
+  
+  $scope.get_num_fork_downline = function (sponsor) {
+    var fork = 0;
+    for(var i=0; i< $scope.result_test.length; i++) {
+      if ($scope.result_test[i].lusername == sponsor) {
+        if ($scope.result_test[i].items) {
+          for (var j=0; j<$scope.result_test[i].items.length; j++) {
+            if ($scope.result_test[i].items[j].items) {
+              fork ++;
+            }
+          }
+        }
+      }
+    }
+    return fork;
+  };
+  
   
 });

@@ -50,6 +50,18 @@ app.service('$SponsorService', function($rootScope, $http, $modal, $q) {
     });
   };
   
+  this.test_153 = function (sponsor) {
+    var url = generate_url('sponsor', 'test_153');
+    return $http({
+      'method': 'POST',
+      'url': url,
+      'data': sponsor,
+      'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+  };
+  
   this.get_list = function() {
     var url = generate_url ('sponsor', 'get_list');
     return $http.get(url);

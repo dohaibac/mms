@@ -441,7 +441,7 @@ class JobsHelper
     $data = array(
       'where'=>$where,
       'order_by'=>$order_by,
-      'system_code'=>$system_code
+      'system_code'=>$this->system_code
     );
        
     $data = $this->gd_model

@@ -543,6 +543,48 @@ class SponsorController extends JControllerForm
     
     $this->renderJson($ret);
   }
+
+  public function get_downline ($sponsor, &$output) {
+    
+    $downlines = $this->sponsor_model->get_downline_f1(array('upline'=>$sponsor));
+    
+    $data = $downlines->body->data;
+    
+    if (!empty($data)) {
+      foreach($data as $sp) {
+        if (!isset($output[$sponsor])) {
+          $output[$sponsor] = array();
+          $output[$sponsor]['items'] = array();
+        }
+        $output[$sponsor]['items'][$sp->username] = $sp;
+        $this->get_downline($sp->username, $output);
+      }
+    }
+  }
+  
+  
+  
+  
+  public function test_153 () {
+    $item = $this->getSafe('item');
+    
+    $sponsor = $item['username'];
+    $output = array();
+    
+    $this->get_downline($sponsor, $output);
+    
+    if (empty($output)) {
+       $ret = $this->message(1, 'sponsor-message-check_153_dont_have_f1', $this->app->lang('sponsor-message-check_153_dont_have_f1'));
+       $this->renderJson($ret);
+    }
+    
+    $result_html = '';
+    foreach($output as $key => $val) {
+      $result_html .= '<td>' . $key .'</td><td>'. count($val['items']) .'</td>';
+    }
+    
+    $this->renderJson(array('html'=>$result_html));
+  }
 }
 
 ?>

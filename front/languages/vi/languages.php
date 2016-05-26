@@ -246,6 +246,7 @@
   'sponsor-message-search_not_found' => 'Không tìm thấy dữ liệu.',
   'sponsor-message-update_success' => 'Cập nhật thành công.',
   'sponsor-message-delete_not_allowed' => 'Bạn không có quyền xóa!',
+  'sponsor-message-check_153_dont_have_f1' => 'Thành viên này chưa có F1!',
   'system-label-title' => 'Hệ thống',
   'system-menu-setting' => 'Cài đặt tham số',
   'system-menu-group_add' => 'Thêm nhóm quản trị',
