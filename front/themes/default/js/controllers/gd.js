@@ -129,7 +129,7 @@ app.controller('GdListCtrl', function($scope, $http, $location, $modal, noty, $G
   
 });
 
-app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdService, $SponsorService, $SettingService, $BankService, noty) {
+app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdService, $SponsorService, $SettingService, $SponsorInvestService, noty) {
   $scope.processing = false;
   $scope.noty = noty;
   
@@ -154,85 +154,33 @@ app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdServic
      $SponsorService.get_sponsor_owner().then(function(resp) {
         default_sponsor = resp.data.sponsor_owner;
         
-        $SponsorService.get_list().then(function(response) {
+        $SponsorInvestService.get_list().then(function(response) {
           $scope.sponsors = response.data.sponsors;
           
           for (var i=0; i < $scope.sponsors.length; i++) {
-            if ($scope.sponsors[i].username == default_sponsor) {
+            if ($scope.sponsors[i].sponsor == default_sponsor) {
               $scope.gd.sponsor = $scope.sponsors[i];
             }
           }
         });
      }); 
-    
-    $SettingService.view().then(function(response) {
-      if (response.data.type == 1) {
-        $scope.message_setting_type = 1;
-        $scope.message_setting = 'WARNING: Bạn chưa cài đặt tham số hệ thống!. Vào menu Hệ thống >> Cài đặt tham số để cài đặt.';
-      }
-      $scope.gd.num_days_gd_pending = response.data.num_days_gd_pending;
-      $scope.gd.num_days_gd_pending_verification = response.data.num_days_gd_pending_verification;
-      $scope.gd.num_days_gd_approve = response.data.num_days_gd_approve;
-    });
-    
+     
     $scope.gd.status = {'id': 1, 'name': 'Pending'};
     
-    $scope.get_bank_list();
   };
   
   $scope.disabled = function() {
-    if (!$scope.gd.code || !$scope.gd.sponsor || !$scope.gd.amount ||
-       !$scope.gd.wallet || !$scope.gd.issued_at || !$scope.gd.num_days_gd_pending ||
-       !$scope.gd.num_days_gd_pending_verification || !$scope.gd.num_days_gd_approve || 
+    if (!$scope.gd.sponsor || !$scope.gd.amount ||
+       !$scope.gd.wallet || !$scope.gd.issued_at || 
        !$scope.gd.status || $scope.processing) {
       return true;
     }
     
-    return $scope.gd.code.length > 0 && $scope.gd.sponsor.username && $scope.gd.sponsor.username.length > 0 && 
-    $scope.gd.amount.length > 0 && $scope.gd.wallet.length > 0 && $scope.gd.issued_at.length > 0 && 
-    $scope.gd.num_days_gd_pending.length > 0 && 
-    $scope.gd.num_days_gd_pending_verification.length > 0 &&
-    $scope.gd.num_days_gd_approve.length > 0  ? false : true;
+    return $scope.gd.sponsor.sponsor && $scope.gd.sponsor.sponsor.length > 0 && 
+    $scope.gd.amount.length > 0 && $scope.gd.wallet.length > 0 && $scope.gd.issued_at.length > 0 ? false : true;
     
-  };
-  $scope.get_bank_list = function() {
-    $BankService.get_list().then(function(response){
-      $scope.banks = response.data.banks;
-    });
   };
   
-  $scope.show_bank_add = function() {
-    var options = {
-      'init': function(mscope) {
-        mscope.bank = {};
-      },
-      'disabled': function(mscope) {
-        var bank = mscope.bank;
-        if (!bank || !bank.name || !bank.branch_name || !bank.account_hold_name || 
-        !bank.account_number || !bank.linked_mobile_number || mscope.processing) {
-          return true;
-        }
-        
-        return mscope.bank.name.length > 0 && mscope.bank.branch_name.length > 0 
-          && mscope.bank.account_hold_name.length > 0 && mscope.bank.account_number.length > 0 && mscope.bank.linked_mobile_number.length > 0 ? false : true;
-      },
-      'ok': function (mscope) {
-        $BankService.add(mscope.bank).then(function(response) {
-          var data = response.data;
-          if (data && data.type == 1) {
-            mscope.message = data.message;
-          }
-          else {
-            mscope.close();
-            $scope.get_bank_list();
-          }
-        });
-      },
-    };
-    
-    $BankService.show_add_modal(options);
-  };
- 
   $scope.submit = function() {
     
     $scope.processing = true;
@@ -249,7 +197,7 @@ app.controller('GdAddCtrl', function($scope, $http, $location, $modal, $GdServic
   };
 });
 
-app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $GdService, $SponsorService, $SettingService, $BankService, noty) {
+app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $GdService, $SponsorService, $SettingService, $SponsorInvestService, noty) {
   $scope.processing = false;
   $scope.noty = noty;
   
@@ -281,80 +229,29 @@ app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $
       }
       
       $scope.amount_money_text = DocTienBangChu($scope.gd.amount * 10000);
-      
-      $scope.get_bank_list();
-      
+       
     });
     
-    $SponsorService.get_list().then(function(response) {
+    $SponsorInvestService.get_list().then(function(response) {
       $scope.sponsors = response.data.sponsors;
       
       for (var i=0; i < $scope.sponsors.length; i++) {
-        if ($scope.sponsors[i].username == $scope.gd.sponsor) {
+        if ($scope.sponsors[i].sponsor == $scope.gd.sponsor) {
           $scope.gd.sponsor = $scope.sponsors[i];
         }
       }
     });
   };
-   
-   $scope.get_bank_list = function() {
-    $BankService.get_list().then(function(response){
-      $scope.banks = response.data.banks;
-      
-      for (var i=0; i < $scope.banks.length; i++) {
-        if ($scope.banks[i].id == $scope.gd.bank_id) {
-          $scope.gd.bank = $scope.banks[i];
-        }
-      } 
-    });
-  };
   
    $scope.disabled = function() {
     if (!$scope.gd.code || !$scope.gd.sponsor || !$scope.gd.amount ||
-       !$scope.gd.wallet || !$scope.gd.issued_at || !$scope.gd.num_days_gd_pending ||
-       !$scope.gd.num_days_gd_pending_verification ||
-       !$scope.gd.num_days_gd_approve || !$scope.gd.status || $scope.processing) {
+       !$scope.gd.wallet || !$scope.gd.issued_at || !$scope.gd.status || $scope.processing) {
       return true;
     }
     
-    return $scope.gd.code.length > 0 && $scope.gd.sponsor.username && $scope.gd.sponsor.username.length > 0 && 
-    $scope.gd.amount.length > 0 && $scope.gd.wallet.length > 0 && $scope.gd.issued_at.length > 0 && 
-    $scope.gd.num_days_gd_pending.length > 0 &&
-    $scope.gd.num_days_gd_pending_verification.length > 0 &&
-    $scope.gd.num_days_gd_approve.length > 0 ? false : true;
+    return $scope.gd.code.length > 0 && $scope.gd.sponsor.sponsor && $scope.gd.sponsor.sponsor.length > 0 && 
+    $scope.gd.amount.length > 0 && $scope.gd.wallet.length > 0 && $scope.gd.issued_at.length > 0 ? false : true;
     
-  };
-  
-  $scope.show_bank_add = function() {
-    var options = {
-      'init': function(mscope) {
-        mscope.bank = {};
-      },
-      'disabled': function(mscope) {
-        var bank = mscope.bank;
-        if (!bank || !bank.name || !bank.branch_name || !bank.account_hold_name || 
-        !bank.account_number || !bank.linked_mobile_number || mscope.processing) {
-          return true;
-        }
-        
-        return mscope.bank.name.length > 0 && mscope.bank.branch_name.length > 0 
-          && mscope.bank.account_hold_name.length > 0 && mscope.bank.account_number.length > 0 && mscope.bank.linked_mobile_number.length > 0 ? false : true;
-      },
-      'ok': function (mscope) {
-        $BankService.add(mscope.bank).then(function(response) {
-          var data = response.data;
-          if (data && data.type == 1) {
-            mscope.message = data.message;
-          }
-          else {
-            mscope.close();
-            $scope.get_bank_list();
-          }
-        });
-      },
-    };
-    
-    $BankService.show_add_modal(options);
   };
   
   $scope.submit = function() {
@@ -362,9 +259,9 @@ app.controller('GdEditCtrl', function($scope, $routeParams, $location, $modal, $
     $scope.processing = true;
     
     $GdService.edit($scope.gd).then(function(response) {
+      $scope.processing = false;
       $scope.message_type = response.data.type;
       $scope.message = response.data.message;
-      $scope.processing = false;
     });
   };
   

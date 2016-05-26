@@ -124,13 +124,13 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
   };
 });
 
-app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdService, $SponsorService, $SettingService, $BankService, noty) {
+app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdService, $SponsorService, $SettingService, $SponsorInvestService, noty) {
   $scope.processing = false;
   $scope.noty = noty;
   
   $scope.pd = {};
   
-  $scope.pd.sponsor = {'username' : '', 'name': ''};
+  $scope.pd.sponsor = {'sponsor' : ''};
   
   $scope.optionStatus = [
     {'id': 1, 'name': 'Pending'},
@@ -150,27 +150,16 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
      $SponsorService.get_sponsor_owner().then(function(resp) {
         default_sponsor = resp.data.sponsor_owner;
         
-        $SponsorService.get_list().then(function(response) {
+        $SponsorInvestService.get_list().then(function(response) {
           $scope.sponsors = response.data.sponsors;
           
           for (var i=0; i < $scope.sponsors.length; i++) {
-            if ($scope.sponsors[i].username == default_sponsor) {
+            if ($scope.sponsors[i].sponsor == default_sponsor) {
               $scope.pd.sponsor = $scope.sponsors[i];
             }
           }
         });
      }); 
-    
-    $SettingService.view().then(function(response) {
-      if (response.data.type == 1) {
-        $scope.message_setting_type = 1;
-        $scope.message_setting = 'WARNING: Bạn chưa cài đặt tham số hệ thống!. Vào menu Hệ thống >> Cài đặt tham số để cài đặt.';
-      }
-      $scope.pd.num_days_pending = response.data.num_days_pd_pending;
-      $scope.pd.num_days_transfer = response.data.num_days_pd_transfer;
-    });
-    
-    $scope.get_bank_list();
     
     $scope.pd.status = {'id': 1, 'name': 'Pending'};
     $scope.pd.amount = '660';
@@ -178,22 +167,15 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
     
     $scope.amount_money_text = DocTienBangChu($scope.pd.amount * 10000);
   };
-  
-  $scope.get_bank_list = function() {
-    $BankService.get_list().then(function(response){
-      $scope.banks = response.data.banks;
-    });
-  };
+   
   $scope.disabled = function() {
-    if (!$scope.pd.code || !$scope.pd.sponsor || !$scope.pd.amount ||
-       !$scope.pd.remain_amount || !$scope.pd.issued_at || !$scope.pd.num_days_pending ||
-       !$scope.pd.num_days_transfer || !$scope.pd.status || $scope.processing) {
+    if (!$scope.pd.sponsor || !$scope.pd.amount ||
+       !$scope.pd.issued_at || !$scope.pd.status || $scope.processing) {
       return true;
     }
     
-    return $scope.pd.code.length > 0 && $scope.pd.sponsor.name.length > 0 && 
-    $scope.pd.amount.length > 0 && $scope.pd.remain_amount.length > 0 && $scope.pd.issued_at.length > 0 && 
-    $scope.pd.num_days_pending.length > 0 && $scope.pd.num_days_transfer.length > 0 ? false : true;
+    return $scope.pd.sponsor.sponsor.length > 0 && 
+    $scope.pd.amount.length > 0 && $scope.pd.issued_at.length > 0 ? false : true;
     
   };
   
@@ -203,42 +185,9 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
     
     $PdService.add($scope.pd).then(function(response) {
       $scope.processing = false;
-      
       $scope.message_type = response.data.type;
       $scope.message = response.data.message;
     });
-  };
- 
-  $scope.show_bank_add = function() {
-    var options = {
-      'init': function(mscope) {
-        mscope.bank = {};
-      },
-      'disabled': function(mscope) {
-        var bank = mscope.bank;
-        if (!bank || !bank.name || !bank.branch_name || !bank.account_hold_name || 
-        !bank.account_number || !bank.linked_mobile_number || mscope.processing) {
-          return true;
-        }
-        
-        return mscope.bank.name.length > 0 && mscope.bank.branch_name.length > 0 
-          && mscope.bank.account_hold_name.length > 0 && mscope.bank.account_number.length > 0 && mscope.bank.linked_mobile_number.length > 0 ? false : true;
-      },
-      'ok': function (mscope) {
-        $BankService.add(mscope.bank).then(function(response) {
-          var data = response.data;
-          if (data && data.type == 1) {
-            mscope.message = data.message;
-          }
-          else {
-            mscope.close();
-            $scope.get_bank_list();
-          }
-        });
-      },
-    };
-    
-    $BankService.show_add_modal(options);
   };
   
   $scope.convert_money = function () {
@@ -246,7 +195,7 @@ app.controller('PdAddCtrl', function($scope, $http, $location, $modal, $PdServic
   };
 });
 
-app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $SponsorService, $BankService, $http) {
+app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $SponsorService, $SponsorInvestService, $http) {
   $scope.processing = false;
   
   $scope.pd = {};
@@ -279,44 +228,29 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
       
       $scope.amount_money_text = DocTienBangChu($scope.pd.amount * 10000);
       
-      $scope.get_bank_list();
-      
     });
      
-    $SponsorService.get_list().then(function(response) {
+    $SponsorInvestService.get_list().then(function(response) {
       $scope.sponsors = response.data.sponsors;
       
       for (var i=0; i < $scope.sponsors.length; i++) {
-        if ($scope.sponsors[i].username == $scope.pd.sponsor) {
+        if ($scope.sponsors[i].sponsor == $scope.pd.sponsor) {
           $scope.pd.sponsor = $scope.sponsors[i];
         }
       }
     });
   };
   
-  $scope.get_bank_list = function() {
-    $BankService.get_list().then(function(response){
-      $scope.banks = response.data.banks;
-        
-      for (var i=0; i < $scope.banks.length; i++) {
-        if ($scope.banks[i].id == $scope.pd.bank_id) {
-          $scope.pd.bank = $scope.banks[i];
-        }
-      }    
-
-    });
-  };
   
   $scope.disabled = function() {
     if (!$scope.pd.code || !$scope.pd.sponsor || !$scope.pd.amount ||
-       !$scope.pd.remain_amount || !$scope.pd.issued_at || !$scope.pd.num_days_pending ||
-       !$scope.pd.num_days_transfer || !$scope.pd.status || $scope.processing) {
+       !$scope.pd.issued_at || 
+       !$scope.pd.status || $scope.processing) {
       return true;
     }
     
-    return $scope.pd.code.length > 0 && $scope.pd.sponsor.username && $scope.pd.sponsor.username.length > 0 && 
-    $scope.pd.amount.length > 0 && $scope.pd.remain_amount.length > 0 && $scope.pd.issued_at.length > 0 && 
-    $scope.pd.num_days_pending.length > 0 && $scope.pd.num_days_transfer.length > 0 ? false : true;
+    return $scope.pd.code.length > 0 && $scope.pd.sponsor.sponsor && $scope.pd.sponsor.sponsor.length > 0 && 
+    $scope.pd.amount.length > 0 && $scope.pd.issued_at.length > 0 ? false : true;
     
   };
   $scope.submit = function() {
@@ -329,38 +263,6 @@ app.controller('PdEditCtrl',  function($scope, $routeParams, $PdService, $Sponso
       $scope.message = response.data.message;
       $scope.message_type = response.data.message_type;
     });
-  };
-  
-  $scope.show_bank_add = function() {
-    var options = {
-      'init': function(mscope) {
-        mscope.bank = {};
-      },
-      'disabled': function(mscope) {
-        var bank = mscope.bank;
-        if (!bank || !bank.name || !bank.branch_name || !bank.account_hold_name || 
-        !bank.account_number || !bank.linked_mobile_number || mscope.processing) {
-          return true;
-        }
-        
-        return mscope.bank.name.length > 0 && mscope.bank.branch_name.length > 0 
-          && mscope.bank.account_hold_name.length > 0 && mscope.bank.account_number.length > 0 && mscope.bank.linked_mobile_number.length > 0 ? false : true;
-      },
-      'ok': function (mscope) {
-        $BankService.add(mscope.bank).then(function(response) {
-          var data = response.data;
-          if (data && data.type == 1) {
-            mscope.message = data.message;
-          }
-          else {
-            mscope.close();
-            $scope.get_bank_list();
-          }
-        });
-      },
-    };
-    
-    $BankService.show_add_modal(options);
   };
   
   $scope.convert_money = function () {

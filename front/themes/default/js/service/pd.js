@@ -37,6 +37,18 @@ app.service('$PdService', function($rootScope, $http, $modal, $q) {
     });
   };
   
+  this.update_status = function (pd) {
+    var url = generate_url('pd', 'update_status');
+    return $http({
+      'method': 'PUT',
+      'url': url,
+      'data': pd,
+      'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+  };
+  
   this.delete = function (pd) {
     var url = generate_url('pd', 'delete');
     return $http({
@@ -64,6 +76,18 @@ app.service('$PdService', function($rootScope, $http, $modal, $q) {
   this.get_status = function () {
     var url = generate_url('pd', 'get_status');
     return $http.get(url);
+  };
+  
+  this.get_all_by_status = function(status) {
+    var url = generate_url('pd', 'get_all_by_status');
+    
+    return $http({
+      'method': 'GET',
+      'url': url + '&status=' + status,
+      'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
   };
   
   return this;

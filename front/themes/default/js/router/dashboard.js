@@ -7,19 +7,27 @@ app.config(['$routeProvider', '$locationProvider', function AppConfig($routeProv
         })
         .when('/pd', {
             templateUrl: '//' + appConf.domain + '?mod=dashboard.pd',
-            controller: 'DashboardPdCtrl'
+            controller: 'PdexListCtrl'
+        })
+        .when('/pd/approved', {
+            templateUrl: '//' + appConf.domain + '?mod=dashboard.pd_approved',
+            controller: 'PdexApprovedListCtrl'
+        })
+        .when('/planget', {
+            templateUrl: '//' + appConf.domain + '?mod=dashboard.planget',
+            controller: 'PlanGetListCtrl'
         })
         .when('/get', {
             templateUrl: '//' + appConf.domain + '?mod=dashboard.get',
-            controller: 'DashboardGetCtrl'
+            controller: 'GdexGetListCtrl'
         })
         .when('/gd', {
             templateUrl: '//' + appConf.domain + '?mod=dashboard.gd',
-            controller: 'DashboardGdCtrl'
+            controller: 'GdexGdListCtrl'
         })
         .when('/approve', {
             templateUrl: '//' + appConf.domain + '?mod=dashboard.approve',
-            controller: 'DashboardApproveCtrl'
+            controller: 'GdexApproveListCtrl'
         })
         . otherwise({
           redirectTo: '/planpd'

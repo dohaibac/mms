@@ -103,9 +103,7 @@ class GdController extends JControllerForm
     $this->app->prevent_remote_access();
     
     $list_required_fields = array(
-      'code', 'sponsor', 'amount', 'wallet', 'issued_at', 'num_days_gd_pending',
-      'num_days_gd_pending_verification',
-      'num_days_gd_approve', 'status'
+      'sponsor', 'amount', 'wallet', 'issued_at', 'status'
     );
     
     $body = $this->get_request_body();
@@ -119,23 +117,23 @@ class GdController extends JControllerForm
     
     $system_code = $this->system_code();
     
-    $code = $this->getSafe('code');
+    $code = 'GD' . time();
     $sponsor = $this->getSafe('sponsor');
     $amount  = $this->getSafe('amount');
     $wallet = $this->getSafe('wallet');
-    $bank = $this->getSafe('bank');
+    $bank = 1;
     $issued_at = $this->getSafe('issued_at');
-    $num_days_gd_pending = $this->getSafe('num_days_gd_pending');
-    $num_days_gd_pending_verification = $this->getSafe('num_days_gd_pending_verification');
-    $num_days_gd_approve = $this->getSafe('num_days_gd_approve');
+    $num_days_gd_pending = "1";
+    $num_days_gd_pending_verification = "1";
+    $num_days_gd_approve = "1";
     $status = $this->getSafe('status');
     
     $issued_at = $this->re_format_datetime($issued_at);
     
     $data = array(
       'code' => $code,
-      'sponsor' => $sponsor['username'],
-      'bank_id' => $bank['id'],
+      'sponsor' => $sponsor['sponsor'],
+      'bank_id' => 1,
       'amount' =>$amount,
       'wallet' =>$wallet,
       'system_code' => $system_code,
@@ -148,15 +146,8 @@ class GdController extends JControllerForm
       'created_at' => date('Y-m-d h:i:s')
     );
      
-    $result = $this->gd_model->post($data);
-    
-    if (!isset($result) || empty($result->body)) {
-      $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));
-      $this->renderJson($ret);
-    }
-    
-    $data = $result->body;
-    
+    $data = $this->gd_model->post($data)->body;
+   
     $ret = $this->message($data->type, $data->code, $this->app->lang($data->code));
     $this->renderJson($ret);
   }
@@ -165,9 +156,7 @@ class GdController extends JControllerForm
     $this->app->prevent_remote_access();
     
     $list_required_fields = array(
-      'id', 'code', 'sponsor', 'amount', 'wallet', 'issued_at', 'num_days_gd_pending', 
-      'num_days_gd_pending_verification', 
-      'num_days_gd_approve', 
+      'id', 'code', 'sponsor', 'amount', 'wallet', 'issued_at', 
       'status'
     );
     
@@ -188,9 +177,7 @@ class GdController extends JControllerForm
     $amount  = $this->getSafe('amount');
     $wallet = $this->getSafe('wallet');
     $issued_at = $this->getSafe('issued_at');
-    $num_days_gd_pending = $this->getSafe('num_days_gd_pending');
-    $num_days_gd_pending_verification = $this->getSafe('num_days_gd_pending_verification');
-    $num_days_gd_approve = $this->getSafe('num_days_gd_approve');
+    
     $status = $this->getSafe('status');
     
     $issued_at = $this->re_format_datetime($issued_at);
@@ -198,28 +185,21 @@ class GdController extends JControllerForm
     $data = array(
       'id' => $id,
       'code' => $code,
-      'sponsor' => $sponsor['username'],
-      'bank_id' => $bank['id'],
+      'sponsor' => $sponsor['sponsor'],
+      'bank_id' => '1',
       'amount' =>$amount,
       'wallet' =>$wallet,
       'system_code' => $system_code,
       'issued_at' => $issued_at,
-      'num_days_gd_pending' => $num_days_gd_pending,
-      'num_days_gd_pending_verification' => $num_days_gd_pending_verification,
-      'num_days_gd_approve' => $num_days_gd_approve,
+      'num_days_gd_pending' => '1',
+      'num_days_gd_pending_verification' => '1',
+      'num_days_gd_approve' => '1',
       'status' => $body['status']['id'],
       'updated_by' => $this->app->user->data()->id,
       'updated_at' => date('Y-m-d h:i:s')
     );
      
-    $result = $this->gd_model->put($data);
-    
-    if (!isset($result) || empty($result->body)) {
-      $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));
-      $this->renderJson($ret);
-    }
-    
-    $data = $result->body;
+    $data = $this->gd_model->put($data)->body;
     
     $ret = $this->message($data->type, $data->code, $this->app->lang($data->code));
     $this->renderJson($ret);
@@ -313,6 +293,90 @@ class GdController extends JControllerForm
       $this->renderJson($ret);
     }
     
+    $this->renderJson($data);
+  }
+  
+   public function get_all() {
+    $this->app->prevent_remote_access();
+    
+    $db = $this->app->getDbo();
+    
+    $system_code = $this->system_code();
+    $status = $this->getSafe('status');
+    
+    $where = 'system_code = ' . $db->quote($system_code) . 
+      ' AND status=' . $db->quote($status);
+     
+    $order_by ='issued_at ASC';
+      
+    $data = array(
+      'where'=>$where,
+      'order_by'=>$order_by,
+      'system_code'=>$system_code
+    );
+       
+    $data = $this->gd_model
+      ->get_all($data)
+      ->body;
+    
+    if (isset($data->gds)) {
+      foreach($data->gds as $gd) {
+        $date =  new DateTime($gd->issued_at);
+        $gd->issued_at_display = $date->format('Y-m-d');
+      }
+    }
+    $this->renderJson($data);
+  }
+
+  public function get_all_approve() {
+    $this->app->prevent_remote_access();
+    
+    $db = $this->app->getDbo();
+    
+    $system_code = $this->system_code();
+    
+    require_once  PATH_COMPONENT . '/com_jobs/helper.php';
+    
+    $helper = new JobsHelper($this->app, $system_code);
+    
+    $status = 2; // dang GD
+    
+    $meta = $helper->get_setting();
+    
+    $num_days_pd_pending = $meta->num_days_pd_pending;
+    $num_days_pd_transfer = $meta->num_days_pd_transfer;
+    $num_days_gd_pending = $meta->num_days_gd_pending;
+    $num_days_gd_pending_verification = $meta->num_days_gd_pending_verification;
+     
+    $total = $num_days_pd_pending + $num_days_pd_transfer + $num_days_gd_pending + $num_days_gd_pending_verification;
+    
+    $current_time = time();
+    $to_date = date('Y-m-d 23:59:59', strtotime('-'. ($total - 1) .' day', $current_time));
+     
+    $from_date = date('Y-m-d 00:00:00', strtotime('-'. $total .' day', $current_time));
+     
+    $where = 'system_code = ' . $db->quote($system_code) . 
+      ' AND (issued_at BETWEEN ' . $db->quote($from_date) . ' AND ' . $db->quote($to_date) . ')' .
+      ' AND status=' . $db->quote($status);
+    
+    $order_by ='issued_at ASC';
+    
+    $data = array(
+      'where'=>$where,
+      'order_by'=>$order_by,
+      'system_code'=>$system_code
+    );
+       
+    $data = $this->gd_model
+      ->get_all($data)
+      ->body;
+    
+    if (isset($data->gds)) {
+      foreach($data->gds as $gd) {
+        $date =  new DateTime($gd->issued_at);
+        $gd->issued_at_display = $date->format('Y-m-d');
+      }
+    }
     $this->renderJson($data);
   }
 }

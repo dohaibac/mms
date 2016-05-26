@@ -66,5 +66,22 @@ app.service('$GdService', function($rootScope, $http, $modal, $q) {
     return $http.get(url);
   };
   
+  this.get_all = function (status) {
+    var url = generate_url('gd', 'get_all');
+    
+    return $http({
+      'method': 'GET',
+      'url': url + '&status=' + status,
+      'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+  };
+  
+  this.get_all_approve = function () {
+    var url = generate_url('gd', 'get_all_approve');
+    return $http.get(url);
+  };
+  
   return this;
 });

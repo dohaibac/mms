@@ -215,31 +215,15 @@ class SponsorController extends JControllerForm
     try {
       $body = $this->get_request_body();
       
-      $ret = array ();
-      
-      $usergroup = new stdClass;
-      
       $system_code = $body['system_code'];
       
-      if (isset($body['id']) && !empty($body['id'])) { // update theo id
-        $usergroup = $this->sponsor_model->get_by_id($body['id'], $system_code);
-      }
-      else {
-        $ret = $this->message(1, 'sponsor_delete_missing_sponsor_id', 'Missing bank id.');
-        $this->renderJson($ret);
-      }
+      $sponsor = $body['sponsor'];
       
-      if (isset($usergroup) && !empty($usergroup->id)) {
-        if (isset($body['id']) && !empty ($body['id'])) {
-          $this->sponsor_model->delete_by_id($body);
-          $ret = $this->message(0, 'sponsor_delete_success', 'Delete bank has been successfully.');
-          $this->renderJson($ret);
-        }
-      }
-      else {
-        $ret = $this->message(1, 'sponsor_delete_sponsor_not_found', 'Bank not found.');
-        $this->renderJson($ret);
-      }
+      $this->sponsor_model->delete_by_sponsor($sponsor);
+      
+      $ret = $this->message(0, 'sponsor_delete_success', 'Delete Sponsor has been successfully.');
+      $this->renderJson($ret);
+      
     } catch (Exception $ex) {
        $this->app->write_log('sponsor_delete_exception - ' . $ex->getMessage());
        
@@ -297,6 +281,39 @@ class SponsorController extends JControllerForm
       $ret = array (
         'sponsors' => $sponsor_list,
         'total' => $total_sponsor_list
+      );
+      
+      $this->renderJson($ret);
+      
+     } catch (Exception $ex) {
+       $this->app->write_log('sponsor_get_list_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'sponsor_get_list_exception', $ex->getMessage());
+       $this->renderJson($ret);
+     }
+  }
+  
+  
+   /***
+   * Lay danh sach user group theo paging
+   * 
+   * */
+  public function get_all() {
+    try {
+      $where = $this->getSafe('where', '');
+      $order_by = $this->getSafe('order_by', '');
+      
+      $db = $this->app->getDbo();
+      
+      $data = array (
+        'order_by' => $order_by,
+        'where' => $where
+      );
+      
+      $sponsor_list = $this->sponsor_model->get_all($data);
+      
+      $ret = array (
+        'sponsors' => $sponsor_list
       );
       
       $this->renderJson($ret);
@@ -469,6 +486,36 @@ class SponsorController extends JControllerForm
        $this->app->write_log('sponsor_update_has_fork_exception - ' . $ex->getMessage());
        
        $ret = $this->message(1, 'sponsor_update_has_fork_exception', $ex->getMessage());
+       $this->renderJson($ret);
+    }
+  }
+  
+  /****
+   * Lay thong tin sponsor theo sponsor invest
+   * 
+   * **/
+  public function get_sponsor_invest() {
+    try {
+      // check get user group theo id
+      $system_code = $this->getSafe('system_code', '');
+      
+      if (empty($system_code)) {
+        $ret = $this->message(1, 'sponsor_get_sponsor_invest_missing_system_code', 'Missing or Empty system_code.');
+        $this->renderJson($ret);
+      }
+      
+      $sponsors = $this->sponsor_model->get_sponsor_invest($system_code);
+     
+      $ret = array (
+        'sponsors' => $sponsors
+      );
+      
+      $this->renderJson($ret);
+      
+    } catch (Exception $ex) {
+       $this->app->write_log('sponsor_get_sponsor_invest_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'sponsor_get_sponsor_invest_oneexception', $ex->getMessage());
        $this->renderJson($ret);
     }
   }
