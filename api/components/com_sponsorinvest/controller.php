@@ -194,5 +194,66 @@ class SponsorinvestController extends JControllerForm
        $this->renderJson($ret);
      }
   }
+
+  /***
+   * Lay danh sach user group theo paging
+   * 
+   * */
+  public function get_list() {
+    try {
+      
+      $limit = $this->getSafe('limit', $this->app->appConf->page_size);
+      $page_number = $this->getSafe('page_number', 1);
+      $where = $this->getSafe('where', '');
+      $order_by = $this->getSafe('order_by', '');
+      $keywords = $this->getSafe('keywords', '');
+      
+      $page_number = empty($page_number) ? 1 : $page_number;
+      
+      $start_index = ($page_number -1) * $limit;
+      
+      $db = $this->app->getDbo();
+      
+      $search = '';
+      
+      if (!empty($keywords)) {
+        $keywords = $db->quote('%' . $keywords . '%');
+        // search theo name
+        $search .= $db->quoteName('name') . ' LIKE ' . $keywords;
+      }
+      
+      if (!empty ($where)) {
+        if (!empty ($search)) {
+          $where = ' AND (' . $search . ')';
+        }
+      } else {
+        $where = $search;
+      }
+      
+      $data = array (
+        'limit' => $limit,
+        'start_index' => $start_index,
+        'order_by' => $order_by,
+        'where' => $where
+      );
+      
+      $sponsorinvest_list = $this->sponsorinvest_model->get_list($data);
+      
+      $total = $this->sponsorinvest_model->get_list_total($where);
+      
+      $ret = array (
+        'sponsors' => $sponsorinvest_list,
+        'total' => $total
+      );
+      
+      $this->renderJson($ret);
+      
+     } catch (Exception $ex) {
+       $this->app->write_log('sponsorlist_get_list_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'sponsorlist_get_list_exception', $ex->getMessage());
+       $this->renderJson($ret);
+     }
+  }
 }
 ?>

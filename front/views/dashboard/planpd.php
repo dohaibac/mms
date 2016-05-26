@@ -1,7 +1,7 @@
 <div class="dashboard-main" ng-controller="PlanpdListCtrl" ng-init="init()">
   <div class="col-lg-12 header-title">
     <h4>Danh sách PD dự kiến <b>{literal} {{ from_date }} {/literal}</b></h4>
-    <span>Đây là danh sách các mã dự kiến sẽ đặt lệnh do hệ thống tự động tính toán!<br/><br/></span>
+    <span>Đây là danh sách các mã dự kiến sẽ đặt lệnh PD do hệ thống tự động tính toán!<br/><br/></span>
   </div>
   <div class="dashboard-main-body">
    <div class="table-responsive">

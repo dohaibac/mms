@@ -23,11 +23,14 @@ require_once PATH_PLUGINS . '/cache/phpfastcache.php';
 
 $app = JBase::getApplication(__APP_NAME__);
 
+// Can cu vao so ngay cho GD hoan thanh de tinh ra GD da xong. insert vao table moi
+
 $ctrl = 'jobs';
-$task = 'create_commands';
+$task = 'set_gd_to_done';
 
 $controller = $app->getController($ctrl);
 
 $data = $controller->execute($task);
+
 
 ?>

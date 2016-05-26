@@ -62,5 +62,13 @@ class SponsorModel extends JModelBase {
     
     return $rest_client->put('/sponsor/update_has_fork', $data);
   }
+  
+  public function get_sponsor_invest($data) {
+    $rest_client = $this->app->getRestClient();
+    
+    $path = '/' . $this->model_name . '/get_sponsor_invest';
+    
+    return $rest_client->get($path, $data);
+  }
 }
 ?>

@@ -33,5 +33,30 @@ class SponsorinvestController extends JControllerForm
     
     $this->renderJson($data);
   }
+  
+  public function get_list() {
+    $this->app->prevent_remote_access();
+    
+    $db = $this->app->getDbo();
+    
+    $system_code = $this->system_code();
+    
+    $where = 'system_code = ' . $db->quote($system_code);
+    
+    $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
+    $order_by ='id';
+    
+    $data = array(
+      'where'=>$where,
+      'order_by'=>$order_by,
+      'page_number'=>$current_page
+    );
+     
+    $data = $this->sponsorinvest_model
+      ->get_list($data)
+      ->body;
+    
+    $this->renderJson($data);
+  }
 }
 ?>

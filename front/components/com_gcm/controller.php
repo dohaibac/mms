@@ -167,7 +167,7 @@ class GcmController extends JControllerForm
     try {
         
       $data = file_get_contents('php://input');
-      $this->write_log($data);
+      
       $data = json_decode($data, true);
       
       $ids = isset($data['ids']) ? $data['ids'] : '';

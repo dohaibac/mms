@@ -167,5 +167,25 @@ abstract class JModelBase
    
     return $db->loadResult();
   }
+  
+  
+  /***
+   * build list columns khi insert hoac update tu $data
+   * 
+   * $data array
+   * 
+   * @return array
+   * */
+  public function build_columns_list_multi ($rows) {
+    $column_keys = array ();
+    foreach($rows as $data) {
+      foreach($data as $key=>$val) {
+        $column_keys []= $key; 
+      }
+      break;
+    }
+    
+    return $column_keys;
+  }
 }
 ?>

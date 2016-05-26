@@ -79,5 +79,40 @@ class SponsorinvestModel extends JModelBase {
      
     return $db->query();
   }
+  
+  /***
+   * Lay danh sach user bank
+   * 
+   * $data array
+   *   - limit
+   *   - page_number
+   *   - where: condition
+   * */
+  public function get_list($data) {
+    $start_index = $data['start_index'];
+    $limit = $data['limit'];
+    $where = $data['where'];
+    $order_by = $data['order_by'];
+    
+    $db = $this->app->getDbo();
+    
+    $select = '*';
+    
+    $query = $db->getQuery(true)
+     ->select($select)
+     ->from($db->quoteName($this->model_name));
+   
+   if (!empty($where)) {
+     $query->where($where);
+   }
+   if (!empty($order_by)) {
+     $query->order($order_by);
+   }
+   
+   //$db->setQuery($query, $start_index, $limit);
+   $db->setQuery($query);
+    
+    return $db->loadAssocList();
+  }
 }
 ?>

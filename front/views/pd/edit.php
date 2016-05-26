@@ -21,10 +21,10 @@
       </div>
       <div class="col-md-8">
          <ui-select ng-model="pd.sponsor" theme="bootstrap" class="width100p fleft">
-          <ui-select-match placeholder="Select or search a sponsor in the list...">{{$select.selected.username}}</ui-select-match>
+          <ui-select-match placeholder="Select or search a sponsor in the list...">{{$select.selected.sponsor}}</ui-select-match>
           <ui-select-choices repeat="item in sponsors | filter: $select.search">
-          <div ng-bind-html="item.name | highlight: $select.search"></div>
-          <small ng-bind-html="item.username | highlight: $select.search"></small>
+          <div ng-bind-html="item.sponsor | highlight: $select.search"></div>
+          <small ng-bind-html="item.sponsor | highlight: $select.search"></small>
           </ui-select-choices>
           </ui-select>
          <div class="clearfix"></div>
@@ -52,59 +52,10 @@
     </div>
     <div class="form-group">
       <div class="col-md-4 align-right">
-      <label class="control-label">Remain Amount</label>
-      </div>
-      <div class="col-md-8">
-        <input ng-model="pd.remain_amount" type="input" name="remain_amount" class="form-control width100p" 
-         required ng-trim="true" ng-maxlength="255">
-      </div>
-      <div class="clearfix"></div>
-    </div>
-    <div class="form-group">
-      <div class="col-md-4 align-right">
       <label class="control-label">Ngày đặt lệnh</label>
       </div>
       <div class="col-md-8">
         <input ng-model="pd.issued_at" datetime-picker date-format="MM/dd/yyyy" name="issued_at" class="form-control width100p" 
-         required ng-trim="true" ng-maxlength="255">
-      </div>
-      <div class="clearfix"></div>
-    </div>
-    {literal}
-    <div class="form-group1">
-      <div class="col-md-4 align-right">
-      <label class="control-label">Ngân hàng dự định PD</label>
-      </div>
-      <div class="col-md-8">
-         <ui-select ng-model="pd.bank" theme="bootstrap" class="width80p fleft">
-          <ui-select-match placeholder="Select or search a bank in the list...">{{$select.selected.name}} {{$select.selected.account_hold_name}} {{$select.selected.account_number}}</ui-select-match>
-          <ui-select-choices repeat="item in banks | filter: $select.search">
-          <div ng-bind-html="item.name | highlight: $select.search"></div>
-          <small ng-bind-html="item.account_hold_name + ' ' + item.account_number | highlight: $select.search"></small>
-          </ui-select-choices>
-     </ui-select> &nbsp;
-         <a class="btn btn-sm btn-success" title="Add new" ng-click="show_bank_add()"> Thêm </a>
-         <div class="clearfix"></div>
-       </div>
-       <div class="clearfix"></div>
-    </div>
-    {/literal}
-    <div class="form-group">
-      <div class="col-md-4 align-right">
-      <label class="control-label">Số ngày chờ PD</label>
-      </div>
-      <div class="col-md-8">
-        <input ng-model="pd.num_days_pending" type="text"  name="num_days_pending" class="form-control width100p" 
-         required ng-trim="true" ng-maxlength="255">
-      </div>
-      <div class="clearfix"></div>
-    </div>
-    <div class="form-group">
-      <div class="col-md-4 align-right">
-      <label class="control-label">Số ngày chờ chuyển tiền sau khi được xác nhận</label>
-      </div>
-      <div class="col-md-8">
-        <input ng-model="pd.num_days_transfer" type="text"  name="num_days_transfer" class="form-control width100p" 
          required ng-trim="true" ng-maxlength="255">
       </div>
       <div class="clearfix"></div>

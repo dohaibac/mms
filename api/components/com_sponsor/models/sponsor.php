@@ -80,6 +80,29 @@ class SponsorModel extends JModelBase {
     return $db->loadAssocList();
   }
   
+  public function get_all($data) {
+    $where = $data['where'];
+    $order_by = $data['order_by'];
+    
+    $db = $this->app->getDbo();
+    
+    $select = '*';
+    
+    $query = $db->getQuery(true)
+     ->select($select)
+     ->from($db->quoteName($this->model_name));
+   
+   if (!empty($where)) {
+     $query->where($where);
+   }
+   if (!empty($order_by)) {
+     $query->order($order_by);
+   }
+   
+   $db->setQuery($query);
+    
+    return $db->loadAssocList();
+  }
    /***
    * Lay thong tin sponsor dau tien
    * */
@@ -98,6 +121,25 @@ class SponsorModel extends JModelBase {
     return $db->loadObject();
   }
   
+  /***
+   * Lay thong tin sponsor invest
+   * */
+  public function get_sponsor_invest ($system_code) {
+    $db = $this->app->getDbo();
+    
+    $select = "s.*, invt.updated_at as updated_at_invest";
+    
+    $query = $db->getQuery(true)
+      ->select($select)
+      ->from($db->quoteName($this->model_name, 's'))
+      ->join('INNER', $db->quoteName('#__sponsor_invest', 'invt') . ' ON (' . $db->quoteName('s.username') . ' = ' . $db->quoteName('invt.sponsor') . ')')
+      ->where('s.system_code=' . $db->quote($system_code))
+      ->order('invt.updated_at ASC');
+     
+    $db->setQuery($query);
+   
+    return $db->loadAssocList();
+  }
    /***
    * get by username
    * */
@@ -160,6 +202,27 @@ class SponsorModel extends JModelBase {
     $db = $this->app->getDbo();
     
     $db->updateObject($this->model_name, $object, 'username');
+  }
+  
+   /***
+   * delete by id
+   * 
+   * $data array
+   * 
+   * @return mix
+   * 
+   * */
+  public function delete_by_sponsor($sponsor) {
+    
+    $db = $this->app->getDbo();
+    
+    $query = $db->getQuery(true)
+     ->delete($db->quoteName($this->model_name))
+     ->where('username=' . $db->quote($sponsor));
+    
+    $db->setQuery($query);
+    
+    return $db->query();
   }
   
 }

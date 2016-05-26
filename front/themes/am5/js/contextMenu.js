@@ -7,7 +7,7 @@ angular.module('ui.bootstrap.contextMenu', [])
         initialize: function (item) {
             console.log("got here", item);
         }
-    }
+    };
 
 })
 .directive('contextMenu', ["$parse", "$q", "CustomService", "$sce", function ($parse, $q, custom, $sce) {
@@ -76,13 +76,10 @@ angular.module('ui.bootstrap.contextMenu', [])
         }
         else if (typeof item.html !== "undefined") {
             // leave styling open to dev
-            text = item.html
+            text = item.html;
         }
 
         $li.append(text);
-
-
-
 
         // if item is object, and has enabled prop invoke the prop
         // els if fallback to item[2]
@@ -281,6 +278,7 @@ angular.module('ui.bootstrap.contextMenu', [])
             $scope.$apply(function () {
                 event.preventDefault();
                 var options = $scope.$eval(attrs.contextMenu);
+                
                 var model = $scope.$eval(attrs.model);
                 if (options instanceof Array) {
                     if (options.length === 0) { return; }

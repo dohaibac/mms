@@ -18,36 +18,110 @@ class JobsController extends JControllerForm
     $this->helper = new JobsHelper($this->app, $system_code);
     
   }
-  
-  public function update_pd_status() {
-    
-  }
-  
-  public function update_gd_status() {
-    
-  }
-  
+
   /***
-   * Dua vao thong tin tinh toan se push message
+   * Tinh toan xem co bao nhieu PD trong ngay
    * 
-   * */
-  public function create_message() {
-    
-  }
-  
-  /***
-   *  Nhac co lenh PD
-      Nhac GET
-      Nhac co lenh GD
-      Nhac lenh approve
+   * Can cu vao thoi gian So ngay cho PD : num_days_pd_pending
    * 
    * **/
-  public function alert() {
-    
+  public function get_pd_in_day() {
+    $this->helper->get_list_pd_in_day();
   }
   
-  public function create_commands() {
-    $this->helper->create_commands();
+  /*****
+   * Function tao PD trong ngay
+   * 
+   * */
+  public function create_plan_pd() {
+    $this->helper->create_plan_pd();
+  }
+  
+  
+  /****
+   * Tu dong set trang thai PD ve done
+   * 
+   * **/
+  public function set_pd_status_to_done () {
+    $this->helper->set_pd_status_to_done();
+  }
+  
+  /****
+   * Tu dong set trang thai GD ve done
+   * 
+   * **/
+  public function set_get_to_gd () {
+    $this->helper->set_get_to_gd();
+  }
+  
+ /****
+   * Tu dong set trang thai GD ve done
+   * 
+   * **/
+  public function set_gd_to_done () {
+    $this->helper->set_gd_to_done();
+  }
+  
+  /****
+   * Insert danh sach plan_pd vao queue
+   * 
+   * **/
+  public function alert_plan_pd () {
+    require_once PATH_COMPONENT . '/com_jobs/alert.php';
+    $system_code = '06';
+    $alert = new JobsAlert($this->app, $system_code);
+    
+    $alert->alert_plan_pd();
+  }
+  
+  /****
+   * Insert danh sach pd thuc te vao queue
+   * 
+   * **/
+  public function alert_pd () {
+    require_once PATH_COMPONENT . '/com_jobs/alert.php';
+    $system_code = '06';
+    $alert = new JobsAlert($this->app, $system_code);
+    
+    $alert->alert_pd();
+  }
+  
+   /****
+   * Insert danh sach plan_pd vao queue
+   * 
+   * **/
+  public function alert_plan_get () {
+    require_once PATH_COMPONENT . '/com_jobs/alert.php';
+    $system_code = '06';
+    $alert = new JobsAlert($this->app, $system_code);
+    
+    $alert->alert_plan_get();
+  }
+  
+  /****
+   * Insert danh sach plan_pd vao queue
+   * 
+   * **/
+  public function alert_gd_approve () {
+    require_once PATH_COMPONENT . '/com_jobs/alert.php';
+    $system_code = '06';
+    $alert = new JobsAlert($this->app, $system_code);
+    
+    $alert->alert_gd_approve();
+  }
+
+/****
+   * Insert danh sach plan_pd vao queue
+   * 
+   * **/
+  public function send_message () {
+    require_once PATH_COMPONENT . '/com_message/helper.php';
+    
+    $system_code = '06';
+    
+    $helper = new MessageHelper($this->app, $system_code);
+    
+    $helper->send_message();
   }
 }
 ?>

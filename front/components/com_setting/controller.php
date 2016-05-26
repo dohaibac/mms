@@ -100,6 +100,11 @@ class SettingController extends JControllerForm
     $data = $result->body;
     
     if ($data->type == 0) {
+      require_once PATH_COMPONENT . '/com_jobs/helper.php';
+      $jobs_heler = new JobsHelper($this->app, $this->system_code());
+      
+      $jobs_heler->create_plan_pd();
+      
       $ret = $this->message(0, 'setting-message-insert_success', $this->app->lang('setting-message-insert_success'));
       $this->renderJson($ret);
     }

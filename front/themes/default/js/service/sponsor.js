@@ -168,6 +168,31 @@ app.service('$SponsorService', function($rootScope, $http, $modal, $q) {
     return deferred.promise;
   };
   
+  this.show_modal_delete = function(options) {
+    var deferred = $q.defer();
+    var url = '//' + appConf.domain + '?mod=sponsor.delete_modal';
+    
+    var modal =  $modal.open({
+      templateUrl: url,
+      windowClass: 'modal-medium',
+      controller: 'ModalInstanceCtrl',
+      size: 'md',
+      resolve: {
+        'options': function() {
+          return options;
+        }
+      }
+    });
+    
+    modal.result.then(function(results) {
+      deferred.resolve(results);
+    },
+    function(errors) {
+      deferred.reject(errors);
+    });
+    return deferred.promise;
+  };
+  
   this.get_sponsor_owner = function () {
     var url = generate_url('sponsor', 'get_sponsor_owner');
     
@@ -211,5 +236,31 @@ app.service('$SponsorService', function($rootScope, $http, $modal, $q) {
     });
     return deferred.promise;
   };
+  
+  this.show_modal_test_153 = function(options) {
+    var deferred = $q.defer();
+    var url = '//' + appConf.domain + '?mod=sponsor.test_153_modal';
+    
+    var modal =  $modal.open({
+      templateUrl: url,
+      windowClass: 'modal-medium',
+      controller: 'ModalInstanceCtrl',
+      size: 'md',
+      resolve: {
+        'options': function() {
+          return options;
+        }
+      }
+    });
+    
+    modal.result.then(function(results) {
+      deferred.resolve(results);
+    },
+    function(errors) {
+      deferred.reject(errors);
+    });
+    return deferred.promise;
+  };
+  
   return this;
 });

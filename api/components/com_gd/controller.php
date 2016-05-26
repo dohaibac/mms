@@ -331,5 +331,30 @@ class GdController extends JControllerForm
        $this->renderJson($ret);
      }
   }
+
+   /***
+   * get all by status, status = 1,2,3
+   * 
+   * */
+  public function get_all() {
+    try {
+
+      $db = $this->app->getDbo();
+
+      $gds = $this->gd_model->get_all($this->data);
+
+      $ret = array (
+        'gds' => $gds,
+      );
+
+      $this->renderJson($ret);
+
+     } catch (Exception $ex) {
+       $this->app->write_log('pdex_get_all_by_status_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'pdex_get_all_by_status_exception', $ex->getMessage());
+       $this->renderJson($ret);
+     }
+  }
 }
 ?>

@@ -41,13 +41,14 @@ $routerMap = array(
  * =====================================*/
   'sponsor'=> array('controller'=>'sponsor', 'action'=>'index'),
   'sponsor/list'=> array('controller'=>'sponsor', 'action'=>'get_list'),
+  'sponsor/get_all'=> array('controller'=>'sponsor', 'action'=>'get_all'),
   'sponsor/top_one'=> array('controller'=>'sponsor', 'action'=>'get_top_one'),
   'sponsor/get_by_username'=> array('controller'=>'sponsor', 'action'=>'get_by_username'),
   'sponsor/get_downline_f1'=> array('controller'=>'sponsor', 'action'=>'get_downline_f1'),
   'sponsor/get_upline'=> array('controller'=>'sponsor', 'action'=>'get_upline'),
   'sponsor/bank'=> array('controller'=>'sponsorbank', 'action'=>'index'),
   'sponsor/update_has_fork'=> array('controller'=>'sponsor', 'action'=>'update_has_fork'),
-
+  'sponsor/get_sponsor_invest'=> array('controller'=>'sponsor', 'action'=>'get_sponsor_invest'),
 
 /*======================================
  * Config for pd
@@ -56,6 +57,7 @@ $routerMap = array(
   'pd'=> array('controller'=>'pd', 'action'=>'index'),
   'pd/list'=> array('controller'=>'pd', 'action'=>'get_list'),
   'pd/get_status'=> array('controller'=>'pd', 'action'=>'get_status'),
+  'pd/get_all'=> array('controller'=>'pd', 'action'=>'get_all'),
 
 /*======================================
  * Config for planpd
@@ -65,6 +67,21 @@ $routerMap = array(
   'planpd/get_all'=> array('controller'=>'planpd', 'action'=>'get_all'),
   'planpd/delete_by_date'=> array('controller'=>'planpd', 'action'=>'delete_by_date'),
   
+/*======================================
+ * Config for planget
+ * 
+ * =====================================*/
+  'planget'=> array('controller'=>'planget', 'action'=>'index'),
+  'planget/get_all'=> array('controller'=>'planget', 'action'=>'get_all'),
+  'planget/delete_by_date'=> array('controller'=>'planget', 'action'=>'delete_by_date'),
+
+/*======================================
+ * Config for pdex
+ * 
+ * =====================================*/
+  'pdex'=> array('controller'=>'pdex', 'action'=>'index'),
+  'pdex/insert_multi'=> array('controller'=>'pdex', 'action'=>'insert_multi'),
+  'pdex/get_all'=> array('controller'=>'pdex', 'action'=>'get_all'),
 
 /*======================================
  * Config for gd
@@ -73,6 +90,8 @@ $routerMap = array(
   'gd'=> array('controller'=>'gd', 'action'=>'index'),
   'gd/list'=> array('controller'=>'gd', 'action'=>'get_list'),
   'gd/get_status'=> array('controller'=>'gd', 'action'=>'get_status'),
+  'gd/get_all'=> array('controller'=>'gd', 'action'=>'get_all'),
+
   
 /*======================================
  * Config for plans
@@ -121,7 +140,24 @@ $routerMap = array(
   * =====================================*/
   'sponsorinvest'=> array('controller'=>'sponsorinvest', 'action'=>'index'),
   'sponsorinvest/all'=> array('controller'=>'sponsorinvest', 'action'=>'get_all'),
+  'sponsorinvest/list'=> array('controller'=>'sponsorinvest', 'action'=>'get_list'),
   
+  
+/*======================================
+ * Config for message
+ * 
+ * =====================================*/
+  'message'=> array('controller'=>'message', 'action'=>'index'),
+  'message/list'=> array('controller'=>'message', 'action'=>'get_list'),
+  
+  
+  /*======================================
+ * Config for message
+ * 
+ * =====================================*/
+  'messagequeue'=> array('controller'=>'messagequeue', 'action'=>'index'),
+  'messagequeue/list'=> array('controller'=>'messagequeue', 'action'=>'get_list'),
+  'messagequeue/get_all'=> array('controller'=>'messagequeue', 'action'=>'get_all'),
  /*======================================
   * Config for gcm
   * 
@@ -130,6 +166,7 @@ $routerMap = array(
   * =====================================*/
   'gcm'=> array('controller'=>'gcm', 'action'=>'index'),
   'gcm/list'=> array('controller'=>'gcm', 'action'=>'get_list'),
+  'gcm/get_all'=> array('controller'=>'gcm', 'action'=>'get_all'),
   'gcm/send'=> array('controller'=>'gcm', 'action'=>'send_notification'),
 );
 

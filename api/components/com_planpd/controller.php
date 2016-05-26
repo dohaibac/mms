@@ -122,7 +122,12 @@ class PlanpdController extends JControllerForm
          $this->renderJson($ret);
       }
       
-      $this->planpd_model->update_by_sponsor($body);
+      if (!isset($body['id']) || empty($body['id'])) {
+        $ret = $this->message(1, 'planpd_update_required_id', 'Required Id.');
+         $this->renderJson($ret);
+      }
+      
+      $this->planpd_model->update_by_id($body);
       
       $ret = $this->message(0, 'planpd_update_success', 'Update Pd has been successfully.');
       $this->renderJson($ret);
@@ -174,7 +179,8 @@ class PlanpdController extends JControllerForm
       
       $data = array (
         'order_by' => $order_by,
-        'where' => $where
+        'where' => $where,
+        'system_code' => $this->getSafe('system_code')
       );
       
       $planpd_list = $this->planpd_model->get_all($data);

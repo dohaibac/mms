@@ -8,8 +8,10 @@ class PdController extends JControllerForm
     parent::__construct($app);
     
     require_once __DIR__ . '/models/pd.php';
+    require_once PATH_COMPONENT . '/com_sponsorinvest/models/sponsorinvest.php';
     
     $this->pd_model =  new PdModel($this->app);
+    $this->sponsorinvest_model =  new SponsorinvestModel($this->app);
   }
 
   public function get_list() {
@@ -104,7 +106,7 @@ class PdController extends JControllerForm
     $this->app->prevent_remote_access();
     
     $list_required_fields = array(
-      'code', 'sponsor', 'amount', 'issued_at', 'num_days_pending', 'num_days_transfer', 'status'
+      'sponsor', 'amount', 'issued_at', 'status'
     );
     
     $body = $this->get_request_body();
@@ -118,23 +120,23 @@ class PdController extends JControllerForm
     
     $system_code = $this->system_code();
     
-    $code = $this->getSafe('code');
+    $code = 'PD' . time();
     $sponsor = $this->getSafe('sponsor');
     $amount  = $this->getSafe('amount');
-    $remain_amount = $this->getSafe('remain_amount');
+    $remain_amount = "0";
     $issued_at = $this->getSafe('issued_at');
-    $num_days_pending = $this->getSafe('num_days_pending');
-    $num_days_transfer = $this->getSafe('num_days_transfer');
+    
+    $num_days_pending = '0';
+    $num_days_transfer = '0';
     $status = $this->getSafe('status');
-    $bank = $this->getSafe('bank');
     
     $issued_at = $this->re_format_datetime($issued_at);
     
     $data = array(
       'code' => $code,
-      'sponsor' => $sponsor['username'],
+      'sponsor' => $sponsor['sponsor'],
       'amount' =>$amount,
-      'bank_id' =>$bank['id'],
+      'bank_id' => '1',
       'remain_amount' =>$remain_amount,
       'system_code' => $system_code,
       'issued_at' => $issued_at,
@@ -145,14 +147,17 @@ class PdController extends JControllerForm
       'created_at' => date('Y-m-d h:i:s')
     );
      
-    $result = $this->pd_model->post($data);
+    $data = $this->pd_model->post($data)->body;
     
-    if (!isset($result) || empty($result->body)) {
-      $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));
-      $this->renderJson($ret);
-    }
-    
-    $data = $result->body;
+    // update updated_at trong table sponsor_invest
+      $sponsor_invest = array(
+        'sponsor' => $sponsor['sponsor'],
+        'system_code' => $system_code,
+        'updated_at'=> date('Y-m-d h:i:s'),
+        'updated_by'=>$this->app->user->data()->id
+      );
+      
+      $ret = $this->sponsorinvest_model->put($sponsor_invest);
     
     $ret = $this->message($data->type, $data->code, $this->app->lang($data->code));
     $this->renderJson($ret);
@@ -162,7 +167,7 @@ class PdController extends JControllerForm
     $this->app->prevent_remote_access();
     
     $list_required_fields = array(
-      'id', 'code', 'sponsor', 'amount', 'issued_at', 'num_days_pending', 'num_days_transfer', 'status'
+      'id', 'code', 'sponsor', 'amount', 'issued_at', 'status'
     );
     
     $body = $this->get_request_body();
@@ -191,28 +196,63 @@ class PdController extends JControllerForm
     $data = array(
       'id' => $id,
       'code' => $code,
-      'sponsor' => $sponsor['username'],
-      'bank_id' => $bank['id'],
+      'sponsor' => $sponsor['sponsor'],
+      'bank_id' => 1,
       'amount' =>$amount,
-      'remain_amount' =>$remain_amount,
+      'remain_amount' =>'0',
       'system_code' => $system_code,
       'issued_at' => $issued_at,
-      'num_days_pending' => $num_days_pending,
-      'num_days_transfer' => $num_days_transfer,
+      'num_days_pending' => '0',
+      'num_days_transfer' => '0',
       'status' => $body['status']['id'],
       'updated_by' => $this->app->user->data()->id,
       'updated_at' => date('Y-m-d h:i:s')
     );
      
-    $result = $this->pd_model->put($data);
+    $data = $this->pd_model->put($data)->body;
     
-    if (!isset($result) || empty($result->body)) {
-      $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));
-      $this->renderJson($ret);
+    $ret = $this->message($data->type, $data->code, $this->app->lang($data->code));
+    $this->renderJson($ret);
+  }
+  
+   public function update_status() {
+    $this->app->prevent_remote_access();
+    
+    $list_required_fields = array(
+      'id', 'status'
+    );
+    
+    $body = $this->get_request_body();
+    
+    foreach($list_required_fields as $field) {
+      if (!isset($body[$field]) || empty($body[$field])) {
+        $ret = $this->message(1, 'pd-message-required_'. $field, $this->app->lang('pd-message-required_' . $field));
+        $this->renderJson($ret);
+      }
     }
     
-    $data = $result->body;
+    $system_code = $this->system_code();
+    $id = $this->getSafe('id');
+    $status = $this->getSafe('status');
+    $sponsor = $this->getSafe('sponsor');
+    $amount = $this->getSafe('amount');
     
+    $data = array(
+      'id' => $id,
+      'system_code' => $system_code,
+      'status' => $status,
+      'updated_by' => $this->app->user->data()->id,
+      'updated_at' => date('Y-m-d h:i:s')
+    );
+     
+    $data = $this->pd_model->put($data)->body;
+    
+    // xac nhan xong thi he thong tu dong tao GET luon
+    if ($status == 3) {
+      require_once PATH_COMPONENT . '/com_jobs/helper.php';
+      $helper = new JobsHelper($this->app, $system_code);
+      $helper->auto_create_plan_get($sponsor, $amount, $system_code);
+    }
     $ret = $this->message($data->type, $data->code, $this->app->lang($data->code));
     $this->renderJson($ret);
   }
@@ -245,12 +285,6 @@ class PdController extends JControllerForm
     
     $ret = $this->message($data->type, $data->code, $this->app->lang($data->code));
     $this->renderJson($ret);
-  }
-  
-  public function get_by_status() {
-    $this->app->prevent_remote_access();
-    
-    
   }
   
   public function get_list_for_job() {
@@ -290,13 +324,14 @@ class PdController extends JControllerForm
     return $data;
   }
   
-    /***
+  /***
     * Front controller of get status of PD 
     * 
     * */
   
   public function get_status() {
-
+    $this->app->prevent_remote_access();
+    
     $result = $this->pd_model->get_status();
     
     if (!isset($result) || empty($result->body)) {
@@ -309,6 +344,47 @@ class PdController extends JControllerForm
     if (isset($data->type) && $data->type != 0) {
       $ret = $this->message($data->type, 'pd-message-' . $data->code, $this->app->lang('pd-message-' . $data->code));
       $this->renderJson($ret);
+    }
+    
+    $this->renderJson($data);
+  }
+
+  
+  /****
+   * Lay danh sach PD theo trang thai
+   * 
+   * */
+  public function get_all_by_status () {
+    $this->app->prevent_remote_access();
+    
+    $db = $this->app->getDbo();
+    
+    $system_code = $this->system_code();
+    $status = $this->getSafe('status');
+    
+    $where = 'system_code = ' . $db->quote($system_code) . 
+      ' AND status=' . $db->quote($status);
+     
+    $order_by ='issued_at ASC';
+      
+    $data = array(
+      'where'=>$where,
+      'order_by'=>$order_by,
+      'system_code'=>$system_code
+    );
+       
+    $data = $this->pd_model
+      ->get_all($data)
+      ->body;
+     
+    $from_date = date('Y-m-d');
+    $data->from_date = $from_date;
+    
+    if (isset($data->pds)) {
+      foreach($data->pds as $pd) {
+        $date =  new DateTime($pd->issued_at);
+        $pd->issued_at_display = $date->format('Y-m-d');
+      }
     }
     
     $this->renderJson($data);

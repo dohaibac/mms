@@ -501,17 +501,26 @@ class SponsorController extends JControllerForm
   public function delete() {
     $this->app->prevent_remote_access();
     
-    $id = $this->getSafe('id');
+    $sponsor = $this->getSafe('item');
     
-    if (empty($id)) {
-      $ret = $this->message(1, 'sponsor-message-delete_required_id', 'Required id.');
+    // kiem tra xem user co duoc xoa khong
+    
+    $group_id = $this->app->user->data()->group_id;
+    
+    if ($group_id > 1) {
+      $ret = $this->message(1, 'sponsor-message-delete_not_allowed', $this->app->lang('sponsor-message-delete_not_allowed'));
+      $this->renderJson($ret);
+    }
+    
+    if (empty($sponsor) || empty($sponsor['username'])) {
+      $ret = $this->message(1, 'sponsor-message-delete_required_sponsor', 'Required Sponsor.');
       $this->renderJson($ret);
     }
     
     $system_code = $this->system_code();
     
     $data = array(
-      'id'=> $id,
+      'sponsor'=> $sponsor['username'],
       'system_code' => $system_code
     );
     
