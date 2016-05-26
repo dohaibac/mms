@@ -9,7 +9,7 @@ class PlansModel extends JModelBase {
   }
   
   /***
-  * get_status
+  * get_provinces
   * 
   * */
   public function get_provinces() {

@@ -82,7 +82,36 @@ class PlansController extends JControllerForm
    * Insert plans
    * */
   public function insert() {
+    try {
+      $body = $this->get_request_body();
+      $ret = array ();
 
+      if (empty($body)) {
+        $ret = $this->message(1, 'Plan_insert_empty_data', 'Empty data.');
+        $this->renderJson($ret);
+      }
+      
+      $required_fields = array ('province_id', 'content', 'user_id', 'task_date');
+       
+      foreach ($required_fields as $key) {
+          if (!isset($body[$key]) || empty ($body[$key])) {
+            $ret = $this->message(1, 'plan_insert_missing_' . $key, 'Missing or Empty ' . $key);
+            $this->renderJson($ret);
+          }
+      }
+       
+      $body["taskStatus"] = false;
+
+      $inserted_id = $this->plans_model->insert($body);
+      $ret = $this->message(0, 'plan_insert_success', 'Insert Plan successfully.');
+      $ret['data'] = array('Plan_id' => $inserted_id);
+      $this->renderJson($ret);
+
+    } catch (Exception $ex) {
+        $this->app->write_log('plan_insert_exception - ' . $ex->getMessage());
+        $ret = $this->message(1, 'plan_insert_exception', $ex->getMessage());
+        $this->renderJson($ret);
+    }
   }
   
   /***
@@ -90,6 +119,37 @@ class PlansController extends JControllerForm
    * */
   public function delete() {
 
+  }
+  
+  /***
+   * update plan
+   * */
+  public function update() {
+    try {
+      $body = $this->get_request_body();
+      $ret = array ();
+      $plan = array ();
+      
+      if (empty($body)) {
+          $ret = $this->message(1, 'Plan_update_empty_data', 'Empty data.');
+          $this->renderJson($ret);
+        }
+      $taskid = $body["taskid"];
+      $plan = $this->plans_model->get($taskid);
+      
+      $plan["taskStatus"] = !$plan["taskStatus"];
+      $plan_update = $this->plans_model->update($plan);
+      
+      $ret = $this->message(0, 'plan_insert_success', 'Insert Plan successfully.');
+      $ret['data'] = array('Plan_id' => $inserted_id);
+      $this->renderJson($ret);
+      
+    } catch (Exception $ex) {
+      $this->app->write_log('provinces_exception - ' . $ex->getMessage());
+       
+      $ret = $this->message(1, 'provinces_exception', $ex->getMessage());
+      $this->renderJson($ret);
+    }
   }
   
   /***
