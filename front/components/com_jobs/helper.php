@@ -81,9 +81,8 @@ class JobsHelper
    
    $data = $this->sort_sponsors($data);
    
-  $ret= $this->insert_plan_pd($data, $num_commands_per_day);
-  print_r($ret);
-   
+   $ret= $this->insert_plan_pd($data, $num_commands_per_day);
+  
   }
   
   function get_updated_at ($sponsors, $username) {
@@ -354,7 +353,7 @@ class JobsHelper
      }
    }
 
-/***
+  /***
     * Tu dong set trang thai cua PD ve done khi issued_at vuot qua thoi gian
     * 
     * 
@@ -378,7 +377,7 @@ class JobsHelper
     
     $to_date = date('Y-m-d 23:59:59', strtotime('-'. $total .' day', $current_time));
      
-    $where = 'system_code = ' . $db->quote($system_code) . 
+    $where = 'system_code = ' . $db->quote($this->system_code) . 
       ' AND issued_at < ' . $db->quote($to_date) .
       ' AND status=' . $db->quote($status);
      
@@ -402,6 +401,61 @@ class JobsHelper
         'id' => $gd->id,
         'system_code' =>$this->system_code,
         'status' => 3,
+        'updated_at'=> date('Y-m-d h:i:s'),
+        'updated_by'=>1
+       );
+       
+       $ret = $this->gd_model->put($gd_update);
+     }
+   }
+
+/***
+    * Tu dong set trang thai cua PD ve done khi issued_at vuot qua thoi gian
+    * 
+    * 
+    * 
+    * */
+   function set_get_to_gd() {
+     $meta = $this->get_setting();
+     
+     // lay danh sach pd pending
+     $db = JBase::getDbo();
+    $status = 1;
+    
+    $num_days_pd_pending = $meta->num_days_pd_pending;
+    $num_days_pd_transfer = $meta->num_days_pd_transfer;
+    $num_days_gd_pending = $meta->num_days_gd_pending;
+    
+    $total = $num_days_pd_pending + $num_days_pd_transfer + $num_days_gd_pending;
+    
+    $current_time = time();
+    
+    $to_date = date('Y-m-d 23:59:59', strtotime('-'. $total .' day', $current_time));
+     
+    $where = 'system_code = ' . $db->quote($this->system_code) . 
+      ' AND issued_at < ' . $db->quote($to_date) .
+      ' AND status=' . $db->quote($status);
+     
+    $order_by ='issued_at ASC';
+    
+    $data = array(
+      'where'=>$where,
+      'order_by'=>$order_by,
+      'system_code'=>$system_code
+    );
+       
+    $data = $this->gd_model
+      ->get_all($data)
+      ->body;
+     $order_by ='issued_at ASC';
+      
+     $gds = $data->gds;
+     
+     foreach($gds as $gd) {
+       $gd_update = array(
+        'id' => $gd->id,
+        'system_code' =>$this->system_code,
+        'status' => 2,
         'updated_at'=> date('Y-m-d h:i:s'),
         'updated_by'=>1
        );

@@ -37,3 +37,11 @@
 <!-- END load phan storage -->
 {/literal}
 </div>
+<div class="dashboard-main">
+  <div class="col-lg-12 header-title">
+    <h1>Statistics</h1>
+  </div>
+  <div class="dashboard-main-body">
+    Thống kê doanh thu, lợi nhuận
+   </div>
+ </div>
