@@ -68,7 +68,7 @@ class GdController extends JControllerForm
   }
   
   /***
-   * Inser pd
+   * Insert pd
    * */
   public function insert() {
     try {
