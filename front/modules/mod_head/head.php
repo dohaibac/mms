@@ -22,7 +22,7 @@
 <script type="text/javascript" src="<?= $this->appConf->theme_default ?>/js/controllers/head.js"></script>
 <header id="header" ng-controller="HeadCtrl">
   
-<div class="navbar-inner" style="display: none">
+<div class="navbar-inner">
   <div class="container top-container">
     <div class="navbar-header col-md-2">
       <a class="navbar-brand logo" href="/"></a>
