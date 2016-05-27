@@ -47,5 +47,17 @@ app.service('$PlanService', function($rootScope, $http, $modal, $q) {
     return $http.get(url);
   };
   
+  this.update_status = function (plan) {
+    var url = generate_url('plans', 'update_plan_status');
+    return $http({
+      'method': 'PUT',
+      'url': url,
+      'data': plan,
+      'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+  }
+  
   return this;
 });

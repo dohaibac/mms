@@ -21,14 +21,12 @@ class PlansController extends JControllerForm
       $this->renderJson($ret);
     }
     
-    $db = $this->app->getDbo();
-
     $where = '';
     $order_by ='task_date ASC';
     
     $data = array(
       'where' => $where,
-      'user' => 1,
+      'user' => $this->app->user->data()->id,
       'order_by' => $order_by
     );
      
@@ -44,16 +42,52 @@ class PlansController extends JControllerForm
     $this->renderJson($data);
   }
   
-  public function view () {
-
-  }
-  
   public function add() {
+    $this->app->prevent_remote_access();
+    $data = [];
+
+    $taskdate = $this->getSafe("taskdate");
+    $province = $this->getSafe("province");
+    $description = $this->getSafe("description");
+
+    $data["user_id"] = $this->app->user->data()->id;
+    $data["content"] = $description;
+    $data["province_id"] = $province;
+    $data["task_date"] = $taskdate;
+
+    $result = $this->plans_model->post($data);
+
+    if (!isset($result) || empty($result->body)) {
+      $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));
+      $this->renderJson($ret);
+    }
     
+    $response = $result->body;
+
+    $this->renderJson($response);
   }
   
+    /***
+    * Front controller for delete many Plans
+    * 
+    * */
   public function delete() {
+    $this->app->prevent_remote_access();
+    $param = [];
+
+    $task_list = $this->getSafe("task_id");
+    $param["task_list"] = $task_list;
     
+    $result = $this->plans_model->delete($param);
+    
+    $data = $result->body;
+    
+    if (isset($data->type) && $data->type != 0) {
+      $ret = $this->message($data->type, 'plans-message-' . $data->code, $this->app->lang('plans-message-' . $data->code));
+      $this->renderJson($ret);
+    }
+    
+    $this->renderJson($data);
   }
   
     /***
@@ -64,6 +98,32 @@ class PlansController extends JControllerForm
   public function get_provinces() {
 
     $result = $this->plans_model->get_provinces();
+    
+    if (!isset($result) || empty($result->body)) {
+      $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));
+      $this->renderJson($ret);
+    }
+    
+    $data = $result->body;
+    
+    if (isset($data->type) && $data->type != 0) {
+      $ret = $this->message($data->type, 'plans-message-' . $data->code, $this->app->lang('plans-message-' . $data->code));
+      $this->renderJson($ret);
+    }
+    
+    $this->renderJson($data);
+  }
+  
+  
+      /***
+    * Front controller: update status of Plans 
+    * 
+    * */
+  
+  public function update_plan_status() {
+    $taskid = $this->getSafe("task_id");
+    $data["taskid"] = $taskid;
+    $result = $this->plans_model->put($data);
     
     if (!isset($result) || empty($result->body)) {
       $ret = $this->message(1, 'common-message-api_update_failed', $this->app->lang('common-message-api_update_failed'));

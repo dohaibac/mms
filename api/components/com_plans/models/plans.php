@@ -40,6 +40,39 @@ class PlansModel extends JModelBase {
     
     return $db->loadAssocList();
   }
+  /***
+  ** get single plan by id
+  */
+  public function get_plan($plan_id) {
+
+    $db = $this->app->getDbo();
+    
+    $where = "id = " . $plan_id;
+    
+    $select = '*';
+    
+    $query = $db->getQuery(true)
+     ->select($select)
+     ->from($db->quoteName($this->model_name));
+    $query->where($where);
+
+    $db->setQuery($query);
+    
+    return $db->loadAssocList();
+  }
+  
+  
+  /***
+  ** udpate single plan by id
+  */
+  public function update_plan_status($plan_id, $status) {
+
+    $db = $this->app->getDbo();
+    $query = "update m_plans set taskStatus = ". $status ." where id=". $plan_id;
+
+    $db->setQuery($query);
+    return $db->loadAssocList();
+  }
   
    /***
    * get all provinces

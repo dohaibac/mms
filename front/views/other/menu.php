@@ -13,7 +13,6 @@
       <i class="fa fa-anchor"></i> Lịch Công Tác </div>
   <div class="box-body">
   <ul>
-    <li><i class="fa fa-plus"></i> <a href="/other#!/plan/add">Thêm mới </a></li>
     <li><i class="fa fa-list"></i> <a href="/other#!/plan/list">Danh sách công việc</a></li>
   </ul>
   </div>

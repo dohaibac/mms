@@ -21,7 +21,7 @@
               </div>
               <div class="inputContainer half last right todo_cell">
                 <label for="dueDate">Thời Gian</label><br/>
-                <input datetime-picker ng-model="newTaskDate" />
+                <input datetime-picker ng-model="newTaskDate" date-format="yyyy-MM-dd HH:mm:ss" future-only />
               </div>
             </div>
             <div class="todo_row">
@@ -35,8 +35,8 @@
         </form>
         <ul  class="taskList">
           <li class="taskItem" ng-repeat="taskItem in taskItem track by $index" ng-model="taskItem">
-            <input type="checkbox" class="taskCheckbox" ng-model="taskItem.complete" ng-change="save()">
-            <span class="complete-{{taskItem.complete}}">{{taskItem.content}}</span> <span class="category-{{taskItem.province_id}}">{{province_list[taskItem.province_id]}}</span> <strong class="taskDate complete-{{taskItem.complete}}"><i class="fa fa-calendar"></i>{{taskItem.task_date | date : 'mediumDate'}}</strong> </li>
+            <input type="checkbox" class="taskCheckbox" ng-model="taskItem.taskStatus" ng-click="save(taskItem.id)" ng-checked="{{taskItem.taskStatus == 1 ? 'true' : 'false'}}">
+            <span class="complete-{{taskItem.taskStatus == 1 ? 'true' : 'false'}}">{{taskItem.content}}</span> <span class="category-{{taskItem.province_id}}">{{province_list[taskItem.province_id]}}</span> <strong class="taskDate complete-{{taskItem.taskStatus == 1 ? 'true' : 'false'}}"><i class="fa fa-calendar"></i>{{taskItem.task_date | date : 'longDate'}}</strong> </li>
         </ul>
         <!-- content --> 
       </div>
