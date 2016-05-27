@@ -10,6 +10,7 @@ app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $m
     });
   
     $scope.planslist = function (){
+      $scope.taskItem = {};
       $PlanService.get_list().then(function(response) {
         $scope.loading = false;
         if (response.data.type == 1) {
@@ -58,19 +59,25 @@ app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $m
     
     $scope.deleteTask = function () {
         var completedTask = $scope.taskItem;
-        $scope.taskItem = [];
+        var tasks_id = [];
+        $tasks_list = {};
         angular.forEach(completedTask, function (taskItem) {
-            if (!taskItem.complete) {
-                $scope.taskItem.push(taskItem);
+            if (taskItem.taskStatus == 1) {
+              tasks_id.push(taskItem.id);
             }
         });
-        localStorage.setItem('taskItems', JSON.stringify($scope.taskItem));
+
+        $tasks_list["task_id"] = tasks_id;
+
+        $PlanService.delete($tasks_list);
+        $scope.planslist();
     };
     
     $scope.save = function (task_id) {
-      alert(task_id);
-      $PlanService.update_status(task_id);
-      //localStorage.setItem('taskItems', JSON.stringify($scope.taskItem));
+      $planItem = {};
+      $planItem["task_id"] = task_id;
+      $PlanService.update_status($planItem);
+      $scope.planslist();
     }
     
     $scope.planslist();

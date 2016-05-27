@@ -67,8 +67,27 @@ class PlansController extends JControllerForm
     $this->renderJson($response);
   }
   
+    /***
+    * Front controller for delete many Plans
+    * 
+    * */
   public function delete() {
+    $this->app->prevent_remote_access();
+    $param = [];
+
+    $task_list = $this->getSafe("task_id");
+    $param["task_list"] = $task_list;
     
+    $result = $this->plans_model->delete($param);
+    
+    $data = $result->body;
+    
+    if (isset($data->type) && $data->type != 0) {
+      $ret = $this->message($data->type, 'plans-message-' . $data->code, $this->app->lang('plans-message-' . $data->code));
+      $this->renderJson($ret);
+    }
+    
+    $this->renderJson($data);
   }
   
     /***
