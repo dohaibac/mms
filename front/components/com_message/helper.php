@@ -74,7 +74,7 @@ class MessageHelper
     foreach($messages as $message) {
       
       $registatoin_ids = $message->gcm_regid;
-      $registatoin_ids = 'eTzCTd5gato:APA91bF8BXpiZKEJchp1BEjdwMWtVHWgITYYE-a-9diXX8deI2VPo5WoPpj3NKFwtJSP_IYwusjmQ6Y6nWlERY0_1VPm28HrNPYsgKk7R6WNbCBLzEX6iAMubI2LVv6DEYD89yLR_-5N';
+      //$registatoin_ids = 'eTzCTd5gato:APA91bF8BXpiZKEJchp1BEjdwMWtVHWgITYYE-a-9diXX8deI2VPo5WoPpj3NKFwtJSP_IYwusjmQ6Y6nWlERY0_1VPm28HrNPYsgKk7R6WNbCBLzEX6iAMubI2LVv6DEYD89yLR_-5N';
       $title = $message->title;
       $content = $message->message;
       $message_id = $message->message_id;
