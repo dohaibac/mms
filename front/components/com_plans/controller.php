@@ -44,7 +44,7 @@ class PlansController extends JControllerForm
   
   public function add() {
     $this->app->prevent_remote_access();
-    $data = [];
+    $data = array();
 
     $taskdate = $this->getSafe("taskdate");
     $province = $this->getSafe("province");
@@ -73,7 +73,7 @@ class PlansController extends JControllerForm
     * */
   public function delete() {
     $this->app->prevent_remote_access();
-    $param = [];
+    $param = array();
 
     $task_list = $this->getSafe("task_id");
     $param["task_list"] = $task_list;

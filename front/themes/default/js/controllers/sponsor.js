@@ -748,35 +748,55 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
      $scope.mscope = data.mscope;
      $scope.check_153($scope.sponsor);
      
+     var lst_f1_less_5 = [];
+     var lst_f2_less_3 = [];
+     
+     for(var i=0; i<$scope.result_test.length; i++) {
+       var item = $scope.result_test[i];
+       if (!item.items) {
+         continue;
+       }
+       
+       var num_downline_f1 = $scope.get_num_downline_f1(item.lusername);
+       var num_fork_f1 = $scope.get_num_fork_downline(item.lusername);
+       
+       if (num_downline_f1 < 5) {
+         item.num_downline_f1 = num_downline_f1;
+         lst_f1_less_5.push(item);
+       }
+       if (num_fork_f1 < 3) {
+         item.num_fork_f1 = num_fork_f1;
+         lst_f2_less_3.push(item);
+       }
+     }
+     
+     // List các mã có số F1 < 5
      var result_html = '<table style="width:100%">';
-     result_html += '<tr><td>Mã</td><td>F1</td><td>F1 of F1</td></tr>';
+     result_html += '<tr><td>Mã</td><td>F1</td></tr>';
     
-     for(var i=0;i<$scope.result_test.length; i++) {
+     for(var i=0; i< lst_f1_less_5.length; i++) {
        result_html += '<tr>';
-       if ($scope.result_test[i].items && $scope.result_test[i].items.length > 0) {
-         var num_downline_f1 = $scope.get_num_downline_f1($scope.result_test[i].lusername);
-         var num_fork_f1 = $scope.get_num_fork_downline($scope.result_test[i].lusername);
-         
-         if (num_downline_f1 < 5) {
-           num_downline_f1 = '<span class="red bold">' + num_downline_f1 + '</span>';
-         }
-         
-         if (num_fork_f1 < 3) {
-           num_fork_f1 = '<span class="red bold">' + num_fork_f1 + '</span>';
-         }
-         
-         result_html += '<td>'+ $scope.result_test[i].lusername + '</td><td>' + num_downline_f1 + 
-                        '</td><td>'+ num_fork_f1 + '</td>';
-       }
-       else {
-         result_html += '<td>'+ $scope.result_test[i].lusername + '</td><td><span class="red bold">0</span></td><td><span class="red bold">0</span></td>';
-       }
+       result_html += '<td>'+ lst_f1_less_5[i].lusername + '</td><td>' + lst_f1_less_5[i].num_downline_f1 + '</td>';
        result_html += '</tr>';
      }
      
      result_html += '</table>';
      
-     $('#result').html(result_html);
+     $('#result_f1').html(result_html);
+     
+     // List các mã chỉ có < 3 F1 - Tiêu chuẩn cho mỗi F1 này đã có >= 5 F2
+     result_html = '<table style="width:100%">';
+     result_html += '<tr><td>Mã</td><td>F1</td></tr>';
+    
+     for(var i=0; i< lst_f2_less_3.length; i++) {
+       result_html += '<tr>';
+       result_html += '<td>'+ lst_f2_less_3[i].lusername + '</td><td>' + lst_f2_less_3[i].num_fork_f1 + '</td>';
+       result_html += '</tr>';
+     }
+     
+     result_html += '</table>';
+     
+     $('#result_f2').html(result_html);
   });
   
   $scope.processing = false;
