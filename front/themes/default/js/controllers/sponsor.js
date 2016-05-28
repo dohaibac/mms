@@ -166,13 +166,6 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
   $scope.sponsors = [];
   $scope.sponsor_owner_object.item = {};
   
-  $scope.treeOptions = {
-    accept: function(sourceNodeScope, destNodesScope, destIndex) {
-      
-      return false;
-    },
-  };
-  
   $scope.menuOptions = [
     ['Add', function ($itemScope) {
        $scope.show_add_modal($itemScope.item);
@@ -221,7 +214,6 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       $scope.sponsors.items = [];
       $scope.sponsors.items.push($sponsors);
       
-      
       $scope.total = response.data.total;
       $scope.group_id = response.data.group_id;
     });
@@ -256,7 +248,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       $scope.lsponsor_owner = response.data.lsponsor_owner;
       
       angular.forEach(response.data.sponsors, function(sp, index) {
-         if (sp.username == $scope.sponsor_owner) {
+         if (sp.lusername == $scope.sponsor_owner.toLowerCase()) {
            $scope.sponsor_owner_object.item = sp;
            $scope.level_root = sp.level;
          }
@@ -326,7 +318,6 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
   };
   
   $scope.show_edit = function(sponsor) {
-    console.log(sponsor);
     var options = {
       'init': function(mscope) {
         mscope.sponsor = sponsor;
@@ -783,7 +774,7 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
          item.num_downline_f1 = num_downline_f1;
          lst_f1_less_5.push(item);
        }
-       if (num_fork_f1 < 3) {
+       if (num_downline_f1 < 3 && num_fork_f1 > 0) {
          item.num_fork_f1 = num_fork_f1;
          lst_f2_less_3.push(item);
        }
@@ -798,19 +789,25 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
        result_html += '<td>'+ lst_f1_less_5[i].lusername + '</td><td>' + lst_f1_less_5[i].num_downline_f1 + '</td>';
        result_html += '</tr>';
      }
-     
+     if (lst_f1_less_5.length == 0) {
+       result_html +='<tr><td colspan="2">Không có mã nào!</td></tr>';
+     }
      result_html += '</table>';
      
      $('#result_f1').html(result_html);
      
      // List các mã chỉ có < 3 F1 - Tiêu chuẩn cho mỗi F1 này đã có >= 5 F2
      result_html = '<table style="width:100%">';
-     result_html += '<tr><td>Mã</td><td>F1</td></tr>';
+     result_html += '<tr><td>Mã</td><td>Fork</td></tr>';
     
      for(var i=0; i< lst_f2_less_3.length; i++) {
        result_html += '<tr>';
        result_html += '<td>'+ lst_f2_less_3[i].lusername + '</td><td>' + lst_f2_less_3[i].num_fork_f1 + '</td>';
        result_html += '</tr>';
+     }
+     
+     if (lst_f2_less_3.length == 0) {
+       result_html +='<tr><td colspan="2">Không có mã nào!</td></tr>';
      }
      
      result_html += '</table>';

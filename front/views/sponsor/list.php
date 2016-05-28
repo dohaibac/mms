@@ -7,7 +7,8 @@
       <i ng-if="collapsed" class="fa fa-plus"></i>
       <i ng-if="!collapsed" class="fa fa-minus"></i>
     </span>
-    <a ng-click="toggle(this)"><b>{{ item.level - level_root }} . {{ item.name }}</b></a>
+    <a ng-click="toggle(this)" ng-if="item.level - level_root ==0"><b>{{ item.name }}</b></a>
+    <a ng-click="toggle(this)" ng-if="item.level - level_root >0"><b>{{ item.level - level_root }} . {{ item.name }}</b></a>
   </div>
   <ol ui-tree-nodes="" ng-model="item.items" ng-class="{hidden: collapsed}">
     <li collapsed="true" ng-repeat="item in item.items" ui-tree-node ng-include="'nodes_renderer.html'">
@@ -27,7 +28,7 @@
   {{ message }}
 </div>
 </div>
-<div ui-tree="treeOptions">
+<div ui-tree>
   <ol ui-tree-nodes="" id="tree-root" ng-model="sponsors">
     <li collapsed="false" ng-repeat="item in sponsors.items" ui-tree-node ng-include="'nodes_renderer.html'"></li>
   </ol>

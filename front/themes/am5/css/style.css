@@ -770,3 +770,6 @@ menu ul ul a {
   height:400px;
   overflow: auto;
 }
+.modal-header {
+  padding:5px 15px;
+}
