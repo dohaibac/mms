@@ -382,6 +382,13 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       'init': function(mscope) {
         mscope.sponsor = sponsor;
         mscope.$broadcast('SponsorListCtrl::send::data::show_test_153', mscope);
+        
+        mscope.$on('SponsorListCtrl::edit::find', function(e, data) {
+          mscope.close();
+           var keyword = $("#keyword").val(data.username);
+           $scope.search();
+        });
+        
       },
       'ok' : function(mscope) {
        
@@ -745,7 +752,7 @@ app.controller('SponsorDeleteModalCtrl', function($scope, $http, $location, $mod
   
 });
 
-app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $modal, $SponsorService, $BankService, noty) {
+app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $modal, $SponsorService, $BankService,  $compile, noty) {
   $scope.sponsor = {};
   $scope.sponsor.item = {};
   
@@ -786,7 +793,7 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
     
      for(var i=0; i< lst_f1_less_5.length; i++) {
        result_html += '<tr>';
-       result_html += '<td>'+ lst_f1_less_5[i].lusername + '</td><td>' + lst_f1_less_5[i].num_downline_f1 + '</td>';
+       result_html += '<td><a href="javascript:void(0)" ng-click="find(\''+ lst_f1_less_5[i].username + '\')">'+ lst_f1_less_5[i].username + '</a></td><td>' + lst_f1_less_5[i].num_downline_f1 + '</td>';
        result_html += '</tr>';
      }
      if (lst_f1_less_5.length == 0) {
@@ -794,7 +801,8 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
      }
      result_html += '</table>';
      
-     $('#result_f1').html(result_html);
+     var result_f1_html = $compile(result_html)($scope);
+     $('#result_f1').html('').append(result_f1_html);
      
      // List các mã chỉ có < 3 F1 - Tiêu chuẩn cho mỗi F1 này đã có >= 5 F2
      result_html = '<table style="width:100%">';
@@ -802,7 +810,8 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
     
      for(var i=0; i< lst_f2_less_3.length; i++) {
        result_html += '<tr>';
-       result_html += '<td>'+ lst_f2_less_3[i].lusername + '</td><td>' + lst_f2_less_3[i].num_fork_f1 + '</td>';
+       result_html += '<td><a href="javascript:void(0)" ng-click="find(\''+ lst_f2_less_3[i].username + '\')">'+ lst_f2_less_3[i].username + '</a></td><td>' 
+                      + lst_f2_less_3[i].num_fork_f1 + '</td>';
        result_html += '</tr>';
      }
      
@@ -812,8 +821,15 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
      
      result_html += '</table>';
      
-     $('#result_f2').html(result_html);
+     var result_f2_html = $compile(result_html)($scope);
+     $('#result_f2').html('').append(result_f2_html);
   });
+  
+  
+  $scope.find = function(username) {
+    
+    $scope.$emit('SponsorListCtrl::edit::find', {'username': username});
+  };
   
   $scope.processing = false;
   
@@ -828,6 +844,7 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
   $scope.check_153 = function(sponsor) {
     var item = {};
     item.lusername = sponsor.item.lusername;
+    item.username = sponsor.item.username;
     item.items = sponsor.items;
     $scope.result_test.push(item);
     
