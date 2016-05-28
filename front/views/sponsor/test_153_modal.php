@@ -10,7 +10,7 @@
         
     </div>
     <hr/>
-    <div>Danh sách các mã chỉ có < 3 F1 - Tiêu chuẩn cho mỗi F1 này đã có >= 5 F2</div>
+    <div>Danh sách các mã chỉ có < 3 F1 mà mỗi F1 này đã có >= 5 F2</div>
     <div id="result_f2">
         
     </div>

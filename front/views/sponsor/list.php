@@ -7,9 +7,9 @@
       <i ng-if="collapsed" class="fa fa-plus"></i>
       <i ng-if="!collapsed" class="fa fa-minus"></i>
     </span>
-    <a ng-click="toggle(this)"><b>{{ item.level }} . {{ item.name }}</b></a>
+    <a ng-click="toggle(this)"><b>{{ item.level - level_root }} . {{ item.name }}</b></a>
   </div>
-  <ol  ui-tree-nodes="" ng-model="item.items" ng-class="{hidden: collapsed}">
+  <ol ui-tree-nodes="" ng-model="item.items" ng-class="{hidden: collapsed}">
     <li collapsed="true" ng-repeat="item in item.items" ui-tree-node ng-include="'nodes_renderer.html'">
     </li>
   </ol>
@@ -21,26 +21,15 @@
   <button class="btn btn-sm btn-primary bold" ng-click="search()">Search</button>
   <div class="clearfix"></div>
 </div>
-<p class="loading" ng-show="loading"><i class="fa fa-spinner fa-spin" ></i></p>
+<p class="loading" ng-show="loading"><i class="fa fa-spinner fa-spin"></i></p>
 <div class="alert alert-warning" ng-if="message">
 <div ng-class="message_type == 1 ? 'error-message' : 'success'">
   {{ message }}
 </div>
 </div>
-<div ui-tree>
-  <ol ui-tree-nodes="" id="tree-root">
-    <li collapsed="true" ui-tree-node>
-    <div ui-tree-handle context-menu="menuOptions">
-     <span class="mnu-arrow" ng-click="toggle(this)" ng-if="sponsors.items > 0">
-        <i ng-if="collapsed" class="fa fa-plus"></i>
-        <i ng-if="!collapsed" class="fa fa-minus"></i>
-      </span>
-      <a><b>{{ sponsor_owner }}</b></a>
-    </div>
-    <ol ui-tree-nodes="" ng-model="sponsors">
-      <li collapsed="true"  ng-repeat="item in sponsors.items" ui-tree-node ng-include="'nodes_renderer.html'"></li>
-    </ol>
-    </li>
+<div ui-tree="treeOptions">
+  <ol ui-tree-nodes="" id="tree-root" ng-model="sponsors">
+    <li collapsed="false" ng-repeat="item in sponsors.items" ui-tree-node ng-include="'nodes_renderer.html'"></li>
   </ol>
 </div>
 </div>

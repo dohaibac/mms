@@ -166,6 +166,13 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
   $scope.sponsors = [];
   $scope.sponsor_owner_object.item = {};
   
+  $scope.treeOptions = {
+    accept: function(sourceNodeScope, destNodesScope, destIndex) {
+      
+      return false;
+    },
+  };
+  
   $scope.menuOptions = [
     ['Add', function ($itemScope) {
        $scope.show_add_modal($itemScope.item);
@@ -204,10 +211,16 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       angular.forEach(response.data.sponsors, function(sp, index) {
          if (sp.username == $scope.sponsor_owner) {
            $scope.sponsor_owner_object.item = sp;
+           $scope.level_root = sp.level;
          }
       });
       
-      $scope.sponsors = sponsors[$scope.lsponsor_owner];
+      $sponsors = sponsors[$scope.lsponsor_owner];
+      
+      $scope.sponsors = [];
+      $scope.sponsors.items = [];
+      $scope.sponsors.items.push($sponsors);
+      
       
       $scope.total = response.data.total;
       $scope.group_id = response.data.group_id;
@@ -245,10 +258,15 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       angular.forEach(response.data.sponsors, function(sp, index) {
          if (sp.username == $scope.sponsor_owner) {
            $scope.sponsor_owner_object.item = sp;
+           $scope.level_root = sp.level;
          }
       });
       
-      $scope.sponsors = sponsors[$scope.lsponsor_owner];
+      $sponsors = sponsors[$scope.lsponsor_owner];
+      
+      $scope.sponsors = [];
+      $scope.sponsors.items = [];
+      $scope.sponsors.items.push($sponsors);
       
       $scope.total = response.data.total;
       $scope.group_id = response.data.group_id;
@@ -308,6 +326,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
   };
   
   $scope.show_edit = function(sponsor) {
+    console.log(sponsor);
     var options = {
       'init': function(mscope) {
         mscope.sponsor = sponsor;
