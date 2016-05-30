@@ -768,9 +768,9 @@ menu ul ul a {
 }
 
 button.ngPagerButton{
-    width: 40px;
+  width: 44px;
+  padding-left: 15px;
 }
-
-.ngRowCountPicker select{
-    position: relative;
+span.ngLabel{
+  margin-right: 5px;
 }
