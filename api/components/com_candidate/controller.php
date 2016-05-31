@@ -241,12 +241,12 @@ class CandidateController extends JControllerForm
       if (!empty($keywords)) {
         $keywords = $db->quote('%' . $keywords . '%');
         // search theo name
-        $search .= $db->quoteName('name') . ' LIKE ' . $keywords;
+        $search .= $db->quoteName('display_name') . ' LIKE ' . $keywords;
       }
       
       if (!empty ($where)) {
         if (!empty ($search)) {
-          $where = ' AND (' . $search . ')';
+          $where .= ' AND (' . $search . ')';
         }
       } else {
         $where = $search;
@@ -258,7 +258,7 @@ class CandidateController extends JControllerForm
         'order_by' => $order_by,
         'where' => $where
       );
-      
+
       $candidate_list = $this->candidate_model->get_list($data);
       
       $total_candidate_list = $this->candidate_model->get_list_total($where);

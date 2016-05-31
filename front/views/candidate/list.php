@@ -10,41 +10,8 @@
   </div> <!-- end toolbar -->
    <div class="table-responsive">
    <p class="loading" ng-show="loading"><i class="fa fa-spinner fa-spin" ></i></p>
-   <table class="table table-bordered table-striped" ng-hide="loading">
-    <thead>
-      <tr>
-        <th class="th-ord">#</th>
-        <th class="th-full-name">Họ tên</th>
-        <th class="th-email">Email</th>
-        <th class="th-mobile">Mobile</th>
-        <th class="th-addr">Địa chỉ</th>
-        <th class="th-date">Ngày tạo</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {literal}
-      <tr ng-repeat="candidate in candidates">
-        <td> {{ $index + 1 }} </td>
-        <td> {{ candidate.display_name }} </td>
-        <td> {{ candidate.email }} </td>
-        <td> {{ candidate.mobile }} </td>
-        <td> {{ candidate.addr }} </td>
-        <td> {{ candidate.created_at }} </td>
-        <td>
-           <a type="button" href="/other#!/candidate/edit/{{ candidate.id }}"
-             data-toggle="tooltip" tooltip-placement="top" tooltip="Sửa"
-            class="btn btn-xs btn-warning btn-edit"><i class="fa fa-pencil"></i></a>
-            <a href="javascript:void(0)" ng-click="delete(candidate)"
-             data-toggle="tooltip" tooltip-placement="top" tooltip="Xóa"
-            type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times"></i></a>
-        </td>
-      </tr>
-      <tr ng-if="candidates.length == 0">
-        <td colspan="7">Chưa có ứng viên nào!</td>
-      </tr>
-      {/literal}
-    </tbody>
-  </table>
+   <input ng-model="searchText" ng-change="refreshData()" placeholder="Search...">
+    <div class="gridStyle" ng-grid="gridOptions" ng-hide="loading">
+    </div>
   </div> <!-- end list-->
 </div>
