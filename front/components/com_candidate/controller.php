@@ -20,14 +20,18 @@ class CandidateController extends JControllerForm
     $db = $this->app->getDbo();
     
     $where = 'system_code=' . $db->quote($system_code);
+    $s_text = empty($this->data['s_text']) ? "" : $this->data['s_text'];
     
     $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
+    $page_size = empty($this->data['pageSize']) ? 1 : $this->data['pageSize'];
     $order_by ='id';
     
     $data = array(
       'where'=>$where,
       'order_by'=>$order_by,
-      'page_number'=>$current_page
+      'page_number'=>$current_page,
+      'limit' => $page_size,
+      'keywords' => $s_text
     );
      
     $result = $this->candidate_model->get_list($data);

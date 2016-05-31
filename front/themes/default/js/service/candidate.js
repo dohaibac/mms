@@ -49,9 +49,15 @@ app.service('$CandidateService', function($rootScope, $http, $modal, $q) {
     });
   };
   
-  this.get_list = function () {
+  this.get_list = function (page, pageSize, s_text="") {
     var url = generate_url('candidate', 'get_list');
-    
+    url += "&page=" + page + "&pageSize=" + pageSize + "&s_text=" + s_text;
+    return $http.get(url);
+  };
+  
+  this.search_province = function (page, pageSize, s_province) {
+    var url = generate_url('candidate', 'get_list');
+    url += "&page=" + page + "&pageSize=" + pageSize + "&s_province=" + s_province;
     return $http.get(url);
   };
   
