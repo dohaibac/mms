@@ -70,5 +70,15 @@ class SponsorModel extends JModelBase {
     
     return $rest_client->get($path, $data);
   }
+  
+  /***
+   * get top one sponsor
+   * 
+   * */
+  public function get_all($data) {
+    $rest_client = $this->app->getRestClient();
+    
+    return $rest_client->get('/sponsor/get_all', $data);
+  }
 }
 ?>

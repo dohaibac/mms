@@ -4,15 +4,19 @@
   <h3 class="modal-title">Kiểm tra sơ đồ 1/5/3</h3>
 </div>
 <div class="modal-body dashboard-main test153">
+  <p class="loading" ng-show="loading"><i class="fa fa-spinner fa-spin"></i></p>
+  <div ng-show="!loading">
   <div class="form-group">
     <div class="bold">Danh sách các mã chưa đủ 5 F1</div>
     <div id="result_f1">
         
     </div>
+    <div class="hide">
     <hr/>
     <div class="bold">Danh sách các mã chưa đủ 3 F1 mà mỗi F1 đã phát triển đủ 5 F2</div>
     <div id="result_f2">
         
+    </div>
     </div>
   </div>
   <div class="form-group" ng-if="message">
@@ -27,6 +31,7 @@
     </div>
     </div>
     <div class="clearfix"></div>
+  </div>
   </div>
  </div>
 <div class="modal-footer">

@@ -731,15 +731,62 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
   
   $scope.result_test = [];
   
+  $scope.loading = false;
+  
   $scope.$on('SponsorListCtrl::send::data::show_test_153', function(e, data) {
      
      $scope.sponsor = data.sponsor; 
     
      $scope.mscope = data.mscope;
-     $scope.check_153($scope.sponsor);
      
-     var lst_f1_less_5 = [];
-     var lst_f2_less_3 = [];
+     $scope.loading = true;
+     
+     $SponsorService.get_all($scope.sponsor.item).then(function(response){
+       $scope.loading = false;
+       
+       var data = response.data;
+       
+       var sponsor = data.sponsors[$scope.sponsor.item.lusername];
+       $scope.show_result_check_153(sponsor);
+       
+     });
+  });
+  
+  
+  $scope.find = function(username) {
+    
+    $scope.$emit('SponsorListCtrl::edit::find', {'username': username});
+  };
+  
+  $scope.processing = false;
+  
+  $scope.disabled = function() {
+    if (!$scope.sponsor.item.username ||  $scope.processing) {
+      return true;
+    }
+    
+    return $scope.sponsor.item.username.length > 0 ? false : true;
+  };
+  
+  $scope.check_153 = function(sponsor) {
+    var item = {};
+    item.lusername = sponsor.item.lusername;
+    item.username = sponsor.item.username;
+    item.items = sponsor.items;
+    $scope.result_test.push(item);
+    
+    if (sponsor.items && sponsor.items.length > 0) {
+      for (var i=0; i<sponsor.items.length; i++) {
+        $scope.check_153(sponsor.items[i]);
+      }
+    }
+  };
+  
+  $scope.show_result_check_153 = function (sponsor) {
+    $scope.check_153(sponsor);
+    
+    var lst_f1_less_5 = [];
+    var lst_f2_less_3 = [];
      
      for(var i=0; i< $scope.result_test.length; i++) {
        var item = $scope.result_test[i];
@@ -810,36 +857,6 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
      
      var result_f2_html = $compile(result_html)($scope);
      $('#result_f2').html('').append(result_f2_html);
-  });
-  
-  
-  $scope.find = function(username) {
-    
-    $scope.$emit('SponsorListCtrl::edit::find', {'username': username});
-  };
-  
-  $scope.processing = false;
-  
-  $scope.disabled = function() {
-    if (!$scope.sponsor.item.username ||  $scope.processing) {
-      return true;
-    }
-    
-    return $scope.sponsor.item.username.length > 0 ? false : true;
-  };
-  
-  $scope.check_153 = function(sponsor) {
-    var item = {};
-    item.lusername = sponsor.item.lusername;
-    item.username = sponsor.item.username;
-    item.items = sponsor.items;
-    $scope.result_test.push(item);
-    
-    if (sponsor.items && sponsor.items.length > 0) {
-      for (var i=0; i<sponsor.items.length; i++) {
-        $scope.check_153(sponsor.items[i]);
-      }
-    }
   };
   
   $scope.get_num_downline_f1 = function (items) {

@@ -163,6 +163,52 @@ class SponsorController extends JControllerForm
     $this->renderJson($data);
   }
   
+  public function get_all() {
+    $this->app->prevent_remote_access();
+    
+    $system_code = $this->system_code();
+    
+    $db = $this->app->getDbo();
+    
+    $sponsor = $this->getSafe('sponsor');
+    
+    $sponsor = json_decode($sponsor, true);
+    
+    $path = $sponsor['path'];
+    
+    $where = 'path LIKE \''. $path .'%\'';
+    
+    $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
+    $order_by ='level, id';
+    
+    $data = array(
+      'where'=>$where,
+      'order_by'=>$order_by,
+      'page_number'=>$current_page
+    );
+     
+    $sponsors = $this->sponsor_model
+                   ->get_all($data)
+                   ->body
+                   ->sponsors;
+    
+    foreach($sponsors as $sponsor) {
+      $sponsor->lusername = strtolower($sponsor->username);
+      $sponsor->lupline = strtolower($sponsor->upline);
+      unset($sponsor->ptl);
+      unset($sponsor->sec);
+      unset($sponsor->created_at);
+      unset($sponsor->created_by);
+      unset($sponsor->updated_at);
+      unset($sponsor->updated_by);
+    }
+    
+    $sponsors = $this->build_sponsor_root_and_f1(array(), $sponsors);
+    
+    $this->renderJson($sponsors);
+  }
+  
+  
   public function get_list_tree() {
     $this->app->prevent_remote_access();
     
@@ -691,26 +737,6 @@ class SponsorController extends JControllerForm
     }
   }
   
-  public function test_153 () {
-    $item = $this->getSafe('item');
-    
-    $sponsor = $item['username'];
-    $output = array();
-    
-    $this->get_downline($sponsor, $output);
-    
-    if (empty($output)) {
-       $ret = $this->message(1, 'sponsor-message-check_153_dont_have_f1', $this->app->lang('sponsor-message-check_153_dont_have_f1'));
-       $this->renderJson($ret);
-    }
-    
-    $result_html = '';
-    foreach($output as $key => $val) {
-      $result_html .= '<td>' . $key .'</td><td>'. count($val['items']) .'</td>';
-    }
-    
-    $this->renderJson(array('html'=>$result_html));
-  }
 }
 
 ?>

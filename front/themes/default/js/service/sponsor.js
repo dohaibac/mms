@@ -67,6 +67,19 @@ app.service('$SponsorService', function($rootScope, $http, $modal, $q) {
     return $http.get(url);
   };
   
+  this.get_all = function(sponsor) {
+    var url = generate_url('sponsor', 'get_all');
+    
+    return $http({
+      'method': 'GET',
+      'url': url,
+      'params': {'sponsor': sponsor},
+      'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+  };
+  
   this.get_child_sponsor = function(sponsor) {
     var url = generate_url('sponsor', 'get_child_sponsor');
     
