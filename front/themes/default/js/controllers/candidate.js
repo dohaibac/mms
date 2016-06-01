@@ -5,9 +5,11 @@ app.controller('CandidateListCtrl', function($scope, $http, $location, $modal, n
   $scope.loading = false;
   
   $scope.candidates = {};
+  $scope.myData = [];
   
   $scope.init = function () {
     $scope.loading = true;
+    /*
     $CandidateService.get_list().then(function(response) {
       $scope.loading = false;
       if (response.data.type == 1) {
@@ -19,6 +21,7 @@ app.controller('CandidateListCtrl', function($scope, $http, $location, $modal, n
       $scope.candidates = response.data.candidates;
       
     });
+    */
   };
   
   $scope.delete = function(candidate) {
@@ -35,6 +38,87 @@ app.controller('CandidateListCtrl', function($scope, $http, $location, $modal, n
     });
     
   };
+  
+  // New code for grid-ui
+  $scope.filterOptions = {
+      filterText: "",
+      useExternalFilter: true
+  }; 
+  
+  $scope.totalServerItems = 0;
+  $scope.pagingOptions = {
+      pageSizes: [20, 50, 100],
+      pageSize: 20,
+      currentPage: 1
+  };
+  
+  $scope.setPagingData = function(data, page, pageSize){
+    $scope.myData = data;
+    if (!$scope.$$phase) {
+        $scope.$apply();
+    }
+  };
+  
+  $scope.getPagedDataAsync = function (pageSize, page, searchText) {
+      setTimeout(function () {
+          var data;
+          if (searchText) {
+              var ft = searchText.toLowerCase();
+              $CandidateService.get_list(page, pageSize, ft).then(function (largeLoad) {
+                  $scope.loading = false;
+                  $scope.setPagingData(largeLoad.data.candidates,page,pageSize);
+                  $scope.totalServerItems = largeLoad.data.total;
+              });           
+          } else {
+              $CandidateService.get_list(page, pageSize).then(function (largeLoad) {
+                  $scope.loading = false;
+                  $scope.setPagingData(largeLoad.data.candidates,page,pageSize);
+                  $scope.totalServerItems = largeLoad.data.total;
+              });
+          }
+      }, 10);
+  };
+
+  $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+  
+  $scope.refreshData = function(){
+      $scope.getPagedDataAsync($scope.pagingOptions.pageSize, "1", $scope.searchText);
+    };
+  
+  $scope.$watch('pagingOptions', function (newVal, oldVal) {
+      if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+      }
+  }, true);
+  
+  $scope.$watch('filterOptions', function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+      }
+  }, true);
+
+  $scope.gridOptions = {
+      data: 'myData',
+      enablePaging: true,
+      enableRowSelection: false,
+      enableCellSelection: true,
+      showFooter: true,
+      'enableColumnResize': true,
+      'multiSelect': false,
+      totalServerItems: 'totalServerItems',
+      pagingOptions: $scope.pagingOptions,
+      filterOptions: $scope.filterOptions,
+      columnDefs: [
+        { field: "id", displayName: 'ID', width: 50, pinned: true },
+        { field: "display_name", displayName: 'Họ tên', width: 120 },
+        { field: "email", displayName: 'Email', width: 200 },
+        { field: "mobile", displayName: 'Mobile', width: 100 },
+        { field: "addr", displayName: 'Địa chỉ', width: 150 },
+        { field: "created_at", displayName: 'Ngày tạo', width: 130 },
+        { field: "province", displayName: 'Khu vuc', width: 100 }
+        ]
+  };
+  
 });
 
 app.controller('CandidateAddCtrl', function($scope, $http, $location, $modal, $CandidateService, noty) {

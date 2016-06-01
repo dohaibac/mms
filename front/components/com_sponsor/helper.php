@@ -16,7 +16,7 @@ class SponsorHelper
     $sponsor = $this->sponsor_model->get_by_username(array('username' => $this->app->user->data()->sponsor_owner));
    
     $data = $sponsor->body;
-    
+
     $data = $data->data;
     $path = $data->path;
     
