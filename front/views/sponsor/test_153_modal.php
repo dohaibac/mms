@@ -5,12 +5,12 @@
 </div>
 <div class="modal-body dashboard-main test153">
   <div class="form-group">
-    <div class="bold">Danh sách các mã có số F1 < 5</div>
+    <div class="bold">Danh sách các mã chưa đủ 5 F1</div>
     <div id="result_f1">
         
     </div>
     <hr/>
-    <div class="bold">Danh sách các mã chỉ có < 3 F1 mà mỗi F1 này đã có >= 5 F2</div>
+    <div class="bold">Danh sách các mã chưa đủ 3 F1 mà mỗi F1 đã phát triển đủ 5 F2</div>
     <div id="result_f2">
         
     </div>

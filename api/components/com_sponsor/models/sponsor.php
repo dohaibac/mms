@@ -169,7 +169,8 @@ class SponsorModel extends JModelBase {
     $query = $db->getQuery(true)
      ->select($select)
      ->from($db->quoteName($this->model_name))
-     ->where('upline=' . $db->quote($upline));
+     ->where('upline=' . $db->quote($upline))
+     ->order('level, id');;
     
     $db->setQuery($query);
     

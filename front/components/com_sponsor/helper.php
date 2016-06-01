@@ -49,6 +49,57 @@ class SponsorHelper
     
     return $ret;
   }
+
+  public function build_tree($data) {
+    $source = array();
+    $items = array();
+    
+    foreach($data as $item) {
+      $name = $item["username"];
+      
+      $label = $item["lusername"];
+      $parentid = $item["lupline"];
+      $id = $item["lusername"];
+      $level = $item["level"];
+      $has_fork = $item["has_fork"];
+      
+      if (isset($items[$parentid])) {
+        $obj = new stdClass;
+        
+        $obj->parentid = $parentid;
+        $obj->label = $label;
+        $obj->item = $item;
+        $obj->name = $name;
+        $obj->level = $level;
+        $obj->has_fork = $has_fork;
+        
+        if (!isset($items[$parentid]->items)) {
+          $items[$parentid]->items = array();
+        }
+        
+        $n = count($items[$parentid]->items);
+        $items[$parentid]->items[$n] = $obj;
+        
+        $items[$id] = $obj;
+      }
+      else {
+        $obj = new stdClass;
+        $obj->parentid = $parentid;
+        $obj->label = $label;
+        $obj->item = $item;
+        $obj->name = $name;
+        $obj->level = $level;
+        $obj->has_fork = $has_fork;
+        
+        $items[$id] = $obj;
+        
+        $source[$id] = $items[$id];
+        
+      }
+   }
+  
+    return $source;
+  }
 }
 
 ?>

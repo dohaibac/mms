@@ -60,8 +60,18 @@
             <li><a href="/dashboard#!/approve">Danh sách Xác nhận GD</a></li>
           </ul>
         </li>
-        <li><a href="pd#!/add">PD</a></li>
-        <li><a href="gd#!/add">GET</a></li>
+        <li>
+          <a href="/pd#!/add">PD</a>
+          <ul class="sub">
+            <li><a href="/pd#!/list">Danh sách</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="gd#!/add">GET</a>
+          <ul class="sub">
+            <li><a href="/gd#!/list">Danh sách</a></li>
+          </ul>
+        </li>
         <li><a href="sponsor#!/list">
           <i class="fa fa-user"></i> Thành viên</a>
           <ul class="sub">
@@ -98,7 +108,7 @@
         </li>
       </ul>
     </section>
-
+</div>
  <div class="nav-bar">
    <button class="btn btn-sm btn-primary" ng-click="toggle_menu($event)"><i class="fa fa-bars" aria-hidden="true"></i></button>
  </div>
@@ -173,4 +183,5 @@
         </li>
     </ul>
 </menu>
+<div class="clearfix"></div>
 </header>

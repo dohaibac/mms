@@ -67,6 +67,19 @@ app.service('$SponsorService', function($rootScope, $http, $modal, $q) {
     return $http.get(url);
   };
   
+  this.get_child_sponsor = function(sponsor) {
+    var url = generate_url('sponsor', 'get_child_sponsor');
+    
+    return $http({
+      'method': 'GET',
+      'url': url,
+      'params': {'sponsor': sponsor},
+      'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+  };
+  
   this.search = function(keyword) {
     var url = generate_url ('sponsor', 'search');
     
@@ -80,6 +93,23 @@ app.service('$SponsorService', function($rootScope, $http, $modal, $q) {
     });
   };
   
+  this.get_list_tree = function() {
+    var url = generate_url ('sponsor', 'get_list_tree');
+    return $http.get(url);
+  };
+  
+  this.search_tree = function(keyword) {
+    var url = generate_url ('sponsor', 'search_tree');
+    
+    return $http({
+      'method': 'GET',
+      'url': url,
+      'params': {'keyword': keyword},
+      'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+  };
   this.show_add_modal = function(options) {
     var deferred = $q.defer();
     var url = '//' + appConf.domain + '?mod=sponsor.add_modal';

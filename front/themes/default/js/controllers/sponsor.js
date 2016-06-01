@@ -12,7 +12,7 @@ app.controller('SponsorListTreeCtrl', function($scope, $http, $location, $modal,
     
     $scope.loading = true;
     
-    $SponsorService.get_list().then(function(response) {
+    $SponsorService.get_list_tree().then(function(response) {
       $scope.loading = false;
       if (response.data.type == 1) {
         $scope.message_type = 1;
@@ -52,7 +52,7 @@ app.controller('SponsorListTreeCtrl', function($scope, $http, $location, $modal,
     $scope.message_type = 0;
     $scope.message = '';
     
-    $SponsorService.search(keyword).then(function(response) {
+    $SponsorService.search_tree(keyword).then(function(response) {
       
       $scope.loading = false;
       
@@ -196,25 +196,19 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
         return;
       }
       
-      var sponsors = $scope.build_tree(response.data.sponsors);
+      var sponsors = response.data.sponsors;
       
       $scope.sponsor_owner = response.data.sponsor_owner;
       $scope.lsponsor_owner = response.data.lsponsor_owner;
       
-      angular.forEach(response.data.sponsors, function(sp, index) {
-         if (sp.username == $scope.sponsor_owner) {
-           $scope.sponsor_owner_object.item = sp;
-           $scope.level_root = sp.level;
-         }
-      });
-      
       $sponsors = sponsors[$scope.lsponsor_owner];
+      
+      $scope.level_root = $sponsors.level;
       
       $scope.sponsors = [];
       $scope.sponsors.items = [];
       $scope.sponsors.items.push($sponsors);
       
-      $scope.total = response.data.total;
       $scope.group_id = response.data.group_id;
     });
   };
@@ -234,64 +228,43 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
     $scope.message = '';
     
     $SponsorService.search(keyword).then(function(response) {
-      
       $scope.loading = false;
-      
       if (response.data.type == 1) {
         $scope.message_type = 1;
         $scope.message = response.data.message;
         return;
       }
-      var sponsors = $scope.build_tree(response.data.sponsors);
+      
+      var sponsors = response.data.sponsors;
       
       $scope.sponsor_owner = response.data.sponsor_owner;
       $scope.lsponsor_owner = response.data.lsponsor_owner;
       
-      angular.forEach(response.data.sponsors, function(sp, index) {
-         if (sp.lusername == $scope.sponsor_owner.toLowerCase()) {
-           $scope.sponsor_owner_object.item = sp;
-           $scope.level_root = sp.level;
-         }
-      });
-      
       $sponsors = sponsors[$scope.lsponsor_owner];
+      
+      $scope.level_root = $sponsors.level;
       
       $scope.sponsors = [];
       $scope.sponsors.items = [];
       $scope.sponsors.items.push($sponsors);
       
-      $scope.total = response.data.total;
       $scope.group_id = response.data.group_id;
     }); 
   };
   
-  $scope.build_tree = function (data) {
-    var source = [];
-    var items = [];
-    
-    for (i = 0; i < data.length; i++) {
-        var item = data[i];
-        var name = item["username"];
-        
-        var label = item["lusername"];
-        var parentid = item["lupline"];
-        var id = item["lusername"];
-        var level = item["level"];
-        
-        if (items[parentid]) {
-            var item = { parentid: parentid, label: label, item: item, 'name': name, 'level': level};
-            if (!items[parentid].items) {
-                items[parentid].items = [];
-            }
-            items[parentid].items[items[parentid].items.length] = item;
-            items[id] = item;
-        }
-        else {
-            items[id] = { parentid: parentid, label: label, item: item, 'name': name, 'level': level};
-            source[id] = items[id];
-        }
+  $scope.get_child_nodes = function(node) {
+    if (node.item.is_loaded) {
+      return;
     }
-    return source;
+    
+    node.item.is_loading = true;
+    
+    $SponsorService.get_child_sponsor(node.item.item).then(function(response) {
+      var data = response.data;
+      node.item.items = data.sponsors;
+      node.item.is_loaded = true;
+      node.item.is_loading = false;
+    });
   };
   
   $scope.delete = function(sponsor) {
@@ -768,20 +741,34 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
      var lst_f1_less_5 = [];
      var lst_f2_less_3 = [];
      
-     for(var i=0; i<$scope.result_test.length; i++) {
+     for(var i=0; i< $scope.result_test.length; i++) {
        var item = $scope.result_test[i];
        if (!item.items) {
          continue;
        }
        
-       var num_downline_f1 = $scope.get_num_downline_f1(item.lusername);
-       var num_fork_f1 = $scope.get_num_fork_downline(item.lusername);
+       var num_downline_f1 = $scope.get_num_downline_f1(item.items);
+       
+       var num_fork_f1 = 0;
+       
+       var check_has_5_f2 = false;
+       
+       var num_5_f2 = 0;
+       
+       for (var j=0; j < item.items.length; j++ ) {
+         if (item.items[j].items && item.items[j].items.length > 0) {
+           num_fork_f1 ++;
+         }
+         if (item.items[j].items && item.items[j].items.lenth >=5) {
+           num_5_f2 ++;
+         }
+       }
        
        if (num_downline_f1 < 5) {
          item.num_downline_f1 = num_downline_f1;
          lst_f1_less_5.push(item);
        }
-       if (num_downline_f1 < 3 && num_fork_f1 > 0) {
+       if (num_downline_f1 < 3 && num_fork_f1 > 0 && num_5_f2 >= 3) {
          item.num_fork_f1 = num_fork_f1;
          lst_f2_less_3.push(item);
        }
@@ -855,34 +842,25 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
     }
   };
   
-  $scope.get_num_downline_f1 = function (sponsor) {
-    for(var i=0; i< $scope.result_test.length; i++) {
-      if ($scope.result_test[i].lusername == sponsor) {
-        if ($scope.result_test[i].items) {
-          return $scope.result_test[i].items.length;
-        }
-        else {
-          return 0;
-        }
-      }
+  $scope.get_num_downline_f1 = function (items) {
+    if (items) {
+      return items.length;
     }
+    return 0;
   };
   
-  $scope.get_num_fork_downline = function (sponsor) {
+  $scope.get_num_fork_downline = function (items) {
     var fork = 0;
-    for(var i=0; i< $scope.result_test.length; i++) {
-      if ($scope.result_test[i].lusername == sponsor) {
-        if ($scope.result_test[i].items) {
-          for (var j=0; j<$scope.result_test[i].items.length; j++) {
-            if ($scope.result_test[i].items[j].items) {
-              fork ++;
-            }
+    for(var i=0; i< items.length; i++) {
+      if (items[i].items) {
+        for (var j=0; j < items[i].items.length; j++) {
+          if (items[i].items[j].items) {
+            fork ++;
           }
         }
       }
     }
     return fork;
   };
-  
   
 });

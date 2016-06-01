@@ -43,7 +43,127 @@ class SponsorController extends JControllerForm
     $this->renderJson($data);
   }
   
+  private function build_sponsor_root_and_f1 ($sponsor_root, $downlines) {
+    
+    $sponsors = array();
+    
+    if (!empty($sponsor_root)) {
+      $sponsor_root = json_decode(json_encode($sponsor_root), true);
+      $sponsor_root['lusername'] = strtolower($sponsor_root['username']);
+      $sponsor_root['lupline'] = strtolower($sponsor_root['upline']);
+      
+      array_push($sponsors, $sponsor_root);
+    }
+    
+    $downlines = json_decode(json_encode($downlines), true);
+    
+    foreach($downlines as $d) {
+      $d['lusername'] = strtolower($d['username']);
+      $d['lupline'] = strtolower($d['upline']);
+      array_push($sponsors, $d);
+    }
+     
+    foreach($sponsors as $sponsor) {
+      $sponsor['lusername'] = strtolower($sponsor['username']);
+      $sponsor['lupline'] = strtolower($sponsor['upline']);
+    }
+    
+    require_once PATH_COMPONENT . '/com_sponsor/helper.php';
+    $helper = new SponsorHelper($this->app);
+    
+    $data = new stdClass;
+    
+    $sponsor_owner = !empty($sponsor_root['username']) ? $sponsor_root['username'] : $this->app->user->data()->sponsor_owner;
+    
+    $data->sponsor_owner = $sponsor_owner;
+    $data->lsponsor_owner = strtolower($sponsor_owner);
+    $data->group_id = $this->app->user->data()->group_id;
+    
+    $data->sponsors = $helper->build_tree($sponsors);
+    
+    return $data;
+  }
+  
   public function get_list() {
+    $this->app->prevent_remote_access();
+    
+    $system_code = $this->system_code();
+    
+    // get sponsor
+    $sponsor_root = $this->sponsor_model
+                    ->get_by_username(array('username' => $this->app->user->data()->sponsor_owner))
+                    ->body
+                    ->data;
+    
+    if (empty($sponsor_root) || empty($sponsor_root->id)) {
+      $ret = $this->message(1, 'sponsor-message-get_list_not_found_sponsor_owner', $this->app->lang('sponsor-message-get_list_not_found_sponsor_owner'));
+      $this->renderJson($ret);
+    }
+    
+    $downlines = $this->sponsor_model
+                      ->get_downline_f1(array('upline'=>$sponsor_root->username))
+                      ->body
+                      ->data;
+    
+    $data = $this->build_sponsor_root_and_f1($sponsor_root, $downlines);
+    
+    $this->renderJson($data);
+  }
+  
+  public function get_child_sponsor() {
+    $this->app->prevent_remote_access();
+    
+    $sponsor = $this->getSafe('sponsor');
+    
+    $sponsor = json_decode($sponsor, true);
+    
+    $downlines = $this->sponsor_model
+                      ->get_downline_f1(array('upline'=>$sponsor['username']))
+                      ->body->data;
+    
+    $data = $this->build_sponsor_root_and_f1(array(), $downlines);
+    
+    $this->renderJson($data);
+  }
+  
+  public function search() {
+    $this->app->prevent_remote_access();
+    
+    $keyword = $this->getSafe('keyword');
+    
+    // get sponsor
+    $sponsor_search = $this->sponsor_model
+                           ->get_by_username(array('username' => $keyword))
+                           ->body
+                           ->data;
+    
+    if (empty($sponsor_search) || empty($sponsor_search->id)) {
+      $ret = $this->message(1, 'sponsor-message-search_not_found', $this->app->lang('sponsor-message-search_not_found'));
+      $this->renderJson($ret);
+    }
+    
+    $sponsor_root = $this->sponsor_model
+                    ->get_by_username(array('username' => $this->app->user->data()->sponsor_owner))
+                    ->body->data;
+    
+    $path_root = $sponsor_root->path;
+    $path_search = $sponsor_search->path;
+    
+    if (strpos($path_search, $path_root) === false) {
+      $ret = $this->message(1, 'sponsor-message-search_not_found', $this->app->lang('sponsor-message-search_not_found'));
+      $this->renderJson($ret);
+    }
+    
+    $downlines = $this->sponsor_model
+                      ->get_downline_f1(array('upline'=>$sponsor_search->username))
+                      ->body->data;
+    
+    $data = $this->build_sponsor_root_and_f1($sponsor_search, $downlines);
+    
+    $this->renderJson($data);
+  }
+  
+  public function get_list_tree() {
     $this->app->prevent_remote_access();
     
     $system_code = $this->system_code();
@@ -95,7 +215,7 @@ class SponsorController extends JControllerForm
     $this->renderJson($data);
   }
   
-  public function search() {
+  public function search_tree() {
     $this->app->prevent_remote_access();
     
     $system_code = $this->system_code();
@@ -533,6 +653,15 @@ class SponsorController extends JControllerForm
     
     $data = $result->body;
     
+    // kiem tra xem upline da het f1 chua, neu het roi thi update has_fork = 0
+    $downlines = $this->sponsor_model
+                      ->get_downline_f1(array('upline'=>$sponsor['upline']))
+                      ->body->data;
+    if (empty($downlines)) {
+      // update upline has_fork = 0
+      $this->sponsor_model->update_has_fork(array('username'=>$sponsor['upline'], 'has_fork'=> false, 'system_code'=>$system_code));
+    }
+    
     $this->renderJson($data);
   }
   
@@ -561,9 +690,6 @@ class SponsorController extends JControllerForm
       }
     }
   }
-  
-  
-  
   
   public function test_153 () {
     $item = $this->getSafe('item');
