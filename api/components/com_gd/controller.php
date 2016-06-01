@@ -8,8 +8,10 @@ class GdController extends JControllerForm
     parent::__construct($app);
     
     require_once __DIR__ . '/models/gd.php';
-    
     $this->gd_model =  new GdModel($this->app);
+
+    require_once (__DIR__ . '/../com_sponsor/models/sponsor.php');
+    $this->sponsor_model =  new SponsorModel($this->app);
   }
    
   /***
@@ -252,7 +254,7 @@ class GdController extends JControllerForm
    * */
   public function get_list() {
     try {
-      
+      $sponsor_owner = $this->getSafe('sponsor_owner', '');
       $limit = $this->getSafe('limit', $this->app->appConf->page_size);
       $page_number = $this->getSafe('page_number', 1);
       $where = $this->getSafe('where', '');
@@ -272,6 +274,16 @@ class GdController extends JControllerForm
         // search theo name
         $search .= $db->quoteName('name') . ' LIKE ' . $keywords;
       }
+
+      if (empty($sponsor_owner)) {
+        $ret = $this->message(1, 'sponsor_get_by_username_missing_username', 'Missing or Empty username.');
+        $this->renderJson($ret);
+      }
+
+      $sponsor_username = $this->sponsor_model->get_list_username_by_path($sponsor_owner);
+      if($sponsor_username != ""){
+         $where .= ' AND sponsor in ('. $sponsor_username .')';
+      }
       
       if (!empty ($where)) {
         if (!empty ($search)) {
@@ -280,7 +292,7 @@ class GdController extends JControllerForm
       } else {
         $where = $search;
       }
-      
+
       $data = array (
         'limit' => $limit,
         'start_index' => $start_index,
@@ -289,7 +301,6 @@ class GdController extends JControllerForm
       );
       
       $gd_list = $this->gd_model->get_list($data);
-      
       $total_user_gd_list = $this->gd_model->get_list_total($where);
       
       $ret = array (
