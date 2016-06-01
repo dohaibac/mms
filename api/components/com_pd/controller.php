@@ -8,8 +8,10 @@ class PdController extends JControllerForm
     parent::__construct($app);
     
     require_once __DIR__ . '/models/pd.php';
-    
     $this->pd_model =  new PdModel($this->app);
+    
+    require_once (__DIR__ . '/../com_sponsor/models/sponsor.php');
+    $this->sponsor_model =  new SponsorModel($this->app);
   }
    
   /***
@@ -245,7 +247,7 @@ class PdController extends JControllerForm
    * */
   public function get_list() {
     try {
-      
+      $sponsor_owner = $this->getSafe('sponsor_owner', '');
       $limit = $this->getSafe('limit', $this->app->appConf->page_size);
       $page_number = $this->getSafe('page_number', 1);
       $where = $this->getSafe('where', '');
@@ -264,6 +266,11 @@ class PdController extends JControllerForm
         $keywords = $db->quote('%' . $keywords . '%');
         // search theo name
         $search .= $db->quoteName('name') . ' LIKE ' . $keywords;
+      }
+      
+      $sponsor_username = $this->sponsor_model->get_list_username_by_path($sponsor_owner);
+      if($sponsor_username != ""){
+         $where .= ' AND sponsor in ('. $sponsor_username .')';
       }
       
       if (!empty ($where)) {

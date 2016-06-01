@@ -176,6 +176,32 @@ class SponsorModel extends JModelBase {
     return $db->loadAssocList();
   }
   
+  public function get_list_username_by_path($sponsor_owner){
+    $db = $this->app->getDbo();
+    
+    $sponsor = $this->get_by_username($sponsor_owner);
+    $sponsor_path = $sponsor->path;
+    $sponsor_where = 'path LIKE \''. $sponsor_path .'%\'';
+    $sponsor_order_by ='level, id';
+  
+    $sponsor_data = array(
+      'where'=>$sponsor_where,
+      'order_by'=>$sponsor_order_by,
+      'start_index'=>1,
+      'limit' => 50000000
+    );
+   
+    $sponsor_result = $this->get_list($sponsor_data);
+
+    $sponsor_username = "";
+
+    foreach($sponsor_result as $spr) {
+      $sponsor_username .= $db->quote($spr["username"]) . ",";
+    }
+    
+    return substr($sponsor_username,0,-1);
+  }
+  
    /***
    * get by username
    * */

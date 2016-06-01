@@ -23,30 +23,31 @@ class GdController extends JControllerForm
     
     $db = $this->app->getDbo();
     
-    require_once PATH_COMPONENT. '/com_sponsor/helper.php';
+    #require_once PATH_COMPONENT. '/com_sponsor/helper.php';
     
-    $sponsor_helper = new SponsorHelper($this->app);
-    $sponsors = $sponsor_helper->get_list();
+    #$sponsor_helper = new SponsorHelper($this->app);
+    #$sponsors = $sponsor_helper->get_list();
     
-    $sponsors_array = $sponsor_helper->get_array($db, $sponsors->sponsors);
+    #$sponsors_array = $sponsor_helper->get_array($db, $sponsors->sponsors);
     
-    $sponsors_array_string = implode(',', $sponsors_array);
-    
+    #$sponsors_array_string = implode(',', $sponsors_array);
+
     $system_code = $this->system_code();
-    $where = 'system_code = ' . $db->quote($system_code) .  ' AND sponsor in ('. $sponsors_array_string .')';
+    $where = 'system_code = ' . $db->quote($system_code);
     
     $s_text = empty($this->data['s_text']) ? "" : $this->data['s_text'];
-    $s_text = '%' . $s_text . '%';  
     
     if (!empty($s_text) and $s_text != ""){
-      $where .= " and (code like " . $db->quote($s_text) . " or sponsor like " . $db->quote($s_text) . ")";
+        $s_text = '%' . $s_text . '%';
+        $where .= " and (code like " . $db->quote($s_text) . " or sponsor like " . $db->quote($s_text) . ")";
     }
 
     $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
     $page_size = empty($this->data['pageSize']) ? 1 : $this->data['pageSize'];
     $order_by ='issued_at ASC';
-    
+
     $data = array(
+      'sponsor_owner' => $this->app->user->data()->sponsor_owner,
       'where' => $where,
       'order_by' => $order_by,
       'page_number' => $current_page,
@@ -61,7 +62,7 @@ class GdController extends JControllerForm
     }
     
     $data = $result->body;
-    
+
     foreach($data->gds as $gd) {
       $date =  new DateTime($gd->issued_at);
       $gd->issued_at_display = $date->format('Y-m-d');
