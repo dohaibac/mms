@@ -66,6 +66,7 @@ $routerMap = array(
   'planpd'=> array('controller'=>'planpd', 'action'=>'index'),
   'planpd/get_all'=> array('controller'=>'planpd', 'action'=>'get_all'),
   'planpd/delete_by_date'=> array('controller'=>'planpd', 'action'=>'delete_by_date'),
+  'planpd/create_table'=> array('controller'=>'planpd', 'action'=>'create_table'),
   
 /*======================================
  * Config for planget
@@ -74,6 +75,7 @@ $routerMap = array(
   'planget'=> array('controller'=>'planget', 'action'=>'index'),
   'planget/get_all'=> array('controller'=>'planget', 'action'=>'get_all'),
   'planget/delete_by_date'=> array('controller'=>'planget', 'action'=>'delete_by_date'),
+  'planget/create_table'=> array('controller'=>'planget', 'action'=>'create_table'),
 
 /*======================================
  * Config for pdex
@@ -82,6 +84,7 @@ $routerMap = array(
   'pdex'=> array('controller'=>'pdex', 'action'=>'index'),
   'pdex/insert_multi'=> array('controller'=>'pdex', 'action'=>'insert_multi'),
   'pdex/get_all'=> array('controller'=>'pdex', 'action'=>'get_all'),
+  'pdex/create_table'=> array('controller'=>'pdex', 'action'=>'create_table'),
 
 /*======================================
  * Config for gd

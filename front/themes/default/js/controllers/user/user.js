@@ -150,7 +150,7 @@ app.controller('UserAddDownlineCtrl', function($scope, $http, $location, noty, $
   $scope.processing = false;
   
   $scope.init = function() {
-    $SponsorService.get_list().then(function(response) {
+    $SponsorService.get_list_tree().then(function(response) {
       $scope.sponsors = response.data.sponsors;
       
       for (var i=0; i < $scope.sponsors.length; i++) {

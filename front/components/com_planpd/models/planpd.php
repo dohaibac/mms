@@ -31,5 +31,17 @@ class PlanpdModel extends JModelBase {
     
     return $rest_client->delete($path, $data);
   }
+  
+   /***
+   * create_table
+   * 
+   * */
+  public function create_table($data) {
+    $rest_client = $this->app->getRestClient();
+    
+    $path = '/' . $this->model_name . '/create_table';
+    
+    return $rest_client->post($path, $data);
+  }
 }
 ?>

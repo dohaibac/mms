@@ -177,6 +177,11 @@ class UserdownlineController extends JControllerForm
       $this->renderJson($ret);
     }
     
+    // tao table tuong ung theo $new_system_code
+    require_once PATH_COMPONENT . '/com_userdownline/helper.php';
+    $helper = new UserdownlineHelper($this->app);
+    $helper->create_table_by_new_system_code($new_system_code);
+    
     $data = $result->body;
     
     if ($data->type == 0) {

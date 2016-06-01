@@ -95,6 +95,7 @@
           <ul class="sub">
             <li><a href="/system#!/setting">Cài đặt tham số</a></li>
             <li><a href="/system#!/user/list">Thành viên quản trị</a></li>
+            <li><a href="/system#!/user/list_downline">Tài khoản downline</a></li>
             <li><a href="/system#!/group/list">Nhóm quản trị</a></li>
           </ul>
         </li>
@@ -145,7 +146,6 @@
             <li><a href="/sponsor#!/add">Thêm thành viên</a></li>
             <li><a href="/sponsor#!/list">Danh sách thành viên</a></li>
             <li><a href="/sponsor#!/list_invest">Danh sách Mã đầu tư</a></li>
-            <li><a href="/sponsor#!/list_tree">Danh sách tree</a></li>
           </ul>
         </li>
        <li><a href="/report#!/profit">
@@ -163,6 +163,7 @@
             <li><a href="/system#!/setting">Cài đặt tham số</a></li>
             <li><a href="/system#!/user/list">Thành viên quản trị</a></li>
             <li><a href="/system#!/group/list">Nhóm quản trị</a></li>
+            <li><a href="/system#!/user/list_downline">Tài khoản quản trị downline</a></li>
           </ul>
         </li>
         <?php } ?>

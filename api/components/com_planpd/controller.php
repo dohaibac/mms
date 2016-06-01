@@ -198,5 +198,40 @@ class PlanpdController extends JControllerForm
        $this->renderJson($ret);
      }
   }
+  
+  public function create_table() {
+    try {
+      $body = $this->get_request_body();
+      
+      if (empty($body)) {
+         $ret = $this->message(1, 'planpd_create_table_empty_data', 'Empty data.');
+         $this->renderJson($ret);
+      }
+      
+      if (!isset($body['system_code']) || empty($body['system_code'])) {
+        $ret = $this->message(1, 'planpd_create_table_required_system_code', 'Required system_code.');
+        $this->renderJson($ret);
+      }
+      
+      // read template
+      $file = BASEPATH .'/files/sql/planpd.sql';
+      
+      $command = file_get_contents($file);
+      $command = str_replace('#system_code#', $body['system_code'], $command);
+      $db = JBase::getDbo();
+      
+      $db->setQuery($command);
+      $db->query();
+      
+      $ret = $this->message(0, 'planpd_create_table_success', 'Create table has been successfully.');
+      $this->renderJson($ret);
+      
+    } catch (Exception $ex) {
+       $this->app->write_log('planpd_create_table_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'planpd_create_table_exception', $ex->getMessage());
+       $this->renderJson($ret);
+    }
+  }
 }
 ?>
