@@ -316,8 +316,6 @@ class SponsorController extends JControllerForm
   public function edit() {
     $this->app->prevent_remote_access();
     
-    $system_code = $this->system_code();
-    
     $id = $this->getSafe('id');
     $username = $this->getSafe('username');
     $name = $this->getSafe('name');
@@ -327,6 +325,7 @@ class SponsorController extends JControllerForm
     $email = $this->getSafe('email');
     $mobile = $this->getSafe('mobile');
     $sponsor_invest = $this->getSafe('sponsor_invest');
+    $system_code = $this->getSafe('system_code');
     
     if (empty($id)) {
       $ret = $this->message(1, 'sponsor-message-required_id', 'Required id.');
@@ -365,7 +364,7 @@ class SponsorController extends JControllerForm
         'sponsor'=> $username,
         'system_code' => $system_code,
         'created_at' => date('Y-m-d h:i:s'),
-        'created_by' => $this->user->data()->id
+        'created_by' => $this->app->user->data()->id
       );
       
       $result = $this->sponsorinvest_model->get($data);
