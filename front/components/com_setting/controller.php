@@ -44,7 +44,7 @@ class SettingController extends JControllerForm
     $this->app->prevent_remote_access();
      
     $list_required_fields = array(
-      'num_commands_per_day', 'num_days_pd_pending', 'num_days_pd_transfer', 'num_days_gd_pending', 'num_days_gd_pending_verification',
+      'num_days_pd_pending', 'num_days_pd_transfer', 'num_days_gd_pending', 'num_days_gd_pending_verification',
       'num_days_gd_approve', 'num_days_pd_next', 'percent_rate_days', 'percent_hoa_hong'
     );
     
@@ -117,7 +117,7 @@ class SettingController extends JControllerForm
     $this->app->prevent_remote_access();
      
     $list_required_fields = array(
-      'num_commands_per_day', 'num_days_pd_pending', 'num_days_pd_transfer', 'num_days_gd_pending', 'num_days_gd_pending_verification',
+      'num_days_pd_pending', 'num_days_pd_transfer', 'num_days_gd_pending', 'num_days_gd_pending_verification',
       'num_days_gd_approve', 'num_days_pd_next', 'percent_rate_days', 'percent_hoa_hong'
     );
     

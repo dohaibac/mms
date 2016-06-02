@@ -34,15 +34,15 @@ class UserdownlineHelper
   
   public function create_default_setting($new_system_code) {
     $meta = array( 
-      'num_commands_per_day' => 0,
-      'num_days_pd_pending' => 30,
-      'num_days_pd_transfer' => 3,
-      'num_days_gd_pending' => 9,
-      'num_days_gd_pending_verification' => 3,
-      'num_days_gd_approve' => 3,
-      'num_days_pd_next' => 2,
-      'percent_rate_days' => 1,
-      'percent_hoa_hong' => 10
+      'num_commands_per_day' => '0',
+      'num_days_pd_pending' => '30',
+      'num_days_pd_transfer' => '3',
+      'num_days_gd_pending' => '9',
+      'num_days_gd_pending_verification' => '3',
+      'num_days_gd_approve' => '3',
+      'num_days_pd_next' => '2',
+      'percent_rate_days' => '1',
+      'percent_hoa_hong' => '10'
     );
      
     $data = array(
