@@ -110,12 +110,12 @@ app.controller('CandidateListCtrl', function($scope, $http, $location, $modal, n
       pagingOptions: $scope.pagingOptions,
       filterOptions: $scope.filterOptions,
       columnDefs: [
-        { field: "id", displayName: 'ID', width: 50, pinned: true },
-        { field: "display_name", displayName: 'Họ tên', width: 120 },
-        { field: "email", displayName: 'Email', width: 200 },
+        { field: "id", displayName: 'ID', width: 40, pinned: true },
+        { field: "display_name", displayName: 'Họ tên', width: 150 },
+        { field: "email", displayName: 'Email', width: 130 },
         { field: "mobile", displayName: 'Mobile', width: 100 },
-        { field: "addr", displayName: 'Địa chỉ', width: 150 },
-        { field: "created_at", displayName: 'Ngày tạo', width: 130 },
+        { field: "addr", displayName: 'Địa chỉ', width: 160 },
+        { field: "created_at", displayName: 'Ngày tạo', width: 150 },
         { field: "province", displayName: 'Khu vuc', width: 100 },
         { field: "",
             cellTemplate:'<div class=ngCellText><a type="button" href="/other#!/candidate/edit/{{ row.getProperty(\'id\') }}" data-toggle="tooltip" tooltip-placement="top" tooltip="Sửa" class="btn btn-xs btn-warning btn-edit"><i class="fa fa-pencil"></i></a> <a href="javascript:void(0)" ng-click="delete(row.entity)" data-toggle="tooltip" tooltip-placement="top" tooltip="Xóa" type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times"></i></a></div>'
