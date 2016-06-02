@@ -206,17 +206,23 @@
  margin-right: 20px;
 }
 
+.todo_container [class*='category-']:hover { cursor: pointer; }
 .todo_container .category- { background: transparent; }
 
 .todo_container .category-1 { background: #2980b9; }
+.todo_container .category-1:hover { background: #2273b2; }
 
 .todo_container .category-2 { background: #8e44ad; }
+.todo_container .category-2:hover { background: #8340a9; }
 
 .todo_container .category-3 { background: #f39c12; }
+.todo_container .category-3:hover { background: #f0980f; }
 
 .todo_container .category-4 { background: #16a085; }
+.todo_container .category-4:hover { background: #129580; }
 
 .todo_container .category-5 { background: #d35400; }
+.todo_container .category-5:hover { background: #d04095; }
 
 /* custom checkboxes */
 
