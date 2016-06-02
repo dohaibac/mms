@@ -80,5 +80,9 @@ app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $m
       $scope.planslist();
     }
     
+    $scope.get_candidate = function(province_id){
+        //alert(province_id);
+    }
+    
     $scope.planslist();
 })
