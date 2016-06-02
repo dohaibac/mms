@@ -35,6 +35,7 @@ app.controller('CandidateListCtrl', function($scope, $http, $location, $modal, n
       $scope.processing = false;
       $scope.noty.add({type:'info', title:'Thông báo', body:response.data.message});
       $scope.init();
+      $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
     });
     
   };
@@ -115,7 +116,10 @@ app.controller('CandidateListCtrl', function($scope, $http, $location, $modal, n
         { field: "mobile", displayName: 'Mobile', width: 100 },
         { field: "addr", displayName: 'Địa chỉ', width: 150 },
         { field: "created_at", displayName: 'Ngày tạo', width: 130 },
-        { field: "province", displayName: 'Khu vuc', width: 100 }
+        { field: "province", displayName: 'Khu vuc', width: 100 },
+        { field: "",
+            cellTemplate:'<div class=ngCellText><a type="button" href="/other#!/candidate/edit/{{ row.getProperty(\'id\') }}" data-toggle="tooltip" tooltip-placement="top" tooltip="Sửa" class="btn btn-xs btn-warning btn-edit"><i class="fa fa-pencil"></i></a> <a href="javascript:void(0)" ng-click="delete(row.entity)" data-toggle="tooltip" tooltip-placement="top" tooltip="Xóa" type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times"></i></a></div>'
+        }
         ]
   };
   
