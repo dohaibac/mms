@@ -181,6 +181,7 @@ class UserdownlineController extends JControllerForm
     require_once PATH_COMPONENT . '/com_userdownline/helper.php';
     $helper = new UserdownlineHelper($this->app);
     $helper->create_table_by_new_system_code($new_system_code);
+    $helper->create_default_setting($new_system_code);
     
     $data = $result->body;
     
