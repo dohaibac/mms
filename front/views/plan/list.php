@@ -36,7 +36,7 @@
         <ul  class="taskList">
           <li class="taskItem" ng-repeat="taskItem in taskItem track by $index" ng-model="taskItem">
             <input type="checkbox" class="taskCheckbox" ng-model="taskItem.taskStatus" ng-click="save(taskItem.id)" ng-checked="{{taskItem.taskStatus == 1 ? 'true' : 'false'}}">
-            <span class="complete-{{taskItem.taskStatus == 1 ? 'true' : 'false'}}">{{taskItem.content}}</span> <span class="category-{{taskItem.province_id}}">{{province_list[taskItem.province_id]}}</span> <strong class="taskDate complete-{{taskItem.taskStatus == 1 ? 'true' : 'false'}}"><i class="fa fa-calendar"></i>{{taskItem.task_date | date : 'longDate'}}</strong> </li>
+            <span class="complete-{{taskItem.taskStatus == 1 ? 'true' : 'false'}}">{{taskItem.content}}</span> <span class="category-{{taskItem.province_id}}" ng-click="get_candidate(taskItem.province_id)">{{province_list[taskItem.province_id]}}</span> <strong class="taskDate complete-{{taskItem.taskStatus == 1 ? 'true' : 'false'}}"><i class="fa fa-calendar"></i>{{taskItem.task_date | date : 'longDate'}}</strong> </li>
         </ul>
         <!-- content --> 
       </div>
