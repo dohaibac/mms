@@ -45,7 +45,7 @@ class SettingController extends JControllerForm
      
     $list_required_fields = array(
       'num_days_pd_pending', 'num_days_pd_transfer', 'num_days_gd_pending', 'num_days_gd_pending_verification',
-      'num_days_gd_approve', 'num_days_pd_next', 'percent_rate_days', 'percent_hoa_hong'
+      'num_days_pd_next', 'percent_rate_days', 'percent_hoa_hong'
     );
     
     $body = $this->get_request_body();
@@ -118,7 +118,7 @@ class SettingController extends JControllerForm
      
     $list_required_fields = array(
       'num_days_pd_pending', 'num_days_pd_transfer', 'num_days_gd_pending', 'num_days_gd_pending_verification',
-      'num_days_gd_approve', 'num_days_pd_next', 'percent_rate_days', 'percent_hoa_hong'
+      'num_days_pd_next', 'percent_rate_days', 'percent_hoa_hong'
     );
     
     $body = $this->get_request_body();
