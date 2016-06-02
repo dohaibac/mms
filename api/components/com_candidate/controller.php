@@ -229,6 +229,7 @@ class CandidateController extends JControllerForm
       $where = $this->getSafe('where', '');
       $order_by = $this->getSafe('order_by', '');
       $keywords = $this->getSafe('keywords', '');
+      $province_id = $this->getSafe('province_id', 0);
       
       $page_number = empty($page_number) ? 1 : $page_number;
       
@@ -247,6 +248,9 @@ class CandidateController extends JControllerForm
       if (!empty ($where)) {
         if (!empty ($search)) {
           $where .= ' AND (' . $search . ')';
+        }
+        if ($province_id != 0){
+          $where .= ' AND (province_id = ' . $province_id . ')';
         }
       } else {
         $where = $search;

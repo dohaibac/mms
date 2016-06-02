@@ -9,6 +9,10 @@ app.config(['$routeProvider', '$locationProvider', function AppConfig($routeProv
             templateUrl: '//' + appConf.domain + '?mod=candidate.list',
             controller: 'CandidateListCtrl'
         })
+        .when('/candidate/list/:province_id', {
+            templateUrl: '//' + appConf.domain + '?mod=candidate.list',
+            controller: 'CandidateListCtrl'
+        })
         .when('/candidate/edit/:id', {
             templateUrl: '//' + appConf.domain + '?mod=candidate.edit',
             controller: 'CandidateEditCtrl'
