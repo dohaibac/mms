@@ -1,6 +1,12 @@
-app.controller('CandidateListCtrl', function($scope, $http, $location, $modal, noty, $CandidateService) {
+app.controller('CandidateListCtrl', function($scope, $routeParams, $http, $location, $modal, noty, $CandidateService) {
   
   $scope.noty = noty;
+  
+  $scope.province_id = 0;
+
+  if ($routeParams.province_id && !isNaN($routeParams.province_id)){
+    $scope.province_id = $routeParams.province_id;
+  }
   
   $scope.loading = false;
   
@@ -62,21 +68,16 @@ app.controller('CandidateListCtrl', function($scope, $http, $location, $modal, n
   
   $scope.getPagedDataAsync = function (pageSize, page, searchText) {
       setTimeout(function () {
-          var data;
-          if (searchText) {
-              var ft = searchText.toLowerCase();
-              $CandidateService.get_list(page, pageSize, ft).then(function (largeLoad) {
-                  $scope.loading = false;
-                  $scope.setPagingData(largeLoad.data.candidates,page,pageSize);
-                  $scope.totalServerItems = largeLoad.data.total;
-              });           
-          } else {
-              $CandidateService.get_list(page, pageSize).then(function (largeLoad) {
-                  $scope.loading = false;
-                  $scope.setPagingData(largeLoad.data.candidates,page,pageSize);
-                  $scope.totalServerItems = largeLoad.data.total;
-              });
-          }
+        var ft = '';
+        if (searchText) {
+          ft = searchText.toLowerCase();
+        }
+        
+        $CandidateService.get_list(page, pageSize, ft, $scope.province_id).then(function (largeLoad) {
+            $scope.loading = false;
+            $scope.setPagingData(largeLoad.data.candidates,page,pageSize);
+            $scope.totalServerItems = largeLoad.data.total;
+        });  
       }, 10);
   };
 

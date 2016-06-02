@@ -81,7 +81,7 @@ app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $m
     }
     
     $scope.get_candidate = function(province_id){
-        //alert(province_id);
+        window.location.href = "/other#!/candidate/list/" + province_id;
     }
     
     $scope.planslist();

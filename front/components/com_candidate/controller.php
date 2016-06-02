@@ -21,7 +21,7 @@ class CandidateController extends JControllerForm
     
     $where = 'system_code=' . $db->quote($system_code);
     $s_text = empty($this->data['s_text']) ? "" : $this->data['s_text'];
-    
+    $province_id = empty($this->data['province_id']) ? "" : $this->data['province_id'];
     $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
     $page_size = empty($this->data['pageSize']) ? 1 : $this->data['pageSize'];
     $order_by ='id';
@@ -31,7 +31,8 @@ class CandidateController extends JControllerForm
       'order_by'=>$order_by,
       'page_number'=>$current_page,
       'limit' => $page_size,
-      'keywords' => $s_text
+      'keywords' => $s_text,
+      'province_id' => $province_id
     );
      
     $result = $this->candidate_model->get_list($data);
