@@ -20,8 +20,7 @@ app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $m
         }
 
         $scope.taskItem = response.data.plans_list;
-        //console.log($scope.plans);
-
+        
       });
     }
   // JS Code for todoList
@@ -78,11 +77,11 @@ app.controller('PlanListCtrl', function($rootScope, $scope, $http, $location, $m
       $planItem["task_id"] = task_id;
       $PlanService.update_status($planItem);
       $scope.planslist();
-    }
+    };
     
     $scope.get_candidate = function(province_id){
         //alert(province_id);
-    }
+    };
     
     $scope.planslist();
-})
+});

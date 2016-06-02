@@ -275,14 +275,12 @@ app.controller('UserListDownlineCtrl', function($scope, $http, $location, noty, 
               var ft = searchText.toLowerCase();
               $UserService.search_text_downline(page, pageSize, ft).then(function (largeLoad) {
                   $scope.loading = false;
-                  console.log(largeLoad.data);
                   $scope.setPagingData(largeLoad.data.users,page,pageSize);
                   $scope.totalServerItems = largeLoad.data.total;
               });           
           } else {
               $UserService.get_list_downline(page, pageSize).then(function (largeLoad) {
                   $scope.loading = false;
-                  console.log(largeLoad.data);
                   $scope.setPagingData(largeLoad.data.users,page,pageSize);
                   $scope.totalServerItems = largeLoad.data.total;
               });
