@@ -49,10 +49,11 @@ app.service('$CandidateService', function($rootScope, $http, $modal, $q) {
     });
   };
   
-  this.get_list = function (page, pageSize, s_text) {
+  this.get_list = function (page, pageSize, s_text, province_id) {
     s_text = typeof s_text !== 'undefined' ? s_text : "";
+    province_id = typeof province_id !== 'undefined' ? province_id : "0";
     var url = generate_url('candidate', 'get_list');
-    url += "&page=" + page + "&pageSize=" + pageSize + "&s_text=" + s_text;
+    url += "&page=" + page + "&pageSize=" + pageSize + "&s_text=" + s_text + "&province_id=" + province_id;
     return $http.get(url);
   };
   
