@@ -64,16 +64,24 @@
       </div>
       <div class="clearfix"></div>
     </div>
-    <div class="form-group">
+    {literal}
+    <div class="form-group1">
       <div class="col-md-4 align-right">
-      <label class="control-label">Sponsor owner</label>
+      <label class="control-label">Chọn sponsor</label>
       </div>
       <div class="col-md-8">
-      <input ng-model="user.sponsor_owner" type="text" name="sponsor_owner" class="form-control" 
-        ng-maxlength="255">
-      </div>
-      <div class="clearfix"></div>
+         <ui-select ng-model="user.sponsor" theme="bootstrap" style="width:300px;" class="fleft">
+          <ui-select-match placeholder="Select or search a sponsor in the list...">{{$select.selected.username}}</ui-select-match>
+          <ui-select-choices repeat="item in sponsors | filter: $select.search">
+          <div ng-bind-html="item.name | highlight: $select.search"></div>
+          <small ng-bind-html="item.username | highlight: $select.search"></small>
+          </ui-select-choices>
+          </ui-select>
+         <div class="clearfix"></div>
+       </div>
+       <div class="clearfix"></div>
     </div>
+    {/literal}
     <div class="form-group">
       <div class="col-md-4 align-right">
       <label class="control-label">Thuộc nhóm quản trị</label>

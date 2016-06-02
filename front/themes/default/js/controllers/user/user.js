@@ -10,17 +10,28 @@ app.controller('UserAddCtrl', function($scope, $http, $location, noty, $UserServ
     $GroupService.get_list().then(function(response) {
       $scope.groups = response.data.groups;
     });
+    
+    $SponsorService.get_list_tree().then(function(response) {
+      $scope.sponsors = response.data.sponsors;
+      
+      for (var i=0; i < $scope.sponsors.length; i++) {
+        if ($scope.sponsors[i].username == $scope.user.sponsor) {
+          $scope.user.sponsor = $scope.sponsors[i];
+        }
+      }
+    });
   };
   
   $scope.disabled = function() {
     if (!$scope.user.user_name || !$scope.user.display_name || !$scope.user.email || !$scope.user.mobile || 
-      !$scope.user.sponsor_owner || !$scope.user.group_id || $scope.processing) {
+      !$scope.user.sponsor || !$scope.user.group_id || $scope.processing) {
       return true;
     };
     
-    return $scope.user.user_name.length > 0 && $scope.user.display_name.length > 0 && $scope.user.email.length > 0 && 
-      $scope.user.mobile.length > 0 && $scope.user.sponsor_owner.length > 0 && $scope.user.group_id > 0 ? false : true;
-    
+    return $scope.user.user_name.length > 0 && $scope.user.display_name.length > 0 && 
+      $scope.user.email.length > 0 && 
+      $scope.user.mobile.length > 0 && $scope.user.sponsor.username.length > 0 && 
+      $scope.user.group_id > 0 ? false : true;
   };
   
   $scope.submit = function() {

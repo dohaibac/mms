@@ -433,11 +433,13 @@ class UserController extends JControllerForm
     $group_id      = $this->getSafe('group_id');
     $password   = $this->getSafe('password');
     $repassword = $this->getSafe('repassword');
-    $sponsor_owner = $this->getSafe('sponsor_owner');
+    $sponsor = $this->getSafe('sponsor');
     $block = $this->getSafe('block');
     
+    $sponsor_owner = $sponsor['username'];
+    
     $required_fields = array(
-      'user_name', 'display_name', 'email', 'mobile', 'password', 'repassword', 'group_id', 'sponsor_owner'
+      'user_name', 'display_name', 'email', 'mobile', 'password', 'repassword', 'group_id'
     );
     
     $body = $this->get_request_body();

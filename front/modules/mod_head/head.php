@@ -95,7 +95,9 @@
           <ul class="sub">
             <li><a href="/system#!/setting">Cài đặt tham số</a></li>
             <li><a href="/system#!/user/list">Thành viên quản trị</a></li>
+            <?php if ($group->id == 1) {?> 
             <li><a href="/system#!/user/list_downline">Tài khoản downline</a></li>
+            <?php } ?>
             <li><a href="/system#!/group/list">Nhóm quản trị</a></li>
           </ul>
         </li>
@@ -163,7 +165,9 @@
             <li><a href="/system#!/setting">Cài đặt tham số</a></li>
             <li><a href="/system#!/user/list">Thành viên quản trị</a></li>
             <li><a href="/system#!/group/list">Nhóm quản trị</a></li>
-            <li><a href="/system#!/user/list_downline">Tài khoản quản trị downline</a></li>
+            <?php if ($group->id == 1) {?> 
+            <li><a href="/system#!/user/list_downline">Tài khoản downline</a></li>
+            <?php } ?>
           </ul>
         </li>
         <?php } ?>
