@@ -43,7 +43,7 @@ function check_ajax_required_login(data) {
 }
 
 function confirm_del(confirm_object) {
-  confirm_object = typeof confirm_object !== 'undefined' ? confirm_object + ' ' : '';
+  confirm_object = typeof confirm_object !== 'undefined' ? '\'' + confirm_object + '\' ' : '';
   return confirm('Bạn có chắc chắn muốn xóa '+confirm_object+'không?');
 }
 function confirm_delcate() {
