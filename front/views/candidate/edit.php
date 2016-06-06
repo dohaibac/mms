@@ -37,6 +37,14 @@
        <div class="clearfix"></div>
     </div>
     <div class="form-group">
+      <label class="col-md-2 control-label">Tỉnh/ Thành Phố</label>
+      <div class="col-md-10">
+          <select id="provinces" class="form-control" ng-model="candidateProvinces" ng-options="province as province.name for province in provinces track by province.id" required>
+          </select>
+       </div>
+       <div class="clearfix"></div>
+    </div>
+    <div class="form-group">
       <label class="col-md-2 control-label">Ghi chú</label>
       <div class="col-md-10">
         <textarea ng-model="candidate.notes" ng-trim="true" class="form-control"></textarea>

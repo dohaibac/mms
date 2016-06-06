@@ -26,7 +26,7 @@ app.controller('GdListCtrl', function($scope, $http, $location, $modal, noty, $G
   };
   
   $scope.delete = function(gd) {
-     if (!confirm_del()) {
+     if (!confirm_del(gd.code)) {
        return false;
      }
      

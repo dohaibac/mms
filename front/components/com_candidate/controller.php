@@ -59,6 +59,7 @@ class CandidateController extends JControllerForm
     $mobile = $this->getSafe('mobile');
     $addr = $this->getSafe('addr');
     $notes = $this->getSafe('notes');
+    $province_id = $this->getSafe('province_id');
     
     $data = array(
       'id' => $id,
@@ -68,6 +69,7 @@ class CandidateController extends JControllerForm
       'addr' =>$addr,
       'system_code' => $system_code,
       'notes' => $notes,
+      'province_id' => $province_id,
       'updated_by' => $this->app->user->data()->id,
       'updated_at' => date('Y-m-d h:i:s')
     );
@@ -126,6 +128,7 @@ class CandidateController extends JControllerForm
     $mobile = $this->getSafe('mobile');
     $addr = $this->getSafe('addr');
     $notes = $this->getSafe('notes');
+    $province_id = $this->getSafe('province_id');
     
     $data = array(
       'email' => $email,
@@ -134,6 +137,7 @@ class CandidateController extends JControllerForm
       'addr' =>$addr,
       'system_code' => $system_code,
       'notes' => $notes,
+      'province_id' => $province_id,
       'created_by' => $this->app->user->data()->id,
       'created_at' => date('Y-m-d h:i:s')
     );
