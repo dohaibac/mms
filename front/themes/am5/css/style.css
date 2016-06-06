@@ -792,3 +792,13 @@ button.ngPagerButton{
 span.ngLabel{
   margin-right: 5px;
 }
+
+.ui-grid-selectable .ui-grid-disable-selection {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  cursor:auto;
+}
