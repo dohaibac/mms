@@ -22,7 +22,7 @@ app.controller('PdListCtrl', function($scope, $http, $location, $modal, noty, $P
   };
   
   $scope.delete = function(pd) {
-     if (!confirm_del()) {
+     if (!confirm_del(pd.code)) {
        return false;
      }
      
