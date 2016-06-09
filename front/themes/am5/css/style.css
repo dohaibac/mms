@@ -802,3 +802,16 @@ span.ngLabel{
   user-select: text;
   cursor:auto;
 }
+.security {
+  border-top: 1px solid #f5f5f5;
+  margin-top:10px;
+  padding:10px;
+}
+.login-head {
+  background: #6d4a70 none repeat scroll 0 0;
+  padding: 2em 0;
+  position: relative;
+}
+.form-label {
+  font-size:13px;color:#FFFFFF;
+}

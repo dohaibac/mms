@@ -67,8 +67,21 @@ class UserController extends JControllerForm
       
       if ($hash->verify($password, $current_password)) {// matched
         unset($data->user->password);
-        // set session
+        
         $session = JBASE::getSession();
+        
+        $enable_security = $data->user->enable_security;
+        
+        if ($enable_security) {
+          $session->set('pre-user', $data->user);
+          require_once PATH_COMPONENT . '/com_user/helper.php';
+          $helper = new UserHelper($this->app);
+        
+          $helper->set_check_password2($data->user);
+          
+          $ret = $this->message(1, 'login-message-require_input_code', $this->app->lang('login-message-require_input_code'));
+          $this->renderJson($ret);
+        }
         
         $session->set('user', $data->user);
         
@@ -82,6 +95,7 @@ class UserController extends JControllerForm
         $ret['from'] = $from;
         
         $this->renderJson($ret);
+        
       } else {
         $ret = $this->message(1, 'login-message-user_view_not_found', $this->app->lang('login-message-password_not_matched'));
         $this->renderJson($ret);
@@ -96,7 +110,10 @@ class UserController extends JControllerForm
     $session = JBase::getSession();
     
     $session->clear('user');
+    $session->clear('pre-user');
     $session->clear('group');
+    $session->clear('check_password2');
+    $session->clear('check_password2_code');
     
     //$ret = $this->message(0, 'message-logout_success', $this->app->lang('message-logout_success'));
     //$this->renderJson($ret);
@@ -777,6 +794,93 @@ class UserController extends JControllerForm
     $data = $result->body;
     
     $this->renderJson($data);
+  }
+  
+  public function enable_password2 () {
+    $this->app->prevent_remote_access();
+    
+    $enabled  = $this->getSafe('enabled');
+    $send_code = $this->getSafe('send_code');
+    
+    $system_code = $this->app->user->data()->system_code;
+    $user_id = $this->app->user->data()->id;
+    
+    $user = array (
+      'id'=> $user_id,
+      'enable_security'=> $enabled,
+      'send_code'=> $send_code,
+      'system_code'=> $system_code,
+      'updated_at'=>date('Y-m-d h:i:s'),
+      'updated_by'=> $this->app->user->data()->id
+    );
+    
+    $data = $this->user_model->enable_password2($user)->body;
+    
+    $user_session = $this->app->user->data();
+    
+    $user_session->enable_security = $enabled;
+    $user_session->send_code = $send_code;
+    
+    if ($data->type == 0) {
+      $ret = $this->message(0, 'user-message-update_success', $this->app->lang('user-message-update_success'));
+      $this->renderJson($ret);
+    }
+    
+    $ret = $this->message($data->type, 'user-message-' . $data->code, $this->app->lang('user-message-' . $data->code));
+    
+    $this->renderJson($ret);
+  }
+
+  public function get_password2 () {
+    $data = $this->app->user->data();
+    
+    $enabled = $data->enable_security == 1 ? true: false;
+    $send_code = $data->send_code;
+    
+    $ret = array('enabled'=>$enabled, 'send_code'=>$send_code);
+    $this->renderJson($ret);
+  }
+  
+  public function get_input_code () {
+    $session = JBase::getSession();
+    $check_password2 = $session->get('check_password2');
+    
+    $ret = $this->message(0, 'check_input_code', 'check_input_code');
+    $ret['check_code'] = $check_password2;
+    
+    $this->renderJson($ret);
+  }
+  
+   public function check_input_code () {
+     $code = $this->getSafe('input_code');
+     
+     if (empty($code)) {
+       $ret = $this->message(1, 'login-message-require_input_code', $this->app->lang('login-message-require_input_code'));
+       $this->renderJson($ret);
+     }
+     
+     $session = JBase::getSession();
+     $sess_code = $session->get('check_password2_code');
+      
+     if ($code != $sess_code) {
+       $ret = $this->message(1, 'login-message-code_not_matched', $this->app->lang('login-message-code_not_matched'));
+       $this->renderJson($ret);
+     }
+     
+     $user = $session->get('pre-user');
+     $session->set('user', $user);
+     $session->clear('pre-user');
+     
+     $from = $this->getSafe('from', '');
+      
+     if (empty($from)) {
+       $from = $this->app->lang('common-url-dashboard');
+     }
+      
+     $ret = $this->message(0, 'login-message-success', $this->app->lang('login-message-success'));
+     $ret['from'] = $from;
+      
+     $this->renderJson($ret);
   }
 }
 ?>

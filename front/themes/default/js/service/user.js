@@ -46,11 +46,28 @@ app.service('$UserService', function($rootScope, $http, $modal, $q) {
     });
   };
   
+  this.get_password2 = function() {
+    var url = generate_url('user', 'get_password2');
+    return $http.get(url);
+  };
+  
   this.delete = function (user) {
     var url = generate_url('user', 'delete');
     
     return $http({
       'method': 'DELETE',
+      'url': url,
+      'data': user,
+      'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+  };
+  
+  this.enable_password2 = function (user) {
+    var url = generate_url('user', 'enable_password2');
+    return $http({
+      'method': 'PUT',
       'url': url,
       'data': user,
       'headers': {

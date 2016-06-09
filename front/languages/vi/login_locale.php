@@ -40,5 +40,7 @@ return array(
   'login-message-user_view_exception' => 'Không kiểm tra được người dùng. Mời bạn thử lại sau ít phút. Trân trọng.',
   'login-message-password_not_matched' => 'Sai tên đăng nhập hoặc mật khẩu.',
   'login-message-user_is_blocked' => 'Tài khoản của bạn đã bị khóa.',
+  'login-message-require_input_code' => 'Bạn chưa nhập mã.',
+  'login-message-code_not_matched' => 'Mã không đúng.',
 );
 ?>

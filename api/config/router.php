@@ -17,6 +17,7 @@ $routerMap = array(
   'user/get_by_email'=> array('controller'=>'user', 'action'=>'get_by_email'),
   'user/get_by_group_id'=> array('controller'=>'user', 'action'=>'get_by_group_id'),
   'user/list'=> array('controller'=>'user', 'action'=>'get_list'),
+  'user/enable_password2'=> array('controller'=>'user', 'action'=>'enable_password2'),
   
 /*======================================
  * Config for usergroup
@@ -171,6 +172,8 @@ $routerMap = array(
   'gcm/list'=> array('controller'=>'gcm', 'action'=>'get_list'),
   'gcm/get_all'=> array('controller'=>'gcm', 'action'=>'get_all'),
   'gcm/send'=> array('controller'=>'gcm', 'action'=>'send_notification'),
+  
+  'send_code'=> array('controller'=>'sendcode', 'action'=>'send_code'),
 );
 
 /* End of file routes.php */

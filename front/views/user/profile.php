@@ -1,5 +1,5 @@
 <div class="dashboard-main">
-<form class="form-signin" role="form"  ng-submit="submit()">
+<form class="form-signin" role="form" ng-submit="submit()">
 <div class="panel panel-info">
 <div class="panel-heading">
   <h3 class="panel-title" ng-init="user.email = '{{$user->email}}'">{literal}{{ user.email }}{/literal}</h3>
@@ -90,4 +90,42 @@
 </div>
 </div>
 </form>
+<div class="security" ng-controller='UserSecurityCtrl' ng-init="init()">
+<div class="form-group" ng-if="message">
+  <div class="col-md-4 align-right">
+  <label class="control-label"></label>
+  </div>
+  <div class="col-md-8">
+  <div class="alert alert-warning">
+  <div ng-class="message_type == 1 ? 'error-message' : 'success'">
+    {literal}{{ message }}{/literal}
+  </div>
+  </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="form-group">
+  <div class="col-md-4">
+   <label class="control-label">Cấu hình mật khẩu cấp 2</label>
+  </div>
+  <div class="col-md-8">
+    <button class="btn btn-sm btn-primary" ng-click="edit=true" ng-hide="edit || user.enabled">Enable</button>
+  </div>
+  <div class="clearfix"></div>
+  </div>
+  <div class="form-group" ng-show="edit || user.enabled">
+  <div class="col-md-4">
+   <label class="control-label">Chọn hình thức nhận:</label>
+  </div>
+  <div class="col-md-8">
+    <select ng-model="user.send_code">
+      <option value="Email" selected="selected">Email</option>
+      <!--option value="Message">Message</option-->
+    </select>
+    <button class="btn btn-sm btn-primary" ng-click="enable()" ng-show="edit || user.enabled">Lưu lại</button>
+    <button class="btn btn-sm btn-warning" ng-click="disable()" ng-show="user.enabled">Disable</button>
+  </div>
+  <div class="clearfix"></div>
+  </div>
+</div>
 </div>

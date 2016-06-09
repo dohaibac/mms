@@ -31,6 +31,9 @@ class JAppConf
   
   public $log_file = '';
   
+  public $email_user_name = '';
+  public $email_password = '';
+  
   protected static $instance;
   
   public static function getInstance() {
@@ -70,5 +73,8 @@ class JAppConf
     
     $this->google_api_key   = JConfig::get('GOOGLE_API_KEY');
     $this->google_gcm_sender_id  = JConfig::get('GOOGLE_GCM_SENDER_ID');
+    
+    $this->email_user_name  = JConfig::get('EMAIL_USERNAME');
+    $this->email_password  = JConfig::get('EMAIL_PASSWORD');
   }
 }

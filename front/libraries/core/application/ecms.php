@@ -334,4 +334,4 @@ class JApplicationEcms extends JBase {
   public function system_code() {
     return $this->user->data()->system_code;
   }
-} 
+}

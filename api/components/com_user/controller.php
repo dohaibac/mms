@@ -321,7 +321,7 @@ class UserController extends JControllerForm
   public function update() {
     try {
       $body = $this->get_request_body();
-      
+      $system_code = $body['system_code'];
       $ret = array ();
       
       if (empty($body)) {
@@ -331,7 +331,7 @@ class UserController extends JControllerForm
       
       $user = new stdClass;
       if (isset($body['id']) && !empty($body['id'])) { // update theo id
-        $user = $this->user_model->get_by_id($body['id']);
+        $user = $this->user_model->get_by_id($body['id'], $system_code);
       }
       else if (isset($body['email']) && !empty($body['email'])) {
         if (!filter_var($body['email'], FILTER_VALIDATE_EMAIL)) {
@@ -516,6 +516,58 @@ class UserController extends JControllerForm
        $ret = $this->message(1, 'user_get_list_exception', EXCEPTION_ERROR_MESSAGE);
        $this->renderJson($ret);
      }
+  }
+
+  /***
+   * update user
+   * */
+  public function enable_password2() {
+    try {
+      $body = $this->get_request_body();
+      
+      if (empty($body)) {
+         $ret = $this->message(1, 'user_enable_password2_empty_data', 'Empty data.');
+         $this->renderJson($ret);
+      }
+      
+      $user = new stdClass;
+      $system_code = $body['system_code'];
+      
+      if (isset($body['id']) && !empty($body['id'])) { // update theo id
+        $user = $this->user_model->get_by_id($body['id'], $system_code);
+      }
+      else {
+        $ret = $this->message(1, 'user_enable_password2_missing_user_id', 'Missing user id.');
+        $this->renderJson($ret);
+      }
+      
+      if (isset($user) && !empty($user->id)) {
+        // required updated_at and updated_by
+        if (!isset($body['updated_at']) || empty($body['updated_at'])) {
+          $ret = $this->message(1, 'user_enable_password2_updated_at', 'Missing or Empty updated_at.');
+          $this->renderJson($ret);
+        }
+       
+        if (!isset($body['updated_by']) || empty($body['updated_by'])) {
+          $ret = $this->message(1, 'userenable_password2_updated_by', 'Missing or Empty updated_by.');
+          $this->renderJson($ret);
+        }
+        
+        $this->user_model->update_by_id($body);
+        
+        $ret = $this->message(0, 'user_update_success', 'Update user has been successfully.');
+        $this->renderJson($ret);
+      }
+      else {
+        $ret = $this->message(1, 'user_update_does_not_exist', 'User does not exist.');
+        $this->renderJson($ret);
+      }
+    } catch (Exception $ex) {
+       $this->app->write_log('user_enable_password2_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'user_enable_password2_exception', EXCEPTION_ERROR_MESSAGE);
+       $this->renderJson($ret);
+    }
   }
 }
 ?>

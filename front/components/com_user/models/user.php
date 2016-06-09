@@ -29,5 +29,18 @@ class UserModel extends JModelBase {
     
     return $rest_client->get($path, $data);
   }
+  
+ /***
+   * enable password2
+   * 
+   * */
+  public function enable_password2($data) {
+    $rest_client = $this->app->getRestClient();
+    
+    $path = '/' . $this->model_name . '/enable_password2';
+    
+    return $rest_client->put($path, $data);
+  }
+  
 }
 ?>
