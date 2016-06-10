@@ -74,7 +74,7 @@ class SendcodeController extends JControllerForm
         
         $fromName = 'Help';
         
-        $subject = 'Code login '. $code;
+        $subject = 'Code for login '. $code;
         $body = 'This code will help you to login to HTQT.';
         
         $result = $this->email_model->send_mail($email, $subject, $body, $fromName);
