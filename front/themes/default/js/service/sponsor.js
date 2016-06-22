@@ -317,5 +317,29 @@ app.service('$SponsorService', function($rootScope, $http, $modal, $q) {
     return deferred.promise;
   };
   
+  this.show_modal_profit = function(options) {
+    var deferred = $q.defer();
+    var url = '//' + appConf.domain + '?mod=sponsor.profit_modal';
+    
+    var modal =  $modal.open({
+      templateUrl: url,
+      windowClass: 'modal-medium',
+      controller: 'ModalInstanceCtrl',
+      size: 'lg',
+      resolve: {
+        'options': function() {
+          return options;
+        }
+      }
+    });
+    
+    modal.result.then(function(results) {
+      deferred.resolve(results);
+    },
+    function(errors) {
+      deferred.reject(errors);
+    });
+    return deferred.promise;
+  };
   return this;
 });

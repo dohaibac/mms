@@ -1,7 +1,7 @@
 <div class="dashboard-main" ng-init="init()">
   <div class="col-lg-12 header-title">
     <h4>Danh sách các mã đang GD</b></h4>
-    <span class="bold green">Các mã đang ở trạng thái GD bên M5 - Tiền đang về :D <br/><br/></span>
+    <span class="bold green">Các mã đang ở trạng thái GD bên M5<br/><br/></span>
   </div>
   <div class="dashboard-main-body">
    <div class="table-responsive">

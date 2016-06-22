@@ -133,7 +133,7 @@ class SponsorModel extends JModelBase {
       ->select($select)
       ->from($db->quoteName($this->model_name, 's'))
       ->join('INNER', $db->quoteName('#__sponsor_invest', 'invt') . ' ON (' . $db->quoteName('s.username') . ' = ' . $db->quoteName('invt.sponsor') . ')')
-      ->where('s.system_code=' . $db->quote($system_code))
+      ->where('invt.system_code=' . $db->quote($system_code))
       ->order('invt.updated_at ASC');
      
     $db->setQuery($query);

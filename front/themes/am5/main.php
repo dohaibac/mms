@@ -39,6 +39,7 @@
   <script type="text/javascript" src="<?= $appConf->cdn_base_url ?>js/ng-grid-2.0.11.min.js"></script>
   <script type="text/javascript" src="<?= $appConf->cdn_base_url ?>/angular-ui-tree/angular-ui-tree.min.js"></script>
   <script type="text/javascript" src="<?= $appConf->cdn_base_url ?>js/contextMenu.js"></script>
+  <script type="text/javascript" src="<?= $appConf->cdn_base_url ?>js/ng-table.js"></script>
   
   <script type="text/javascript">
     var appConf = {

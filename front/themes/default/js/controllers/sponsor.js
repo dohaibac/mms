@@ -181,6 +181,10 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
     null, // Dividier
     ['Test sơ đồ 1/5/3', function ($itemScope) {
        $scope.show_test_153($itemScope.item);
+    }],
+    null, // Dividier
+    ['Lợi nhuận', function ($itemScope) {
+       $scope.show_profit($itemScope.item);
     }]
   ];
   
@@ -372,6 +376,17 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
     });
   };
   
+  $scope.show_profit = function (sponsor) {
+    var options = {
+      'init': function(mscope) {
+        mscope.sponsor = sponsor;
+        mscope.$broadcast('SponsorListCtrl::send::data::show_profit', mscope);
+      }
+    };
+    $SponsorService.show_modal_profit(options).then(function(response){
+      
+    });
+  };
 });
  
 app.controller('SponsorAddCtrl', function($scope, $http, $location, $modal, $SponsorService, $BankService, noty) {
