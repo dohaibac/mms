@@ -31,7 +31,7 @@ app.controller('CandidateListCtrl', function($scope, $routeParams, $http, $locat
   };
   
   $scope.delete = function(candidate) {
-     if (!confirm_del()) {
+     if (!confirm_del(candidate.display_name)) {
        return false;
      }
      
@@ -126,10 +126,20 @@ app.controller('CandidateListCtrl', function($scope, $routeParams, $http, $locat
   
 });
 
-app.controller('CandidateAddCtrl', function($scope, $http, $location, $modal, $CandidateService, noty) {
+app.controller('CandidateAddCtrl', function($scope, $http, $location, $modal, $CandidateService, $PlanService, noty) {
   $scope.processing = false;
   $scope.noty = noty;
   
+  $scope.province_list = {};
+  $PlanService.get_provinces().then(function (largeLoad) {
+      $scope.provinces = largeLoad.data.provinces;
+
+      for (var i in largeLoad.data.provinces) {
+        $scope.province_list[largeLoad.data.provinces[i].id] = largeLoad.data.provinces[i].name;
+      }
+
+    });
+  $scope.newProvinces = "";
   $scope.candidate = {};
   
   $scope.disabled = function() {
@@ -140,8 +150,13 @@ app.controller('CandidateAddCtrl', function($scope, $http, $location, $modal, $C
   };
   
   $scope.submit = function() {
+    if (typeof($scope.candidate["display_name"]) == "undefined" || $scope.candidate["display_name"] == ""){
+        alert("Vui lòng nhập tên ứng viên");
+        return false;
+    }
     
     $scope.processing = true;
+    $scope.candidate["province_id"] = $scope.newProvinces.id;
     
     $CandidateService.add($scope.candidate).then(function(response) {
       $scope.message_type = response.data.type;
@@ -156,15 +171,26 @@ app.controller('CandidateAddCtrl', function($scope, $http, $location, $modal, $C
  
 });
 
-app.controller('CandidateEditCtrl', function($scope, $routeParams, $location, $modal, $CandidateService, noty) {
+app.controller('CandidateEditCtrl', function($scope, $routeParams, $location, $modal, $CandidateService, $PlanService, noty) {
   $scope.processing = false;
   $scope.noty = noty;
   
+  $scope.province_list = {};
+  $PlanService.get_provinces().then(function (largeLoad) {
+      $scope.provinces = largeLoad.data.provinces;
+
+      for (var i in largeLoad.data.provinces) {
+        $scope.province_list[largeLoad.data.provinces[i].id] = largeLoad.data.provinces[i].name;
+      }
+
+    });
+  
   $scope.candidate = {};
   $scope.candidate.id = $routeParams.id;
-   $scope.init = function() {
+  $scope.init = function() {
     $CandidateService.view($scope.candidate.id).then(function(response) {
       $scope.candidate = response.data;
+      $scope.candidateProvinces = {"id":$scope.candidate["province_id"],"name":""};
     });
   };
   
@@ -179,7 +205,7 @@ app.controller('CandidateEditCtrl', function($scope, $routeParams, $location, $m
   $scope.submit = function() {
     
     $scope.processing = true;
-    
+    $scope.candidate["province_id"] = $scope.candidateProvinces["id"];
     $CandidateService.edit($scope.candidate).then(function(response) {
       $scope.message_type = response.data.type;
       $scope.message = response.data.message;
