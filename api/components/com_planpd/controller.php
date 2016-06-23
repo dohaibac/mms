@@ -199,6 +199,69 @@ class PlanpdController extends JControllerForm
      }
   }
   
+  /***
+   * Lay danh sach user group theo paging
+   * 
+   * */
+  public function get_list() {
+    try {
+      $limit = $this->getSafe('limit', $this->app->appConf->page_size);
+      
+      $page_number = $this->getSafe('page_number', 1);
+      $where = $this->getSafe('where', '');
+      $order_by = $this->getSafe('order_by', '');
+      $keyword = $this->getSafe('keyword', '');
+      
+      $system_code = $this->getSafe('system_code', '');
+      
+      $page_number = empty($page_number) ? 1 : $page_number;
+      
+      $start_index = ($page_number -1) * $limit;
+      
+      $db = $this->app->getDbo();
+      
+      $search = '';
+      
+      if (!empty($keyword)) {
+        $keyword = $db->quote('%' . $keyword . '%');
+        // search theo name
+        $search .= $db->quoteName('sponsor') . ' LIKE ' . $keyword;
+      }
+      
+      if (!empty ($where)) {
+        if (!empty ($search)) {
+          $where .= ' AND (' . $search . ')';
+        }
+      } else {
+        $where = $search;
+      }
+      
+      $data = array (
+        'limit' => $limit,
+        'start_index' => $start_index,
+        'order_by' => $order_by,
+        'where' => $where
+      );
+      
+      $list = $this->planpd_model->get_list($data, $system_code);
+      
+      $total = $this->planpd_model->get_total($where, $system_code);
+      
+      $ret = array (
+        'planpds' => $list,
+        'total' => $total
+      );
+      
+      $this->renderJson($ret);
+      
+     } catch (Exception $ex) {
+       $this->app->write_log('planpd_get_list_exception - ' . $ex->getMessage());
+       
+       $ret = $this->message(1, 'planpd_get_list_exception', $ex->getMessage());
+       $this->renderJson($ret);
+     }
+  }
+  
   public function create_table() {
     try {
       $body = $this->get_request_body();

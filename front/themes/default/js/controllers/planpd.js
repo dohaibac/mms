@@ -47,7 +47,7 @@ app.controller('PlanpdEditCtrl', function($scope, $http, $location, $modal, noty
   };
 });
 
-app.controller('PlanpdListCtrl', function($scope, $http, $location, $modal, noty, $PlanpdService, $PlanpdListService, $SponsorService, ngTableParams) {
+app.controller('PlanpdListCtrl', function($scope, $http, $timeout, $location, $modal, noty, $PlanpdService, $PlanpdListService, $SponsorService, ngTableParams) {
   var data = $PlanpdListService.data;
   $scope.noty = noty;
   
@@ -63,10 +63,32 @@ app.controller('PlanpdListCtrl', function($scope, $http, $location, $modal, noty
       total: 0, // length of data
       getData: function($defer, params) {
         $scope.loading = true;
-        $PlanpdListService.getData($defer, params, $scope.filter);
-        $scope.loading = false;
+        $PlanpdListService.getData($defer, params, $scope.filter).then(function(response) {
+          $scope.loading = false;
+          
+          var data = response.data;
+          params.total(data.total);
+          $defer.resolve(data.planpds);
+        });
       }
   });
+  
+  var filterTextTimeout;
+  
+  $scope.$watch("filter.$", function (val) {
+    if (filterTextTimeout) $timeout.cancel(filterTextTimeout);
+    
+    filterTextTimeout = $timeout(function() {
+       if ($scope.filter && $scope.filter.$ != '') {
+         $scope.tableParams.reload();
+       }
+    }, 250);
+  });
+  
+  $scope.view_all = function (pd) {
+    $scope.filter.$ = '';
+    $scope.tableParams.reload();
+  };
   
   $scope.view_sponsor = function (pd) {
     var options = {

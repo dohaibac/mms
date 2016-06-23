@@ -66,6 +66,7 @@ $routerMap = array(
  * =====================================*/
   'planpd'=> array('controller'=>'planpd', 'action'=>'index'),
   'planpd/get_all'=> array('controller'=>'planpd', 'action'=>'get_all'),
+  'planpd/get_list'=> array('controller'=>'planpd', 'action'=>'get_list'),
   'planpd/delete_by_date'=> array('controller'=>'planpd', 'action'=>'delete_by_date'),
   'planpd/create_table'=> array('controller'=>'planpd', 'action'=>'create_table'),
   

@@ -48,6 +48,42 @@ class PlanpdController extends JControllerForm
     $this->renderJson($data);
   }
   
+  public function get_list() {
+    $this->app->prevent_remote_access();
+    
+    $db = JBase::getDbo();
+    
+    $system_code = $this->system_code();
+    
+    $from_date = date('Y-m-d');
+    $to_date = date('Y-m-d 23:59:59');
+    
+    $page_number = $this->getSafe('page_number');
+    $limit = $this->getSafe('limit');
+    $keyword = $this->getSafe('filter');
+    
+    $where = 'system_code = ' . $db->quote($system_code) . 
+    ' AND (created_at BETWEEN ' . $db->quote($from_date) . ' AND ' . $db->quote($to_date) . ')';
+    
+    $order_by ='created_at ASC';
+    
+    $data = array(
+      'where'=>$where,
+      'keyword' => $keyword,
+      'order_by'=>$order_by,
+      'system_code'=>$system_code,
+      'page_number'=>$page_number,
+      'limit' => $limit
+    );
+     
+    $data = $this->planpd_model
+      ->get_list($data)
+      ->body;
+    
+    $data->from_date = $from_date;
+    
+    $this->renderJson($data);
+  }
   public function auto_create_pd () {
     $this->app->prevent_remote_access();
     

@@ -20,6 +20,19 @@ class PlanpdModel extends JModelBase {
     return $rest_client->get($path, $data);
   }
   
+  
+ /***
+  * get_list
+  * 
+  * */
+  public function get_list($data) {
+    $rest_client = $this->app->getRestClient();
+    
+    $path = '/' . $this->model_name . '/get_list';
+    
+    return $rest_client->get($path, $data);
+  }
+  
   /***
    * insert setting
    * 

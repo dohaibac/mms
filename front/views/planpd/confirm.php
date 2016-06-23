@@ -51,7 +51,7 @@
 </div>
 <div class="modal-footer">
   <a ng-disabled="disabled()" ng-click="submit()" 
-    class="btn btn-sm btn-warning" type="button"><i class="glyphicon glyphicon-save"></i> Xác nhận <i class="fa fa-spinner fa-spin" ng-show="processing" ></i></a>
+    class="btn btn-sm btn-primary" type="button"><i class="glyphicon glyphicon-save"></i> Xác nhận <i class="fa fa-spinner fa-spin" ng-show="processing" ></i></a>
   <button class="btn btn-sm btn-upgrade" ng-click="cancel()">Thoát</button>
 </div>
 {/literal}
