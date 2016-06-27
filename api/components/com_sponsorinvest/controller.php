@@ -206,7 +206,7 @@ class SponsorinvestController extends JControllerForm
       $page_number = $this->getSafe('page_number', 1);
       $where = $this->getSafe('where', '');
       $order_by = $this->getSafe('order_by', '');
-      $keywords = $this->getSafe('keywords', '');
+      $keyword = $this->getSafe('keyword', '');
       
       $page_number = empty($page_number) ? 1 : $page_number;
       
@@ -216,15 +216,15 @@ class SponsorinvestController extends JControllerForm
       
       $search = '';
       
-      if (!empty($keywords)) {
-        $keywords = $db->quote('%' . $keywords . '%');
+      if (!empty($keyword)) {
+        $keyword = $db->quote('%' . $keyword . '%');
         // search theo name
-        $search .= $db->quoteName('name') . ' LIKE ' . $keywords;
+        $search .= $db->quoteName('sponsor') . ' LIKE ' . $keyword;
       }
       
       if (!empty ($where)) {
         if (!empty ($search)) {
-          $where = ' AND (' . $search . ')';
+          $where .= ' AND (' . $search . ')';
         }
       } else {
         $where = $search;

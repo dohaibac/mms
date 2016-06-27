@@ -80,13 +80,14 @@ app.controller('PlanpdListCtrl', function($scope, $http, $timeout, $location, $m
     
     filterTextTimeout = $timeout(function() {
        if ($scope.filter && $scope.filter.$ != '') {
+         $scope.tableParams.$params.page = 1;
          $scope.tableParams.reload();
        }
     }, 250);
   });
   
   $scope.view_all = function (pd) {
-    $scope.filter.$ = '';
+    if ($scope.filter) $scope.filter.$ = '';
     $scope.tableParams.reload();
   };
   

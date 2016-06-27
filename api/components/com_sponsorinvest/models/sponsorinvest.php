@@ -109,10 +109,9 @@ class SponsorinvestModel extends JModelBase {
      $query->order($order_by);
    }
    
-   //$db->setQuery($query, $start_index, $limit);
-   $db->setQuery($query);
-    
-    return $db->loadAssocList();
+   $db->setQuery($query, $start_index, $limit);
+   
+   return $db->loadAssocList();
   }
 }
 ?>

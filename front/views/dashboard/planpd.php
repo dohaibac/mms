@@ -7,10 +7,10 @@
   <div class="dashboard-main-body">
    <div class="table-responsive">
     <p>Search: <input class="form-control" type="text" ng-model="filter.$" /></p>
-    <a ng-click="view_all()">Xem tất cả</a>
+    <a class="btn btn-link" ng-click="view_all()">Xem tất cả</a>
     <p class="loading" ng-show="loading"><i class="fa fa-spinner fa-spin" ></i></p>
     <div ng-hide="loading">
-    <table ng-table="tableParams" class="table">
+    <table ng-table="tableParams" class="table table-bordered table-striped">
         <tr ng-repeat="pd in $data">
             <td class="th-ord" data-title="'#'">
               {{$index + 1}}

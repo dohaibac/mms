@@ -1,5 +1,4 @@
 app.service('$BankService', function($rootScope, $http, $modal, $q) {
-  $scope = this;
   
   this.add = function (bank) {
     var url = generate_url('bank', 'add');

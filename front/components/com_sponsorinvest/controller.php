@@ -41,15 +41,20 @@ class SponsorinvestController extends JControllerForm
     
     $system_code = $this->system_code();
     
+    $page_number = $this->getSafe('page_number');
+    $limit = $this->getSafe('limit');
+    $keyword = $this->getSafe('filter');
+    
     $where = 'system_code = ' . $db->quote($system_code);
     
-    $current_page = empty($this->data['page']) ? 1 : $this->data['page'];
     $order_by ='id';
     
     $data = array(
       'where'=>$where,
       'order_by'=>$order_by,
-      'page_number'=>$current_page
+      'page_number'=>$page_number,
+      'keyword' => $keyword,
+      'limit' => $limit
     );
      
     $data = $this->sponsorinvest_model

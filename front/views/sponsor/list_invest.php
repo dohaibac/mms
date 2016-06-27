@@ -5,8 +5,12 @@
   </div>
   <div class="dashboard-main-body">
    <div class="table-responsive">
+    <p>Search: <input class="form-control" type="text" ng-model="filter.$" /></p>
+    
+    <a class="btn btn-link" ng-click="view_all()">Xem tất cả</a>
+    
     <p class="loading" ng-show="loading"><i class="fa fa-spinner fa-spin" ></i></p>
-    <table class="table table-bordered table-striped" ng-hide="loading">
+    <table class="table table-bordered table-striped" ng-hide="loading" ng-table="tableParams">
     <thead>
       <tr>
         <th class="th-ord">#</th>
@@ -16,7 +20,7 @@
     </thead>
     <tbody>
       {literal}
-      <tr ng-repeat="sponsor in sponsors">
+      <tr ng-repeat="sponsor in $data">
         <td> {{ $index + 1 }} </td>
         <td><a class="btn-link" ng-click="view_sponsor(sponsor)"> {{ sponsor.sponsor }} </a></td>
         <td>
