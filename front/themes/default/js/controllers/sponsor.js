@@ -156,7 +156,7 @@ app.controller('SponsorListTreeCtrl', function($scope, $http, $location, $modal,
   };
 });
 
-app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, noty, $SponsorService, $window) {
+app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, noty, $SponsorService, $window, $compile) {
   
   $scope.noty = noty;
   
@@ -253,6 +253,13 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       $scope.sponsors.items.push($sponsors);
       
       $scope.group_id = response.data.group_id;
+      
+      $('#path_breakumb').empty();
+      
+      if ($sponsors && $sponsors.item) {
+        $scope.path_breakumb = $compile($scope.get_path_in_breakumb($sponsors.item.path))($scope);
+        $('#path_breakumb').append($scope.path_breakumb);
+      }
     }); 
   };
   
@@ -386,6 +393,40 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
     $SponsorService.show_modal_profit(options).then(function(response){
       
     });
+  };
+  
+  $scope.bind_click_path_event = function (name) {
+    $("#keyword").val(name);
+    $scope.search();
+  };
+  /***
+   * xu ly path thanh breakumb
+   * 
+   * value1>valu2>value3> to <a>value1></a><a>value2</a><a>value3></a>
+   * 
+   *  */
+  $scope.get_path_in_breakumb = function(path) {
+    if (!path) {
+      return '';
+    }
+    
+    var ret = '';
+    var arrPath = path.split('>');
+    
+    for(var i = 0; i < arrPath.length; i ++) {
+      var name = arrPath[i];
+      
+      if (i == arrPath.length - 2) {
+        ret += '<a>' + name + '</a>';
+        continue;
+      }
+      
+      if (name && name.length > 0) {
+        ret += '<a href="javascript:void(0)" ng-click="bind_click_path_event(\''+ name +'\')">' + name + '</a> <i class="fa fa-angle-right"></i>';
+      }
+    }
+    
+    return ret;
   };
 });
  

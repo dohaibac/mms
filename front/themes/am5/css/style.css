@@ -781,7 +781,7 @@ menu ul ul a {
 }
 .modal-header {
   padding:5px 15px;
-
+}
 button.ngPagerButton{
   width: 44px;
   padding-left: 15px;
@@ -814,4 +814,12 @@ span.ngLabel{
 }
 .form-label {
   font-size:13px;color:#FFFFFF;
+}
+.sponsor-path {
+  border-bottom: 1px dashed #CCCCCC;
+  font-size:12px;
+  padding:5px;
+}
+.sponsor-path a {
+  padding:0px 10px;
 }
