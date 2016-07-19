@@ -100,6 +100,76 @@ class SponsorHelper
   
     return $source;
   }
+  
+  public function get_list_f1($list, $sponsor) {
+    $ret = array();
+    $username = strtolower($sponsor['username']);
+    
+    foreach($list as $item) {
+      $upline = strtolower($item['upline']);
+      
+      if ($username == $upline) {
+        $ret []= $item;
+      }
+    }
+    
+    return $ret;
+  }
+  
+  public function get_list_fork($list, $sponsor) {
+    // lay danh sach F1
+    // kiem tra F1 da co F1 chua?
+    
+    $list_f1 = $this->get_list_f1($list, $sponsor);
+    
+    $list_fork = array();
+    
+    foreach($list_f1 as $item) {
+      $item_list_f1 = $this->get_list_f1($list, $item);
+      
+      if (count($item_list_f1) > 0) {
+        $list_fork []= $item;
+      }
+    }
+    
+    return $list_fork;
+  }
+  /***
+   * Lay danh sach cac ma khong du 5 F1
+   * */
+  public function get_list_sponsor_has_less_than_5_f1($sponsors) {
+    $ret = array();
+    
+    foreach($sponsors as $item) {
+      $d = $this->get_list_f1($sponsors, $item);
+      
+      if (count($d) < 5 && count($d) > 0) {
+        $f1 = array('username'=>$item['username'], 'n_f1'=> count($d));
+        array_push($ret, $f1);
+      }
+    }
+    
+    return $ret;
+  }
+  
+  /***
+   * Lay danh sach cac ma chua phat trien du 3 nhanh
+   * 
+   * */
+  public function get_list_less_than_3_fork($sponsors) {
+    $ret = array();
+    
+    foreach($sponsors as $item) {
+      $d = $this->get_list_fork($sponsors, $item);
+      
+      if (count($d) < 3 && count($d) > 0) {
+        $fork = array('username'=>$item['username'], 'n_fork'=> count($d));
+        array_push($ret, $fork);
+      }
+    }
+    
+    return $ret;
+  }
 }
 
 ?>

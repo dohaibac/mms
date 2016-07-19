@@ -797,21 +797,22 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
      
      $scope.loading = true;
      
-     $SponsorService.get_all($scope.sponsor.item).then(function(response){
+     $scope.less_than_5_f1_list = [];
+     $scope.less_than_3_fork_list = [];
+     
+     $SponsorService.test_153($scope.sponsor.item).then(function(response){
        $scope.loading = false;
        
        var data = response.data;
        
-       var sponsor = data.sponsors[$scope.sponsor.item.lusername];
-       $scope.show_result_check_153(sponsor);
-       
+       $scope.less_than_5_f1_list = data.less_than_5_f1_list;
+       $scope.less_than_3_fork_list = data.less_than_3_fork_list;
      });
   });
   
   
-  $scope.find = function(username) {
-    
-    $scope.$emit('SponsorListCtrl::edit::find', {'username': username});
+  $scope.find = function(item) {
+    $scope.$emit('SponsorListCtrl::edit::find', {'username': item.username});
   };
   
   $scope.processing = false;
@@ -822,118 +823,6 @@ app.controller('SponsorTest153ModalCtrl', function($scope, $http, $location, $mo
     }
     
     return $scope.sponsor.item.username.length > 0 ? false : true;
-  };
-  
-  $scope.check_153 = function(sponsor) {
-    var item = {};
-    item.lusername = sponsor.item.lusername;
-    item.username = sponsor.item.username;
-    item.items = sponsor.items;
-    $scope.result_test.push(item);
-    
-    if (sponsor.items && sponsor.items.length > 0) {
-      for (var i=0; i<sponsor.items.length; i++) {
-        $scope.check_153(sponsor.items[i]);
-      }
-    }
-  };
-  
-  $scope.show_result_check_153 = function (sponsor) {
-    $scope.check_153(sponsor);
-    
-    var lst_f1_less_5 = [];
-    var lst_f2_less_3 = [];
-     
-     for(var i=0; i< $scope.result_test.length; i++) {
-       var item = $scope.result_test[i];
-       if (!item.items) {
-         continue;
-       }
-       
-       var num_downline_f1 = $scope.get_num_downline_f1(item.items);
-       
-       var num_fork_f1 = 0;
-       
-       var check_has_5_f2 = false;
-       
-       var num_5_f2 = 0;
-       
-       for (var j=0; j < item.items.length; j++ ) {
-         if (item.items[j].items && item.items[j].items.length > 0) {
-           num_fork_f1 ++;
-         }
-         if (item.items[j].items && item.items[j].items.lenth >=5) {
-           num_5_f2 ++;
-         }
-       }
-       
-       if (num_downline_f1 < 5) {
-         item.num_downline_f1 = num_downline_f1;
-         lst_f1_less_5.push(item);
-       }
-       if (num_downline_f1 < 3 && num_fork_f1 > 0 && num_5_f2 >= 3) {
-         item.num_fork_f1 = num_fork_f1;
-         lst_f2_less_3.push(item);
-       }
-     }
-     
-     // List các mã có số F1 < 5
-     var result_html = '<table style="width:100%">';
-     result_html += '<tr><td>Mã</td><td>F1</td></tr>';
-    
-     for(var i=0; i< lst_f1_less_5.length; i++) {
-       result_html += '<tr>';
-       result_html += '<td><a href="javascript:void(0)" ng-click="find(\''+ lst_f1_less_5[i].username + '\')">'+ lst_f1_less_5[i].username + '</a></td><td>' + lst_f1_less_5[i].num_downline_f1 + '</td>';
-       result_html += '</tr>';
-     }
-     if (lst_f1_less_5.length == 0) {
-       result_html +='<tr><td colspan="2">Không có mã nào!</td></tr>';
-     }
-     result_html += '</table>';
-     
-     var result_f1_html = $compile(result_html)($scope);
-     $('#result_f1').html('').append(result_f1_html);
-     
-     // List các mã chỉ có < 3 F1 - Tiêu chuẩn cho mỗi F1 này đã có >= 5 F2
-     result_html = '<table style="width:100%">';
-     result_html += '<tr><td>Mã</td><td>Fork</td></tr>';
-    
-     for(var i=0; i< lst_f2_less_3.length; i++) {
-       result_html += '<tr>';
-       result_html += '<td><a href="javascript:void(0)" ng-click="find(\''+ lst_f2_less_3[i].username + '\')">'+ lst_f2_less_3[i].username + '</a></td><td>' 
-                      + lst_f2_less_3[i].num_fork_f1 + '</td>';
-       result_html += '</tr>';
-     }
-     
-     if (lst_f2_less_3.length == 0) {
-       result_html +='<tr><td colspan="2">Không có mã nào!</td></tr>';
-     }
-     
-     result_html += '</table>';
-     
-     var result_f2_html = $compile(result_html)($scope);
-     $('#result_f2').html('').append(result_f2_html);
-  };
-  
-  $scope.get_num_downline_f1 = function (items) {
-    if (items) {
-      return items.length;
-    }
-    return 0;
-  };
-  
-  $scope.get_num_fork_downline = function (items) {
-    var fork = 0;
-    for(var i=0; i< items.length; i++) {
-      if (items[i].items) {
-        for (var j=0; j < items[i].items.length; j++) {
-          if (items[i].items[j].items) {
-            fork ++;
-          }
-        }
-      }
-    }
-    return fork;
   };
   
 });

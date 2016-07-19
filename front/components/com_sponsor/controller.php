@@ -208,7 +208,6 @@ class SponsorController extends JControllerForm
     $this->renderJson($sponsors);
   }
   
-  
   public function get_list_tree() {
     $this->app->prevent_remote_access();
     
@@ -735,7 +734,42 @@ class SponsorController extends JControllerForm
       }
     }
   }
-  
+
+  public function test_153() {
+    $data = $this->get_request_body();
+    
+    $path = $data['path'];
+    
+    $where = 'path LIKE \''. $path .'%\'';
+    
+    $order_by ='level, id';
+    
+    $data = array(
+      'where'=>$where,
+      'order_by'=>$order_by
+    );
+     
+    $sponsors = $this->sponsor_model
+                   ->get_all($data)
+                   ->body
+                   ->sponsors;
+    
+    require_once PATH_COMPONENT . '/com_sponsor/helper.php';
+    
+    $helper = new SponsorHelper($this->app);
+    
+    $sponsors = json_decode(json_encode($sponsors), true);
+    
+    $less_than_5_f1_list = $helper->get_list_sponsor_has_less_than_5_f1($sponsors);
+    $less_than_3_fork_list = $helper->get_list_less_than_3_fork($sponsors);
+    
+    $ret = array(
+      'less_than_5_f1_list' => $less_than_5_f1_list,
+      'less_than_3_fork_list' => $less_than_3_fork_list, 
+    );
+    // danh sach cac ma khong co du 5 F1
+    $this->renderJson($ret);
+  }
 }
 
 ?>
