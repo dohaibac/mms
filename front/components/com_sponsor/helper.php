@@ -144,12 +144,19 @@ class SponsorHelper
       $d = $this->get_list_f1($sponsors, $item);
       
       if (count($d) < 5 && count($d) > 0) {
-        $f1 = array('username'=>$item['username'], 'n_f1'=> count($d));
+        $path_length = explode('>', $item['path']);
+        $level = $item['level'];
+        $f1 = array(
+          'username'=>$item['username'], 
+          'path_length'=> count($path_length), 
+          'level'=> $level,
+          'n_f1'=> count($d)
+         );
         array_push($ret, $f1);
       }
     }
     
-    return $ret;
+    return $this->sort_sponsors($ret);
   }
   
   /***
@@ -163,12 +170,34 @@ class SponsorHelper
       $d = $this->get_list_fork($sponsors, $item);
       
       if (count($d) < 3 && count($d) > 0) {
-        $fork = array('username'=>$item['username'], 'n_fork'=> count($d));
+        $path_length = explode('>', $item['path']);
+        $level = $item['level'];
+        
+        $fork = array(
+            'username'=>$item['username'], 
+            'path_length'=> count($path_length), 
+            'level'=> $level,
+            'n_fork'=> count($d)
+        );
         array_push($ret, $fork);
       }
     }
     
-    return $ret;
+    return $this->sort_sponsors($ret);
+  }
+  
+  function sort_sponsors($data) {
+    $level = array();
+    $path_leng = array();
+    
+    foreach ($data as $key => $row) {
+      $path_leng[$key] = $row['path_length'];
+      $level[$key]  = $row['level'];
+    }
+    
+    array_multisort($path_leng, SORT_ASC, $level, SORT_ASC, $data);
+    
+    return $data;
   }
 }
 

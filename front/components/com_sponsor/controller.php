@@ -806,6 +806,7 @@ class SponsorController extends JControllerForm
     $sponsors = json_decode(json_encode($sponsors), true);
     
     $less_than_5_f1_list = $helper->get_list_sponsor_has_less_than_5_f1($sponsors);
+    
     $less_than_3_fork_list = $helper->get_list_less_than_3_fork($sponsors);
     
     $ret = array(

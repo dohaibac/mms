@@ -10,13 +10,14 @@
     <div class="bold">Danh sách các mã chưa đủ 5 F1</div>
     {literal}
     <table style="width:100%">
-      <tr><td>Mã</td><td>Number of F1</td></tr>
+      <tr><td>Mã</td><td>Number of F1</td><td>Level</td></tr>
       <tr ng-repeat="f1 in less_than_5_f1_list">
         <td><a href="javascript:void(0)" ng-click="find(f1)">{{ f1.username }}</a></td>
         <td>{{ f1.n_f1 }}</td>
+        <td>{{ f1.level }}</td>
       </tr>
       <tr ng-if="less_than_5_f1_list.length == 0">
-        <td colspan="2">
+        <td colspan="3">
           Không có mã nào!
         </td>
       </tr>
@@ -27,13 +28,14 @@
     <div class="bold">Danh sách các mã chưa phát triển đủ 3 nhánh</div>
     {literal}
     <table style="width:100%">
-      <tr><td>Mã</td><td>Number of Fork</td></tr>
+      <tr><td>Mã</td><td>Number of Fork</td><td>Level</td></tr>
       <tr ng-repeat="fork in less_than_3_fork_list">
         <td><a href="javascript:void(0)" ng-click="find(fork)">{{ fork.username }}</a></td>
         <td>{{ fork.n_fork }}</td>
+        <td>{{ fork.level }}</td>
       </tr>
       <tr ng-if="less_than_3_fork_list.length == 0">
-        <td colspan="2">
+        <td colspan="3">
           Không có mã nào!
         </td>
       </tr>
