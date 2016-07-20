@@ -35,8 +35,8 @@
 <div class="sponsor-path" ng-show="path_breakumb && path_breakumb.length > 0">
   <div id="path_breakumb"></div>
 </div>
-<div ui-tree>
-  <ol ui-tree-nodes="" id="tree-root" ng-model="sponsors" data-nodrop>
+<div ui-tree id="tree-root">
+  <ol ui-tree-nodes="" ng-model="sponsors" data-nodrop-enabled="false">
     <li collapsed="false" ng-repeat="item in sponsors.items" ui-tree-node ng-include="'nodes_renderer.html'" class="animate-repeat"></li>
   </ol>
 </div>

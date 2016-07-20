@@ -168,7 +168,7 @@ class SponsorController extends JControllerForm
         
         # list required fields:
          $required_fields = array (
-           'name', 'sponsor_level', 'email', 'mobile', 'system_code'
+           'name', 'email', 'mobile', 'system_code'
          );
          
         // required updated_at and updated_by

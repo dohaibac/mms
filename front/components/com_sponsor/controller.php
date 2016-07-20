@@ -697,13 +697,58 @@ class SponsorController extends JControllerForm
     
     $data = $result->body;
     
+    // update upline cua downline f1
+    $downlines = $this->sponsor_model
+                      ->get_downline_f1(array('upline'=>$sponsor['username']))
+                      ->body->data;
+    
+    foreach($downlines as $d) {
+      $item = json_decode(json_encode($d), true);
+      
+      $item['upline'] = $sponsor['upline'];
+      $item['updated_by'] = $this->app->user->data()->id;
+      $item['updated_at'] = date('Y-m-d h:i:s');
+      
+      $this->sponsor_model->put($item);
+    }
+    
     // kiem tra xem upline da het f1 chua, neu het roi thi update has_fork = 0
     $downlines = $this->sponsor_model
                       ->get_downline_f1(array('upline'=>$sponsor['upline']))
                       ->body->data;
+    
     if (empty($downlines)) {
       // update upline has_fork = 0
       $this->sponsor_model->update_has_fork(array('username'=>$sponsor['upline'], 'has_fork'=> false, 'system_code'=>$system_code));
+    }
+    
+    // update lai tat ca path
+    $path = $sponsor['path'];
+    
+    $where = 'path LIKE \''. $path .'%\'';
+    
+    $order_by ='id';
+    
+    $param = array(
+      'where'=>$where,
+      'order_by'=>$order_by
+    );
+     
+    $sponsors = $this->sponsor_model
+                   ->get_all($param)
+                   ->body
+                   ->sponsors;
+    
+    $sponsors = json_decode(json_encode($sponsors), true);
+    
+    foreach($sponsors as $item) {
+      $item['path'] = str_replace($sponsor['username'] . '>', '', $item['path']);
+      $item['level'] = $item['level'] - 1;
+      $item['updated_by'] = $this->app->user->data()->id;
+      $item['updated_at'] = date('Y-m-d h:i:s');
+      
+      $this->sponsor_model->put($item);
+      
     }
     
     $this->renderJson($data);
@@ -742,7 +787,7 @@ class SponsorController extends JControllerForm
     
     $where = 'path LIKE \''. $path .'%\'';
     
-    $order_by ='level, id';
+    $order_by ='id, level';
     
     $data = array(
       'where'=>$where,

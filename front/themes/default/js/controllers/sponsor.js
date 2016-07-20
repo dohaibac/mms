@@ -214,6 +214,7 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
       $scope.sponsors.items.push($sponsors);
       
       $scope.group_id = response.data.group_id;
+      
     });
   };
   
@@ -264,9 +265,9 @@ app.controller('SponsorListCtrl', function($scope, $http, $location, $modal, not
   };
   
   $scope.get_child_nodes = function(node) {
-    if (node.item.is_loaded) {
-      return;
-    }
+    //if (node.item.is_loaded) {
+    //  return;
+    //}
     
     node.item.is_loading = true;
     
@@ -754,7 +755,7 @@ app.controller('SponsorDeleteModalCtrl', function($scope, $http, $location, $mod
   $scope.processing = false;
   
   $scope.disabled = function() {
-    if (!$scope.sponsor.item.username || $scope.sponsor.items ||  $scope.processing) {
+    if (!$scope.sponsor.item.username || $scope.processing) {
       return true;
     }
     
